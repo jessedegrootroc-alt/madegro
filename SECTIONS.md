@@ -529,3 +529,23 @@ tekstvak: cursuspagina 5,37 tot 5,98:1, casepagina 5,49 tot 5,97:1. Eis is
 Let op: hier stond tot 2 september het oude groen `rgba(6, 68, 44, ...)`. Dat
 kwam niet mee met de kleurwissel naar het petrol uit het logo, omdat het als
 rgba-waarde geschreven stond en niet als token of hex.
+
+
+## Het statement met een knop ernaast
+
+`content-text-side-cta` met een `.statement__actie` als tweede kolom: een alinea
+in de grote lichte snede, de knop ernaast. Staat op de vier cursuspagina's, de
+drie dienstpagina's en (zonder knop) op over-ons.
+
+De rij staat op `gx-0`, want de tekst hoort op de paginainzet te beginnen en
+niet op de inzet plus een goot. Daardoor raakten de twee kolommen elkaar: de
+knop begon precies waar de tekst ophield. De ruimte zit nu op de actiekolom
+zelf, 64px ernaast en 48px eronder als hij stapelt.
+
+Let op de kiezer: `.row.gx-0 > *` zet `padding-inline` op nul en dat zijn twee
+klassen, dus de inspringing staat op `.row.gx-0 > .statement__actie`. Met alleen
+`.statement__actie` verliest die regel.
+
+De regel stond eerst in `cursus.css`. Sinds de dienstpagina's dit blok ook
+gebruiken staat hij in `styleguide.css`; die pagina's laden `cursus.css` niet,
+dus daar stond de knop bovenin de kolom in plaats van op de onderregel.

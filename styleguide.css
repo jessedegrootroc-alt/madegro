@@ -839,6 +839,23 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
 .content-text-side-cta--body { font-size: 2.25rem; margin: 0; }
 .content-text-side-cta--body p { font-size: 2.25rem; line-height: 1.3; margin-bottom: var(--space-700); }
 .content-text-side-cta--body p:last-child { margin-bottom: 0; }
+
+/* De kolom met de knop naast het statement. Stond eerst in cursus.css; de
+   dienstpagina's gebruiken dit blok nu ook en laden dat bestand niet, dus de
+   knop stond daar bovenin de kolom in plaats van op de onderregel.
+
+   De rij eromheen staat op gx-0, want de tekst moet op de paginainzet beginnen
+   en niet op de inzet plus een goot. Daardoor raakten de twee kolommen elkaar:
+   de knop begon precies waar de tekst ophield, zonder een pixel ertussen. De
+   ruimte zit daarom op deze kolom zelf: ernaast een inspringing, eronder een
+   marge. */
+.statement__actie { margin-top: var(--space-700); }
+@media (min-width: 992px) {
+  .statement__actie { margin-top: 0; display: flex; align-items: flex-end; }
+  /* De rij staat in de kiezer omdat `.row.gx-0 > *` de padding op nul zet, en
+     dat zijn twee klassen. Met alleen .statement__actie verliest deze regel. */
+  .row.gx-0 > .statement__actie { padding-left: var(--space-800); }
+}
 @media (max-width: 576px) {
   .content-text-side-cta--body, .content-text-side-cta--body p { font-size: 1.5rem; }
   .content-text-side-cta--body p { margin-bottom: var(--space-700); }

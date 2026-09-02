@@ -91,11 +91,8 @@
 }
 
 /* ---- Statement ----------------------------------------------------------- */
-/* De knop hoort op de onderregel van de tekst ernaast te staan, niet bovenaan
-   de kolom. Gestapeld valt dat vanzelf weg. */
-@media (min-width: 992px) {
-  .statement__actie { display: flex; align-items: flex-end; }
-}
+/* .statement__actie staat sinds 2 september 2026 in styleguide.css: de
+   dienstpagina's gebruiken het blok nu ook, en die laden dit bestand niet. */
 
 /* ---- Sociale onderbouwing onder de knoppen in de kop --------------------- */
 .hero--bewijs {
