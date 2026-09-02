@@ -1,0 +1,7 @@
+# macOS
+.DS_Store
+
+# Referentiemateriaal van iwell.eu, gebruikt tijdens het bouwen om de layout
+# na te kijken. Dat zijn de assets van een ander bedrijf en die horen niet in
+# deze repo; ze staan alleen lokaal.
+assets/partners/origineel/

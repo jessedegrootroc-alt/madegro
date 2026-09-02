@@ -1,0 +1,16 @@
+/* ============================================================================
+   contact.css: de contactpagina
+   ----------------------------------------------------------------------------
+   De hero (.paginahero) en de vier vlakken (.vlakkenrij) zijn gedeelde
+   componenten en staan in styleguide.css; over-ons.html gebruikt ze ook.
+   Hier staat alleen wat van deze pagina zelf is.
+   ========================================================================== */
+
+.contact-direct { margin: var(--space-600) 0 0; }
+.contact-direct a { color: var(--color-text-primary); }
+
+/* Het formulier staat rechts in zijn kolom en niet over de volle acht kolommen;
+   invulvelden die te breed worden zijn lastiger te scannen. */
+@media (min-width: 992px) {
+  .contact-formulier-wikkel { max-width: 720px; margin-left: auto; }
+}

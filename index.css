@@ -1,0 +1,85 @@
+/* ============================================================================
+   index.css: alleen wat op de homepage staat
+   Het systeem zelf staat in styleguide.css.
+   ========================================================================== */
+
+/* ---- Hero (§6.7) --------------------------------------------------------
+   Beeld over de volle breedte met de inhoud linksonder, zoals in de gids.
+   Onderop een foto, daarover een film die pas in beeld komt als hij speelt.
+   TODO-CONTENT: eigen dronebeeld van een opdrachtgever in plaats van deze
+   stockfilm. */
+.hero--beeld { position: absolute; inset: 0; overflow: hidden; }
+.hero--beeld img,
+.hero--video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* De film staat op nul en vervaagt erin zodra hij loopt. Weigert de browser het
+   automatisch afspelen, dan blijft dit op nul staan en zie je de foto; dat is
+   het eerste beeldje van dezelfde film, dus je mist niets. */
+.hero--video { opacity: 0; transition: opacity var(--duration-image) var(--ease-standard); }
+.hero--video.is-zichtbaar { opacity: 1; }
+
+/* De sluier is twee lagen. In CSS ligt de eerst genoemde laag bovenop.
+
+   1. De gradient uit Figma, ongewijzigd overgenomen: #017E84, lineair, van 20%
+      dekking boven naar 80% onder.
+   2. Daaronder een donkere aanloop die niets doet aan de kleur maar wel het
+      beeld temt. Zonder die laag draagt de gradient de witte tekst niet: er zit
+      veel lucht, water en een fel verlichte loods in de film, en op de felste
+      beeldjes zakt de kop naar 2,66:1 en de introtekst naar 3,04:1, tegen een
+      eis van 3:1 en 4,5:1. Met deze laag erbij staat de kop op 4,12:1, de intro
+      op 4,84:1 en de knoppen op 5,19:1 -- gemeten over 30 beeldjes verdeeld
+      over de hele film, en dan nog op de lichtste vijf procent van elk
+      tekstvak.
+
+      Wil je de gradient puur houden zoals in Figma, dan kan laag 2 eruit, maar
+      dan is de tekst op een deel van de film niet leesbaar genoeg. */
+.hero--sluier {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(1, 126, 132, .20) 0%, rgba(1, 126, 132, .80) 100%),
+    linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .60) 100%);
+}
+.hero {
+  position: relative;
+  min-height: 720px; height: 80vh; max-height: 90vh;
+  background-color: var(--color-groen);
+  display: flex;
+}
+@media (max-width: 576px) { .hero { min-height: 560px; height: auto; max-height: none; } }
+
+.hero--container {
+  position: relative; width: 100%; max-width: var(--container-max); margin-inline: auto;
+  display: flex; align-items: flex-end;
+  padding: 160px var(--inset-x) var(--space-650);
+}
+@media (max-width: 576px) { .hero--container { padding: 120px var(--inset-x) var(--space-650); } }
+
+.hero--content { width: 100%; max-width: 900px; }
+.hero--title { margin: var(--space-500) 0; color: var(--color-white); font-size: clamp(24px, 6vw, 72px); }
+@media (max-width: 576px) { .hero--title { font-size: 36px; } }
+.hero--intro { color: var(--color-white); max-width: var(--content-max-half); }
+.hero--intro p + p { margin-top: 1.6em; }
+.hero--actions { margin-top: var(--space-700); display: flex; flex-wrap: wrap; gap: var(--space-300); }
+
+/* ---- USP's --------------------------------------------------------------- */
+.usp__getal { font-family: var(--font-light); font-weight: var(--weight-light);
+              font-size: clamp(3rem, 2rem + 4vw, 5rem); line-height: 1; margin: 0; }
+.usp__label { font-family: var(--font-medium); font-weight: var(--weight-medium);
+              font-size: 0.6875rem; letter-spacing: var(--tracking-label);
+              text-transform: uppercase; margin: 0; }
+
+/* ---- Projecten ---------------------------------------------------------- */
+.projectkaart__klant {
+  font-family: var(--font-medium); font-weight: var(--weight-medium);
+  font-size: 0.6875rem; letter-spacing: var(--tracking-label); text-transform: uppercase;
+  margin: 0;
+}
+
+
+/* ---- 03 Tekst met uitlopend beeld --------------------------------------
+   De opzet uit §6.10: tekstkolom links, beeld rechts dat op desktop voorbij
+   de rand loopt. Onder 991px komt het beeld gewoon onder de tekst.
+   De kop hier is een h2 in plaats van de h3 uit de gids, want dit is de
+   eerste sectiekop van de pagina na de h1 in de hero. */
+.content-text-side-visual { background-color: var(--color-white); }
+/* De rest van dit component staat in styleguide.css; de cursuspagina's
+   gebruiken het ook. */
