@@ -96,7 +96,7 @@ def projecten(dienst):
 
 def servicepagina(cfg):
     inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->
-  <section class="paginahero" id="s01-introductie">
+  <section class="paginahero paginahero--hoog" id="s01-introductie">
     <div class="paginahero__kop">
       <span class="subtitle">{cfg["eyebrow"]}</span>
       <h1 class="paginahero__titel">{cfg["h1"]}</h1>

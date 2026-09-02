@@ -11,9 +11,26 @@
 <meta name="theme-color" content="#FFFFFF" />
 <meta name="color-scheme" content="light" />
 
+<!-- GSAP en Barba komen van jsDelivr. Het opzetten van die verbinding (dns,
+     tcp, tls) kost op een telefoon een paar honderd ms en begint nu al terwijl
+     de HTML nog binnenkomt, in plaats van pas onderaan de pagina. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+<!-- Het lettertype staat in de kop van de pagina en is dus onderdeel van de
+     LCP. Zonder preload vindt de browser het pas nadat styleguide.css binnen is
+     en ontleed is. crossorigin moet erbij, ook al staat het bestand op dezelfde
+     server: een font wordt altijd in CORS-modus opgehaald, en zonder dat woord
+     haalt de browser het twee keer op. -->
+<link rel="preload" href="assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
+
 <link rel="stylesheet" href="styleguide.css" />
-<link rel="stylesheet" href="cookiebalk.css" />
 <link rel="stylesheet" href="transitions.css" />
+<!-- De cookiebalk verschijnt pas als cookiebalk.js hem opbouwt, dus zijn stijl
+     hoeft de eerste weergave niet op te houden. media="print" laat de browser
+     hem buiten het kritieke pad ophalen; onload zet hem daarna alsnog aan. De
+     noscript-regel vangt op dat zonder JavaScript ook die onload niet afgaat. -->
+<link rel="stylesheet" href="cookiebalk.css" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="cookiebalk.css" /></noscript>
 <link rel="stylesheet" href="tekstpagina.css" data-page-css="tekst" />
 
 <link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml" />
@@ -331,14 +348,17 @@
 
 <!-- ================= PAGINA-OVERGANGEN =================
      Barba wisselt alleen de container hierboven om, GSAP animeert de wissel. -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.umd.js"></script>
-<script src="cookiebalk.js"></script>
-<script src="analytics.js"></script>
-<script src="smooth-scroll.js"></script>
-<script src="page-transitions.js"></script>
+<!-- defer: de browser haalt ze op terwijl hij de pagina nog aan het ontleden is
+     en voert ze daarna uit, in deze volgorde. Die volgorde is nodig, want
+     ScrollTrigger heeft gsap nodig en page-transitions.js heeft Barba nodig. -->
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.umd.js"></script>
+<script defer src="cookiebalk.js"></script>
+<script defer src="analytics.js"></script>
+<script defer src="smooth-scroll.js"></script>
+<script defer src="page-transitions.js"></script>
 
 </body>
 </html>

@@ -293,21 +293,37 @@ PRIJS = "&euro; 750"
 PRIJS_EENHEID = "per dagdeel"
 
 
+# (naam, groot, groothoogte, klein, kleinhoogte, alt, map, midden)
+#
+# Middenmaat staat op None voor alle foto's, en dat is een bewuste keuze. Er
+# hebben tussenmaten van 800px in gezeten, want op een telefoon van 412 CSS-
+# pixels met dpr 1,75 is 721px nodig en dan slaat de browser 640 over en neemt
+# 1200. Op papier drie keer zoveel pixels als er te zien is.
+#
+# In beeld pakte dat verkeerd uit. Een kandidaat die net boven de gevraagde
+# breedte ligt wordt door de browser met een goedkoper filter verkleind dan een
+# kandidaat die er ruim boven ligt: 800 naar 720 werd zichtbaar zachter dan 1200
+# naar 720. Vergeleken op schermafdrukken van voor en na, en nagerekend: de
+# scherpte van het gebied zakte met ruim zestig procent. Dat is precies wat we
+# niet wilden inleveren, dus de tussenmaten zijn eruit.
+#
+# Bij de patronen staat wel een tussenmaat, want daar zit geen fijn detail in
+# dat zachter kan worden; het zijn vloeiende verlopen.
 FOTOS = {
-    'bouwplaats':   ('bouwplaats', 2400, 1350, 1200, 675, 'Bouwplaats met torenkraan', 'foto'),
+    'bouwplaats':   ('bouwplaats', 2400, 1350, 1200, 675, 'Bouwplaats met torenkraan', 'foto', None),
     # Het eerste beeldje van de herovideo, zodat het stilstaande beeld en de
     # eerste frame van de film op elkaar aansluiten.
-    'logistiek':    ('logistiek', 2400, 1350, 1200, 675, 'Vrachtwagen op een dijkweg langs het water', 'foto'),
-    'productiehal': ('productiehal', 1024, 309, 640, 193, 'Productiehal met medewerkers aan de lijn', 'foto'),
-    'lassen':       ('lassen', 1024, 683, 640, 427, 'Lasser aan het werk aan een constructie', 'foto'),
-    'overleg':      ('overleg', 960, 640, 640, 427, 'Werkoverleg met een klein team', 'foto'),
-    'transport':    ('transport', 1024, 683, 640, 427, 'Industriële transportbrug en constructie', 'foto'),
-    'haven':        ('haven', 960, 540, 640, 360, 'Zeeschip aan de kade van een containerterminal', 'foto'),
+    'logistiek':    ('logistiek', 2400, 1350, 1200, 675, 'Vrachtwagen op een dijkweg langs het water', 'foto', None),
+    'productiehal': ('productiehal', 1024, 309, 640, 193, 'Productiehal met medewerkers aan de lijn', 'foto', None),
+    'lassen':       ('lassen', 1024, 683, 640, 427, 'Lasser aan het werk aan een constructie', 'foto', None),
+    'overleg':      ('overleg', 960, 640, 640, 427, 'Werkoverleg met een klein team', 'foto', None),
+    'transport':    ('transport', 1024, 683, 640, 427, 'Industri\u00eble transportbrug en constructie', 'foto', None),
+    'haven':        ('haven', 960, 540, 640, 360, 'Zeeschip aan de kade van een containerterminal', 'foto', None),
     'martin-band':  ('martin-band', 800, 800, 440, 440,
-                     'Martin de Groot, zittend op een trap voor het Viaduc de Passy in Parijs', 'foto'),
+                     'Martin de Groot, zittend op een trap voor het Viaduc de Passy in Parijs', 'foto', None),
     'terrein':      ('madegro-terrein', 1520, 993, 800, 523,
                      'Bedrijfsterrein van boven: een vrachtwagen rijdt door de scanpoort naar de slagboom, bij de portiersloge en het tourniquet controleren medewerkers de toegang, en camera&rsquo;s houden het hek en de laadkuil in de gaten',
-                     'illustratie'),
+                     'illustratie', None),
 }
 
 
@@ -318,13 +334,19 @@ BEELD_MATEN_3 = "(max-width: 991px) 100vw, 33vw"
 
 
 def foto(sleutel, klasse='', laden='lazy', maten='100vw', alt=None):
-    """Eén beeld met srcset in twee maten. De alt-tekst beschrijft wat er te
-       zien is; bij puur decoratief beeld geef je alt='' mee."""
-    naam, gb, gh, kb, kh, standaard_alt, map_ = FOTOS[sleutel]
+    """Eén beeld met srcset. De alt-tekst beschrijft wat er te
+       zien is; bij puur decoratief beeld geef je alt='' mee.
+
+       Twee of drie maten in de srcset, afhankelijk van of er een middenmaat is.
+       De browser kiest zelf, op grond van sizes en de pixeldichtheid van het
+       scherm."""
+    naam, gb, gh, kb, kh, standaard_alt, map_, mb = FOTOS[sleutel]
     tekst = standaard_alt if alt is None else alt
     prioriteit = ' fetchpriority="high" decoding="async"' if laden == 'eager' else ' decoding="async"'
+    maten_lijst = sorted({kb, gb} | ({mb} if mb else set()))
+    srcset = ', '.join(f'assets/{map_}/{naam}-{b}.webp {b}w' for b in maten_lijst)
     return (f'<img src="assets/{map_}/{naam}-{gb}.webp" '
-            f'srcset="assets/{map_}/{naam}-{kb}.webp {kb}w, assets/{map_}/{naam}-{gb}.webp {gb}w" '
+            f'srcset="{srcset}" '
             f'sizes="{maten}" width="{gb}" height="{gh}" alt="{tekst}" '
             f'loading="{laden}"{prioriteit}'
             + (f' class="{klasse}"' if klasse else '') + '>')
@@ -616,9 +638,26 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 <meta name="theme-color" content="#FFFFFF" />
 <meta name="color-scheme" content="light" />
 
+<!-- GSAP en Barba komen van jsDelivr. Het opzetten van die verbinding (dns,
+     tcp, tls) kost op een telefoon een paar honderd ms en begint nu al terwijl
+     de HTML nog binnenkomt, in plaats van pas onderaan de pagina. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+
+<!-- Het lettertype staat in de kop van de pagina en is dus onderdeel van de
+     LCP. Zonder preload vindt de browser het pas nadat styleguide.css binnen is
+     en ontleed is. crossorigin moet erbij, ook al staat het bestand op dezelfde
+     server: een font wordt altijd in CORS-modus opgehaald, en zonder dat woord
+     haalt de browser het twee keer op. -->
+<link rel="preload" href="assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
+
 <link rel="stylesheet" href="styleguide.css" />
-<link rel="stylesheet" href="cookiebalk.css" />
 <link rel="stylesheet" href="transitions.css" />
+<!-- De cookiebalk verschijnt pas als cookiebalk.js hem opbouwt, dus zijn stijl
+     hoeft de eerste weergave niet op te houden. media="print" laat de browser
+     hem buiten het kritieke pad ophalen; onload zet hem daarna alsnog aan. De
+     noscript-regel vangt op dat zonder JavaScript ook die onload niet afgaat. -->
+<link rel="stylesheet" href="cookiebalk.css" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="cookiebalk.css" /></noscript>
 <link rel="stylesheet" href="{pagina_css}" data-page-css="{css_naam}" />
 
 <link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml" />
@@ -677,14 +716,17 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 
 <!-- ================= PAGINA-OVERGANGEN =================
      Barba wisselt alleen de container hierboven om, GSAP animeert de wissel. -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.umd.js"></script>
-<script src="cookiebalk.js"></script>
-<script src="analytics.js"></script>
-<script src="smooth-scroll.js"></script>
-<script src="page-transitions.js"></script>
+<!-- defer: de browser haalt ze op terwijl hij de pagina nog aan het ontleden is
+     en voert ze daarna uit, in deze volgorde. Die volgorde is nodig, want
+     ScrollTrigger heeft gsap nodig en page-transitions.js heeft Barba nodig. -->
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollSmoother.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.umd.js"></script>
+<script defer src="cookiebalk.js"></script>
+<script defer src="analytics.js"></script>
+<script defer src="smooth-scroll.js"></script>
+<script defer src="page-transitions.js"></script>
 
 </body>
 </html>
@@ -724,18 +766,26 @@ OPDRACHTGEVERS = [
 ]
 
 
-def _logoset(verborgen=False):
+def _logoset(verborgen=False, plat=False):
     """De logo's van de opdrachtgevers. Het tweede exemplaar van de reeks is
        aria-hidden, dus een schermlezer hoort de namen een keer.
 
-       Bewust géén loading="lazy": het venster van de band knipt af met
-       overflow:hidden, dus de browser ziet alles rechts van de rand als "niet in
-       beeld" en laadt het nooit. De laatste vier logo's bleven daardoor leeg. De
-       dertien samen zijn 118 kB."""
+       Het adres staat in data-src en niet in src, en site.js zet het om zodra de
+       band in de buurt van het scherm komt. Dat scheelt 118 kB bij het openen
+       van elke pagina; de band staat altijd onderaan.
+
+       loading="lazy" werkt hier niet, dat is gemeten: het venster knipt af met
+       overflow:hidden, waardoor de browser alles rechts van de rand als "niet in
+       beeld" ziet. Van de 26 afbeeldingen laadden er drie, ook na doorscrollen
+       naar de band toe. Vandaar een waarnemer op de sectie zelf: die zet ze alle
+       26 tegelijk aan, ruim voordat je ze ziet.
+
+       plat=True geeft dezelfde reeks met een gewone src, voor de noscript."""
     extra = ' aria-hidden="true"' if verborgen else ''
+    bron = 'src' if plat else 'data-src'
     regels = "\n".join(
         '          <li class="logo-slider__logo">'
-        f'<img src="assets/partners/{slug}.webp" alt="{naam}" '
+        f'<img {bron}="assets/partners/{slug}.webp" alt="{naam}" '
         f'width="{breedte}" height="80" decoding="async"></li>'
         for slug, naam, breedte in OPDRACHTGEVERS)
     return f'        <ul class="logo-slider__set"{extra}>\n{regels}\n        </ul>'
@@ -746,12 +796,19 @@ def logoslider(nr):
        schuift precies de helft op, zodat het naadloos doorloopt. Het tweede
        exemplaar is aria-hidden, dus een schermlezer hoort de namen een keer.
        De band pauzeert bij hover en staat stil bij prefers-reduced-motion."""
-    return (f'  <section class="logo-slider" id="s{nr}-partners" aria-label="Opdrachtgevers">\n'
+    return (f'  <section class="logo-slider" id="s{nr}-partners" aria-label="Opdrachtgevers" data-logoband>\n'
             '    <div class="logo-slider__venster">\n'
             '      <div class="logo-slider__spoor">\n'
             f'{_logoset()}\n{_logoset(verborgen=True)}\n'
             '      </div>\n'
             '    </div>\n'
+            '    <noscript>\n'
+            '      <div class="logo-slider__venster">\n'
+            '        <div class="logo-slider__spoor">\n'
+            f'{_logoset(plat=True)}\n{_logoset(verborgen=True, plat=True)}\n'
+            '        </div>\n'
+            '      </div>\n'
+            '    </noscript>\n'
             '  </section>')
 
 
@@ -817,8 +874,8 @@ def patroonhero(nr, ident, label, titel):
             '    </div>\n'
             '    <div class="paginahero__beeld" aria-hidden="true">\n'
             '      <picture>\n'
-            '        <source media="(max-width: 767px)" srcset="assets/patronen/hero-patroon-mobiel-720.webp 720w, assets/patronen/hero-patroon-mobiel-1440.webp 1440w" sizes="100vw" width="1440" height="1440">\n'
-            '        <img src="assets/patronen/hero-patroon-1440.webp" srcset="assets/patronen/hero-patroon-720.webp 720w, assets/patronen/hero-patroon-1440.webp 1440w" sizes="50vw" width="1440" height="940" alt="" loading="eager" fetchpriority="high" decoding="async">\n'
+            '        <source media="(max-width: 767px)" srcset="assets/patronen/hero-patroon-mobiel-720.webp 720w, assets/patronen/hero-patroon-mobiel-800.webp 800w, assets/patronen/hero-patroon-mobiel-1440.webp 1440w" sizes="100vw" width="1440" height="1440">\n'
+            '        <img src="assets/patronen/hero-patroon-1440.webp" srcset="assets/patronen/hero-patroon-720.webp 720w, assets/patronen/hero-patroon-1000.webp 1000w, assets/patronen/hero-patroon-1440.webp 1440w" sizes="50vw" width="1440" height="940" alt="" loading="eager" fetchpriority="high" decoding="async">\n'
             '      </picture>\n'
             '    </div>\n'
             '  </section>')

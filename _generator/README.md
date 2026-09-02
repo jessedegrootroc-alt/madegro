@@ -28,3 +28,12 @@ bewerk je rechtstreeks.
 Bovenin elk bouwscript staat een absoluut pad naar de map waar de HTML
 terechtkomt, van de machine waarop dit gebouwd is. Draai je dit ergens anders,
 pas dan die `UIT = pathlib.Path(...)` regels aan.
+
+## server.js
+
+De ontwikkelserver, hier meegenomen omdat de metingen ermee gedaan zijn. Hij
+comprimeert met brotli of gzip en zet cachetijden, net als een productieserver
+hoort te doen. Bovenin staat een absoluut pad naar de map die hij uitserveert;
+pas dat aan en start hem met `node server.js`.
+
+Wat een echte server moet doen staat in `../LEVERING.md`.

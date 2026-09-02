@@ -19,14 +19,24 @@
 /* ---- Inter Tight, lokaal gehost (brief §7) ----
    Variabel gewicht 300–600 in één bestand per subset. latin-ext staat erbij
    voor de accenten die in Nederlandse namen en leenwoorden voorkomen. */
-@font-face {
-  font-family: 'Inter Tight';
-  font-style: normal;
-  font-weight: 300 600;
-  font-display: swap;
-  src: url('assets/fonts/inter-tight-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
+/* Er stond hier ook een @font-face voor de latin-ext subset, 90 kB. Geen enkel
+   teken op de site valt in dat bereik: het hoogste codepoint in alle twintig
+   pagina's is de euro (U+20AC) en die zit in latin. Door de unicode-range haalde
+   de browser hem al niet op, maar nu kan het ook niet meer per ongeluk.
+
+   Komt er ooit een naam met een teken erbuiten in de content, denk aan een
+   Poolse of Tsjechische opdrachtgever, dan valt dat teken terug op het
+   systeemlettertype. Het bestand staat nog in assets/fonts; deze regel terug
+   plakken is dan genoeg:
+
+     @font-face { font-family:'Inter Tight'; font-style:normal;
+       font-weight:300 600; font-display:swap;
+       src:url('assets/fonts/inter-tight-latin-ext.woff2') format('woff2');
+       unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+         U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+         U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+         U+A720-A7FF; }
+*/
 @font-face {
   font-family: 'Inter Tight';
   font-style: normal;
@@ -944,7 +954,11 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
    linksonder. */
 .cta-slot__hoofd {
   background-color: var(--color-groen-diepst);
-  background-image: url("assets/patronen/cta-patroon-2880.webp");
+  /* image-set laat de browser kiezen: op een telefoon is 2880px zinloos breed.
+     De url() eronder is de terugval voor browsers zonder image-set. */
+  background-image: url("assets/patronen/cta-patroon-1440.webp");
+  background-image: image-set(url("assets/patronen/cta-patroon-1440.webp") 1x,
+                              url("assets/patronen/cta-patroon-2880.webp") 2x);
   background-size: cover;
   background-position: center;
   padding: var(--space-1000) var(--inset-x);

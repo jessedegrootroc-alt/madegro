@@ -235,6 +235,36 @@
     }, vast);
   });
 
+  /* -------------------------------------------------------------- logoband
+     De logo's staan in data-src. Ze worden pas opgehaald als de band in de
+     buurt van het scherm komt, want hij staat altijd onderaan de pagina en de
+     dertien logo's samen zijn 118 kB.
+
+     rootMargin 600px: ze zijn binnen voordat je ze ziet. Alle 26 tegelijk, want
+     halverwege inladen geeft gaten in de lopende band.
+
+     loading="lazy" doet het hier niet, dat is gemeten: het venster knipt af met
+     overflow:hidden en dan blijven de meeste logo's voor de browser buiten
+     beeld, ook als je erlangs scrollt. Van de 26 laadden er drie.
+
+     Zonder IntersectionObserver, of zonder JavaScript, staat er een noscript met
+     dezelfde reeks en een gewone src; dan is de band er meteen. */
+  container.querySelectorAll('[data-logoband]').forEach((band) => {
+    const zetAan = () => band.querySelectorAll('img[data-src]').forEach((img) => {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+
+    if (!('IntersectionObserver' in window)) return zetAan();
+
+    const waarnemer = new IntersectionObserver((invoer) => {
+      if (!invoer.some((i) => i.isIntersecting)) return;
+      zetAan();
+      waarnemer.disconnect();
+    }, { rootMargin: '600px 0px' });
+    waarnemer.observe(band);
+  });
+
   /* ---------------------------------------------------------------- quotes
      Eén citaat tegelijk in beeld. De rest staat er met hidden bij: zo staan ze
      allemaal in de broncode voor een zoekmachine, en werkt de sectie zonder
