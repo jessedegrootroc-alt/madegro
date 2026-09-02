@@ -265,6 +265,14 @@ pagina hetzelfde is.
 
 ## Servicepagina's: `veilig-gedrag`, `ehs-rie`, `safety-checks`
 
+De kop is `.paginahero paginahero--hoog`. Die modifier zet de kop op 640px, de
+hoogte die de cursuskop vanaf 1440px aanneemt; de twee staan naast elkaar in het
+menu en horen dus even hoog te zijn. Tussen 768 en 1200px is de cursuskop 50 tot
+90px hoger, want daar breekt zijn introtekst over meer regels. Dat is niet te
+volgen met een vaste maat: die reeks loopt eerst op en dan weer terug. Onder
+768px geldt de modifier niet, want daar stapelt de hero.
+
+
 Deze drie zijn één template. Alleen de teksten, de iconen en het stappenplan
 verschillen. Gedeelde opmaak staat in `service.css`.
 

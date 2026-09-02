@@ -1090,6 +1090,21 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
   min-height: clamp(320px, 30vw, 480px);
   padding: 160px var(--inset-x) var(--space-800);
 }
+/* De dienstpagina's staan naast de cursuspagina's in het menu en worden ook zo
+   bekeken, dus hun kop hoort even hoog te zijn. De cursuskop is contentgestuurd
+   en zakt vanaf 1440px in op 641px; dat is het getal dat hier staat.
+
+   Onder de 1440 loopt de cursuskop juist op (714px op 992, 729px op 1200), want
+   daar breekt zijn introtekst over meer regels. Dat is niet met een vaste maat
+   te volgen: die reeks gaat eerst omhoog en dan omlaag, dus geen enkele clamp
+   komt erdoorheen. Hier staat daarom de waarde van het brede plateau.
+
+   Onder 768px geldt hij niet. Daar stapelt de hero en zou 640px neerkomen op een
+   grijs blok met alleen een titel erin, ruim een scherm hoog. */
+@media (min-width: 768px) {
+  .paginahero--hoog .paginahero__kop { min-height: 640px; }
+}
+
 .paginahero__titel {
   margin: var(--space-400) 0 0;
   font-size: clamp(2.75rem, 1.75rem + 4vw, 5rem); line-height: 1;
