@@ -103,3 +103,10 @@ Nieuwe afwijkingen markeer je in de CSS met een comment dat begint met
   overgangsscript wisselt die mee; zonder die markering blijft een stijl hangen op
   een pagina waar hij niet hoort.
 - De sectiestructuur staat in `SECTIONS.md`.
+
+- **Kleuren staan als token, niet als rgba.** Bij de wissel naar het petrol uit
+  het logo bleven vier plekken achter waar het oude groen als `rgba(...)` in een
+  verloop stond: de sluier op de cursus- en casepagina's, het kaartje in het
+  uitklapmenu en `--overlay-card-backdrop`. Die zijn los nagelopen. Schrijf een
+  kleur dus als token, en als dat niet kan (in een verloop met dekking) zet er
+  dan bij welk token het is.

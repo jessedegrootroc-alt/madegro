@@ -85,7 +85,7 @@
   --color-divider:         var(--color-grey);
 
   /* ---------- Overlays en verlopen ---------- */
-  --overlay-card-backdrop: rgba(7, 94, 59, 0.35);
+  --overlay-card-backdrop: rgba(1, 87, 91, 0.35);
   --overlay-panel:         rgba(0, 0, 0, 0.40);
   --overlay-slide-in:      rgba(0, 0, 0, 0.75);
   --overlay-modal:         rgba(0, 0, 0, 0.80);
@@ -1580,11 +1580,13 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, .field:focus-vi
   background-color: var(--color-groen-diepst);
 }
 .uitklap__kaart img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-/* Zelfde sluier als de servicekop: donker waar de tekst staat, zodat wit ruim
-   boven 4.5:1 uitkomt. */
+/* Donker waar de tekst staat, zodat wit ruim boven 4.5:1 uitkomt. Dezelfde
+   opzet als de servicekop had, maar in het petrol uit de palette; hier stond
+   nog het groen van voor de kleurwissel. Geen gradient uit Figma zoals in de
+   hero's: dit is een kaartje van een paar honderd pixels, geen paginakop. */
 .uitklap__sluier {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(6, 68, 44, .93) 45%, rgba(6, 68, 44, .60) 100%);
+  background: linear-gradient(to top, rgba(1, 65, 68, .93) 45%, rgba(1, 65, 68, .60) 100%);
 }
 .uitklap__kaart-tekst {
   position: relative; z-index: var(--z-content);

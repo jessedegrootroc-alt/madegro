@@ -504,3 +504,28 @@ homepage, zodat je na een klik ziet waar je vandaan komt: `overleg` bij Veilig
 gedrag, `lassen` bij EHS RIE, `haven` bij Safety Checks. Hun introtekst is
 daarbij uit de hero gehaald en staat nu als `s02-statement` eronder, zoals op
 over-ons.
+
+
+## De sluier over een fotohero
+
+Drie pagina's-soorten hebben een fotohero met witte tekst eroverheen: de vier
+cursuspagina's (`cursus.css`), het case-overzicht en de zes casepagina's
+(`cases.css`). Sinds 2 september 2026 dragen die dezelfde twee lagen als de
+homepage:
+
+| laag | wat | waarom |
+|---|---|---|
+| 1 | `#017E84`, 20% boven naar 80% onder | de gradient uit Figma |
+| 2 | zwart, 50% boven naar 75% onder | draagt de witte tekst |
+
+Laag 2 verschilt van de homepage (daar 0% naar 60%), en dat is geen slordigheid:
+op de homepage staat de tekst onderin, hier al op een derde van de hoogte, waar
+de gradient nog licht is. Met alleen de gradient haalt het label daar 1,76:1.
+
+Doorgerekend over de zes herofoto's, op de lichtste vijf procent van elk
+tekstvak: cursuspagina 5,37 tot 5,98:1, casepagina 5,49 tot 5,97:1. Eis is
+4,5:1, en 3:1 voor de kop.
+
+Let op: hier stond tot 2 september het oude groen `rgba(6, 68, 44, ...)`. Dat
+kwam niet mee met de kleurwissel naar het petrol uit het logo, omdat het als
+rgba-waarde geschreven stond en niet als token of hex.
