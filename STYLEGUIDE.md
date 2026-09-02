@@ -110,3 +110,15 @@ Nieuwe afwijkingen markeer je in de CSS met een comment dat begint met
   uitklapmenu en `--overlay-card-backdrop`. Die zijn los nagelopen. Schrijf een
   kleur dus als token, en als dat niet kan (in een verloop met dekking) zet er
   dan bij welk token het is.
+
+- **Een gekleurd vlak draagt het merkgroen, tekst draagt de donkerste toon.**
+  `.vlak--groen` staat op `#017E84`, want dat vlak staat in een rij naast geel,
+  grijs en wit en is dus een merkvlak. `--color-groen-diepst` (`#014144`) blijft
+  voor lopende tekst, koppen en de knop naar een case. Wit op `#017E84` haalt
+  4,86:1: genoeg voor 16px, maar er zit geen rek in. Wordt de tekst in zo'n vlak
+  kleiner, dan moet het vlak donkerder.
+- **Foto met witte tekst erover: altijd twee lagen.** De gradient uit Figma
+  (`#017E84`, 20% naar 80%) plus zwart van 50% naar 75%. Staat zo op de
+  cursuspagina's, de casepagina's en het kaartje in het uitklapmenu. Alleen de
+  homepagehero wijkt af (zwart van 0% naar 60%), omdat de tekst daar onderin
+  staat in plaats van op een derde van de hoogte.

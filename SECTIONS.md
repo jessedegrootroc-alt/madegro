@@ -510,8 +510,8 @@ over-ons.
 
 Drie pagina's-soorten hebben een fotohero met witte tekst eroverheen: de vier
 cursuspagina's (`cursus.css`), het case-overzicht en de zes casepagina's
-(`cases.css`). Sinds 2 september 2026 dragen die dezelfde twee lagen als de
-homepage:
+(`cases.css`). Het kaartje in het uitklapmenu draagt dezelfde sluier. Sinds
+2 september 2026 dragen die alle vier deze twee lagen:
 
 | laag | wat | waarom |
 |---|---|---|
