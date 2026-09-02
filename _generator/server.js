@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
+const crypto = require('crypto');
 
 const ROOT = "/Users/jessevialuxury.nl/Library/CloudStorage/OneDrive-Advalley(2)/Documenten/Code/SERVICE.BASED.LANDINGSPAGE";
 const PORT = 5500;
@@ -48,7 +49,11 @@ const COMPRIMEERBAAR = new Set([
 // Zie LEVERING.md voor de headers die daar horen te staan.
 function cache(type) {
   if (type.startsWith('image/') || type.startsWith('video/') || type.startsWith('font/')) {
-    return 'public, max-age=31536000, immutable';
+    // Geen immutable hier. De namen dragen hun maat (logistiek-1200.webp), maar
+    // tijdens het bouwen wordt een bestand weleens vervangen zonder dat de naam
+    // verandert, en dan zit je er met immutable een jaar aan vast. In productie
+    // hoort hier wel immutable te staan; zie LEVERING.md.
+    return 'public, max-age=86400';
   }
   return 'no-cache';
 }
@@ -64,7 +69,34 @@ http.createServer((req, res) => {
       return res.end('<h1>404</h1><p>' + rel + '</p>');
     }
     const type = TYPES[path.extname(file).toLowerCase()] || 'application/octet-stream';
-    const kop = {'Content-Type': type, 'Cache-Control': cache(type)};
+    // Zwakke etag (W/): hij staat voor de inhoud van het bestand, niet voor de
+    // vorm waarin het over de lijn gaat. Hetzelfde bestand kan er brotli, gzip
+    // of onverpakt uitgaan; dat zijn andere bytes met dezelfde inhoud.
+    const etag = 'W/"' + crypto.createHash('sha1').update(data).digest('base64').slice(0, 20) + '"';
+    const kop = {'Content-Type': type, 'Cache-Control': cache(type), 'ETag': etag};
+    if (req.headers['if-none-match'] === etag) { res.writeHead(304, kop); return res.end(); }
+
+    // Een video wordt niet in één keer opgehaald. De browser vraagt om stukken
+    // (Range: bytes=0-1, dan verder) en verwacht daar 206 op met precies dat
+    // stuk. Safari en iOS spelen niets af als de server dat negeert en gewoon
+    // 200 met het hele bestand terugstuurt; Chrome is er soepeler in. Vandaar
+    // dit blok. Accept-Ranges vertelt de browser vooraf dat het kan.
+    if (type.startsWith('video/') || type.startsWith('audio/')) {
+      kop['Accept-Ranges'] = 'bytes';
+      const bereik = /^bytes=(\d*)-(\d*)$/.exec(req.headers.range || '');
+      if (bereik) {
+        const eind = bereik[2] ? Math.min(parseInt(bereik[2], 10), data.length - 1) : data.length - 1;
+        const begin = bereik[1] ? parseInt(bereik[1], 10) : data.length - eind - 1;
+        if (begin > eind || begin >= data.length) {
+          res.writeHead(416, {'Content-Range': `bytes */${data.length}`});
+          return res.end();
+        }
+        kop['Content-Range'] = `bytes ${begin}-${eind}/${data.length}`;
+        kop['Content-Length'] = eind - begin + 1;
+        res.writeHead(206, kop);
+        return res.end(data.subarray(begin, eind + 1));
+      }
+    }
 
     const mag = (req.headers['accept-encoding'] || '');
     if (COMPRIMEERBAAR.has(type) && data.length > 512) {

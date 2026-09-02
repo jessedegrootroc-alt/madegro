@@ -274,17 +274,24 @@
      draait: zonder script zou je op pijlen klikken die niets doen. */
   /* ------------------------------------------------------------ herovideo --
      De film hangt niet in de HTML maar wordt hier pas ingehangen. Reden: het is
-     een paar megabyte, en er zijn drie gevallen waarin je die beter niet
+     anderhalve megabyte, en er zijn vier gevallen waarin je die beter niet
      ophaalt. Zonder JavaScript gebeurt er dus niets en blijft het bij de foto,
      die het eerste beeldje van dezelfde film is.
+
+     De grens stond op 768px en staat nu op 600. Op 768 kreeg een bureaublad met
+     een half scherm breed venster geen film, en dat ziet eruit als een storing;
+     een telefoon staand is 390 tot 430px en blijft er ruim onder. Voor de
+     gevallen waar het echt om gaat, een trage of betaalde verbinding, staan de
+     twee regels eronder: die zeggen meer over de lijn dan de vensterbreedte.
 
      Pas zichtbaar bij 'playing' en niet bij 'canplay': weigert de browser het
      automatisch afspelen -- dat mag hij -- dan blijft de foto staan in plaats
      van een stilstaand eerste beeldje. */
   container.querySelectorAll('[data-herovideo]').forEach((video) => {
-    if (kalm.matches) return;                                     // beweging uit
-    if (!window.matchMedia('(min-width: 768px)').matches) return;  // smal scherm
-    if (navigator.connection?.saveData) return;                    // databesparing aan
+    if (kalm.matches) return;                                   // beweging uit
+    if (!window.matchMedia('(min-width: 600px)').matches) return;  // telefoon
+    if (navigator.connection?.saveData) return;                 // databesparing aan
+    if (/^(slow-)?2g$/.test(navigator.connection?.effectiveType || '')) return;  // trage lijn
 
     const bron = document.createElement('source');
     bron.src = video.dataset.herovideo;

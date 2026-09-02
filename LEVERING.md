@@ -57,12 +57,27 @@ location ~* \.html$ { add_header Cache-Control "no-cache"; }
 **Apache** (`.htaccess`): `mod_deflate` of `mod_brotli` voor de tekstsoorten
 hierboven, en `mod_expires` met dezelfde tijden.
 
+## 3. Ondersteun Range-aanvragen voor de video
+
+Een browser haalt een video niet in één keer op. Hij vraagt om stukken
+(`Range: bytes=0-1`, daarna verder) en verwacht daar **206 Partial Content** op
+met precies dat stuk, plus `Accept-Ranges: bytes` in het antwoord.
+
+Safari en iOS spelen niets af als de server dat negeert en gewoon 200 met het
+hele bestand terugstuurt. Chrome is er soepeler in, dus je ziet het makkelijk
+over het hoofd. Vrijwel elke echte webserver en elk statisch platform doet dit
+uit zichzelf; de ontwikkelserver doet het nu ook.
+
 ## Wat de ontwikkelserver doet
 
-`_generator/../server.js` (in de scratchpad van de bouwsessie) doet dit al: brotli
-of gzip naar wat de browser accepteert, een jaar cache op afbeeldingen, video en
-fonts, en `no-cache` op de rest. Handig om lokaal te meten met Lighthouse, maar
-het is geen productieserver.
+`_generator/server.js` doet dit al: brotli of gzip naar wat de browser accepteert,
+Range-aanvragen met 206, zwakke etags zodat `no-cache` iets heeft om tegen te
+valideren, een dag cache op afbeeldingen, video en fonts, en `no-cache` op de
+rest. Handig om lokaal te meten met Lighthouse, maar het is geen productieserver.
+
+Let op het verschil met de tabel hierboven: daar staat een jaar met `immutable`,
+hier een dag zonder. Tijdens het bouwen wordt een bestand weleens vervangen
+zonder dat de naam verandert, en met `immutable` zit je daar een jaar aan vast.
 
 ## Nog te doen bij het live zetten
 
