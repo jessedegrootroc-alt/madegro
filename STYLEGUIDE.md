@@ -122,3 +122,11 @@ Nieuwe afwijkingen markeer je in de CSS met een comment dat begint met
   cursuspagina's, de casepagina's en het kaartje in het uitklapmenu. Alleen de
   homepagehero wijkt af (zwart van 0% naar 60%), omdat de tekst daar onderin
   staat in plaats van op een derde van de hoogte.
+
+- **Het contactvlak wijkt bewust af van de contrasteis.** Het merkpatroon staat
+  daar op volle sterkte, zonder waas ertussen, op verzoek. De tekst staat
+  gecentreerd en de gele stralen lopen er precies doorheen: het label haalt
+  1,76:1 waar 4,5 nodig is, de kop 2,03:1 waar 3 nodig is en de introtekst
+  3,15:1 waar 4,5 nodig is. De regel om de waas terug te zetten staat in
+  `styleguide.css` bij `.cta-slot__hoofd`. Wie dit zonder waas wil oplossen,
+  moet de tekst uit het midden halen naar de donkere hoek linksonder.

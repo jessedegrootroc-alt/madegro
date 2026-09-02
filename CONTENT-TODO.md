@@ -220,6 +220,17 @@ Twee manieren om dit op te lossen:
 - **Meer stockbeeld erbij zoeken.** Kan ook, maar dan moet ik nieuwe CC0-foto&rsquo;s
   downloaden. Zeg het als je dat wilt; ik doe het niet uit mezelf.
 
+## Het contactvlak is niet leesbaar genoeg
+
+Het patroon staat daar op volle sterkte, zonder waas. Dat is een keuze, geen
+vergissing, maar de witte tekst haalt de contrasteis niet: label 1,76:1 (nodig
+4,5), kop 2,03:1 (nodig 3) en introtekst 3,15:1 (nodig 4,5). Iemand die slecht
+ziet, of die op een telefoon in de zon staat, leest dat vlak niet.
+
+Twee manieren om het op te lossen met behoud van het patroon: de waas
+terugzetten (de regel staat in `styleguide.css`), of de tekst uit het midden
+halen naar de donkere hoek linksonder. Beide zijn een paar regels werk.
+
 ## Het merkpatroon: het paars staat naast de huisstijl
 
 De patronen staan op contact, cases, cursusaanbod (hero) en in het contactvlak

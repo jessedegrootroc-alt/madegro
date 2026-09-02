@@ -920,23 +920,31 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
 
    Geen ruimte onder het slotblok: het groene vlak sluit direct aan op de voet. */
 .cta-slot { background-color: var(--color-white); }
-/* Het merkpatroon ligt over het diepe petrol, met een waas van dezelfde kleur
-   ertussen. Twee lagen dus: de bovenste is een egale waas van 70%, wat neerkomt
-   op een patroon van 30%.
+/* Het merkpatroon op volle sterkte, op verzoek zonder waas ertussen. Het zit in
+   de achtergrond en niet in een <img>: het is versiering en heeft geen
+   alternatieve tekst nodig.
 
-   Waarom niet op volle sterkte: de tekst staat gecentreerd midden op het vlak,
-   en daar loopt precies de gele straal doorheen. Wit op de felste pixel van het
-   patroon haalt 1,17:1. Doorgerekend over elke pixel, dus bij welke uitsnede
-   dan ook, is 36% de bovengrens waarbij wit overal nog 4,5:1 haalt; op 30% is
-   dat 5,26:1 en houden we wat marge voor als de tekst ooit langer wordt.
+   LET OP, dit is een bewuste afwijking van de contrasteis. De tekst staat
+   gecentreerd midden op het vlak en daar lopen de gele stralen doorheen. Op de
+   lichtste vijf procent van elk tekstvak haalt wit:
 
-   Het patroon zit in de achtergrond en niet in een <img>: het is versiering en
-   heeft geen alternatieve tekst nodig. */
+     label (11px)   1,76:1   nodig 4,5   het hele label ligt op een lichte straal
+     kop (48px)     2,03:1   nodig 3,0   de helft van het vlak zakt
+     introtekst     3,15:1   nodig 4,5   een derde van het vlak zakt
+
+   Er lag hier eerder een waas van 70% overheen die dit opving. Wil je die terug,
+   dan is dit de regel:
+
+     background-image:
+       linear-gradient(rgba(1, 65, 68, .70), rgba(1, 65, 68, .70)),
+       url("assets/patronen/cta-patroon-2880.webp");
+
+   36% waas is de bovengrens waarbij wit overal nog 4,5:1 haalt. Het alternatief
+   zonder waas is de tekst uit het midden halen, naar de donkere hoek
+   linksonder. */
 .cta-slot__hoofd {
   background-color: var(--color-groen-diepst);
-  background-image:
-    linear-gradient(rgba(1, 65, 68, .70), rgba(1, 65, 68, .70)),
-    url("assets/patronen/cta-patroon-2880.webp");
+  background-image: url("assets/patronen/cta-patroon-2880.webp");
   background-size: cover;
   background-position: center;
   padding: var(--space-1000) var(--inset-x);
