@@ -155,6 +155,17 @@
 
      Barba houdt de hash niet vast in data.next.url, dus die halen we uit de
      link waarop geklikt is. */
+  /* De browser bewaart zelf ook een scrollpositie per stap in de geschiedenis en
+     zet die terug bij de terug- en vooruitknop. Bij een gewone site is dat
+     precies goed, hier niet: Barba wisselt alleen de inhoud om, dus de browser
+     zet zijn positie terug op een pagina die nog niet staat, en daarna zetten
+     wij hem nog een keer. Die twee liepen door elkaar heen. Zichtbaar bij de
+     vooruitknop: die kwam uit op de stand van de vórige pagina.
+
+     Met 'manual' laat de browser het aan ons over. Het geheugen hieronder doet
+     het werk, en dat weet wel welke stand bij welke pagina hoort. */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   const scrollGeheugen = new Map();
 
   const haalHash = (aanleiding) => {
@@ -224,7 +235,17 @@
              plaats van aan het scherm, dus de smoother gaat er even af. In
              'after' wordt hij opnieuw opgebouwd. De scrollbalk zelf is de
              echte van de browser, dus window.scrollY klopt hierna gewoon. */
+          /* Eerst opmeten waar we staan, daarna pas slopen. De smoother weet dat
+             zelf het beste: hij houdt zijn eigen stand bij en die overleeft een
+             kill(), terwijl window.scrollY daarna een oude waarde kan geven.
+             Dat was te zien bij de vooruitknop, die op de stand van de vorige
+             pagina uitkwam. */
+          const smoother = window.MADEGRO?.smoother?.instantie;
+          const scroll = smoother ? Math.round(smoother.scrollTop()) : window.scrollY;
+          scrollGeheugen.set(data.current.url.path, scroll);
+
           window.MADEGRO?.smoother?.sloop();
+          window.scrollTo(0, scroll);
 
           /* Barba geeft de opgehaalde pagina als tekst mee; hieruit halen we
              de stijlen en de gegevens uit de <head>. */
@@ -232,9 +253,6 @@
 
           const stijlen = wisselPaginaStijlen(data.nieuweDocument);
           data.opruimenStijlen = stijlen.opruimen;
-
-          const scroll = window.scrollY;
-          scrollGeheugen.set(data.current.url.path, scroll);
 
           gsap.set(data.current.container, {
             position: 'fixed',
@@ -337,11 +355,30 @@
           zetScroll(data);
           barbaWrapper.classList.remove('is__transitioning');
 
+          /* Waar de nieuwe pagina hoort te staan. zetScroll heeft dat net op de
+             echte scrollbalk gezet; met de smoother gesloopt is dat de enige
+             plek waar het staat. */
+          const doelScroll = window.scrollY;
+
           /* Pas opbouwen als de nieuwe pagina op zijn plek staat en de
              scrollpositie klopt: de smoother meet bij het aanmaken de hoogte
              van de inhoud op. */
-          window.MADEGRO?.smoother?.maak();
+          const sm = window.MADEGRO?.smoother?.maak();
           window.ScrollTrigger?.refresh();
+
+          /* En dan de stand er nog een keer in zetten. ScrollSmoother bewaart
+             zijn eigen scrollpositie over sloop() en maak() heen, en
+             ScrollTrigger.refresh() zet die met opzet terug om een sprong te
+             voorkomen. Bij een pagina-overgang is dat precies verkeerd: je klikt
+             halverwege pagina A door en komt dan halverwege pagina B uit, met een
+             scrollbalk die bovenaan staat. Zonder deze twee regels landde je
+             2200px diep in de nieuwe pagina. */
+          /* De stand gaat er als laatste in, na de refresh. Andersom werkt niet:
+             refresh() zet de onthouden stand terug en gooit hem er dan weer
+             overheen. Dat was te zien bij de vooruitknop, die op nul hoorde uit
+             te komen en op 1500 bleef staan. */
+          if (sm) sm.scrollTop(doelScroll);
+          window.scrollTo(0, doelScroll);
         },
       },
     ],

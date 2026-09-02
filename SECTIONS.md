@@ -263,6 +263,27 @@ In de bouwscripts zijn dat `paginahero()` en `vlakkenrij()` in `schil.py`; de
 kleuren van de vlakken lopen vast in dezelfde volgorde, zodat het ritme op elke
 pagina hetzelfde is.
 
+## De scrollstand bij een pagina-overgang
+
+Drie dingen moeten hier samenwerken, en ze deden dat geen van drieën vanzelf.
+
+1. **ScrollSmoother onthoudt zijn eigen stand over `kill()` en `create()` heen**,
+   en `ScrollTrigger.refresh()` zet die met opzet terug om een sprong te
+   voorkomen. Bij een pagina-overgang is dat precies verkeerd: je klikt
+   halverwege pagina A door en komt halverwege pagina B uit, met een scrollbalk
+   die bovenaan staat. Daarom zet `after` de stand er als laatste nog een keer
+   in, na de refresh.
+2. **De browser bewaart zelf ook een stand per stap in de geschiedenis.** Die
+   zette hij terug op een pagina die er nog niet stond, waarna wij het nog eens
+   deden. `history.scrollRestoration` staat daarom op `manual`; het geheugen in
+   `page-transitions.js` doet het werk.
+3. **De stand wordt opgemeten vóór `sloop()`, en bij de smoother zelf.** Na een
+   `kill()` geeft `window.scrollY` een oude waarde terug, en dan onthoud je de
+   verkeerde stand voor de verkeerde pagina. Dat was te zien bij de vooruitknop.
+
+Nagemeten: klikken vanaf een gescrolde pagina komt op nul uit, de terugknop komt
+terug op de onthouden stand, en de vooruitknop op nul als die pagina daar stond.
+
 ## Servicepagina's: `veilig-gedrag`, `ehs-rie`, `safety-checks`
 
 De kop is `.paginahero paginahero--hoog`. Die modifier zet de kop op 640px, de
