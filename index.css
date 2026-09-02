@@ -17,34 +17,37 @@
 .hero--video { opacity: 0; transition: opacity var(--duration-image) var(--ease-standard); }
 .hero--video.is-zichtbaar { opacity: 1; }
 
-/* De sluier is twee lagen. In CSS ligt de eerst genoemde laag bovenop.
+/* Geen kleur meer over de film: de groene gradient is eruit, de film houdt zijn
+   eigen kleuren. Wat blijft is een donkere aanloop naar onderen. Dat is geen
+   filter maar het temmen van het beeld waar de tekst staat, en zonder is het
+   onbruikbaar: er zit een fel verlichte loods in de film en op die beeldjes
+   staat de kop op 1,00:1. Wit op wit, de kop is dan letterlijk weg.
 
-   1. De gradient uit Figma, ongewijzigd overgenomen: #017E84, lineair, van 20%
-      dekking boven naar 80% onder.
-   2. Daaronder een donkere aanloop die niets doet aan de kleur maar wel het
-      beeld temt. Zonder die laag draagt de gradient de witte tekst niet: er zit
-      veel lucht, water en een fel verlichte loods in de film, en op de felste
-      beeldjes zakt de kop naar 2,66:1 en de introtekst naar 3,04:1, tegen een
-      eis van 3:1 en 4,5:1. Met deze laag erbij staat de kop op 4,12:1, de intro
-      op 4,84:1 en de knoppen op 5,19:1 -- gemeten over 30 beeldjes verdeeld
-      over de hele film, en dan nog op de lichtste vijf procent van elk
-      tekstvak.
+   Gemeten over 30 beeldjes verdeeld over de hele film, op de lichtste vijf
+   procent van elk tekstvak: kop 4,37:1, introtekst 5,83:1, knoppen 7,32:1,
+   tegen een eis van 3:1 en 4,5:1. 30% is de lichtste stand waarop dat lukt.
 
-      Wil je de gradient puur houden zoals in Figma, dan kan laag 2 eruit, maar
-      dan is de tekst op een deel van de film niet leesbaar genoeg. */
+   Wil je ook deze laag weg, dan is het één regel; zie CONTENT-TODO.md voor wat
+   dat kost. */
 .hero--sluier {
   position: absolute; inset: 0;
-  background:
-    linear-gradient(rgba(1, 126, 132, .20) 0%, rgba(1, 126, 132, .80) 100%),
-    linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .60) 100%);
+  background: linear-gradient(rgba(0, 0, 0, .30) 0%, rgba(0, 0, 0, .70) 100%);
 }
+/* De hero vult het scherm. min-height en niet height, zodat hij meegroeit als de
+   tekst niet past; op een kleine telefoon in liggende stand is 100vh nog geen
+   400px en dan moet de inhoud eruit kunnen lopen in plaats van afgesneden te
+   worden.
+
+   svh en niet vh: op een telefoon rekent vh met de balken van de browser
+   weggeklapt, en dan steekt de hero er bij het openen onderuit. De vh-regel
+   staat er als terugval voor browsers die svh niet kennen. */
 .hero {
   position: relative;
-  min-height: 720px; height: 80vh; max-height: 90vh;
+  min-height: 100vh;
+  min-height: 100svh;
   background-color: var(--color-groen);
   display: flex;
 }
-@media (max-width: 576px) { .hero { min-height: 560px; height: auto; max-height: none; } }
 
 .hero--container {
   position: relative; width: 100%; max-width: var(--container-max); margin-inline: auto;

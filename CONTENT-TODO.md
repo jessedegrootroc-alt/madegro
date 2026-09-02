@@ -220,6 +220,21 @@ Twee manieren om dit op te lossen:
 - **Meer stockbeeld erbij zoeken.** Kan ook, maar dan moet ik nieuwe CC0-foto&rsquo;s
   downloaden. Zeg het als je dat wilt; ik doe het niet uit mezelf.
 
+## De homepagehero: de donkere laag kan niet weg
+
+De groene gradient is er op verzoek af; de film houdt zijn eigen kleuren. Wat er
+nog ligt is een zwarte aanloop van 30% boven naar 70% onder. Dat is geen filter
+over het beeld maar het temmen ervan waar de tekst staat.
+
+Die laag kan niet weg zonder de kop onleesbaar te maken. Er zit een fel
+verlichte loods in de film en op die beeldjes haalt wit **1,00:1**: wit op wit,
+de kop is dan letterlijk niet te zien. Met de laag erop staat de kop op 4,37:1,
+de introtekst op 5,83:1 en de knoppen op 7,32:1. 30% is de lichtste stand
+waarop dat lukt.
+
+Wil je toch een kalere film, dan is de weg: een ander fragment kiezen zonder die
+loods, of de tekst uit het beeld halen en op een vlak eronder zetten.
+
 ## Het contactvlak is niet leesbaar genoeg
 
 Het patroon staat daar op volle sterkte, zonder waas. Dat is een keuze, geen

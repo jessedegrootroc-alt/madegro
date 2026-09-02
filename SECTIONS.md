@@ -457,14 +457,15 @@ De film komt pas in beeld bij `playing` en niet bij `canplay`: weigert de
 browser het automatisch afspelen, en dat mag hij, dan zie je de foto in plaats
 van een stilstaand eerste beeldje.
 
-De sluier is twee gestapelde verlopen; de eerst genoemde ligt in CSS bovenop:
+De hero vult het scherm: `min-height: 100svh`, niet `height`. Zo groeit hij mee
+als de tekst niet past, en dat gebeurt: op 375 bij 667 is de hero 751px hoog,
+want de kop, twee alinea's en twee knoppen passen niet in 667. `svh` en niet
+`vh`, anders steekt hij op een telefoon onder de browserbalken uit.
 
-| laag | wat | waarom |
-|---|---|---|
-| 1 | `#017E84`, 20% boven naar 80% onder | de gradient uit Figma, ongewijzigd |
-| 2 | zwart, 0% boven naar 60% onder | draagt de witte tekst; zonder deze laag zakt de kop naar 2,66:1 |
-
-Zie de toelichting in `index.css` voor de gemeten waarden.
+Over de film ligt alleen nog een zwarte aanloop van 30% naar 70%. De groene
+gradient uit Figma is er op verzoek af; de film houdt zijn eigen kleuren. De
+zwarte laag kan er niet ook af: op de beeldjes met de verlichte loods staat wit
+op wit en haalt de kop 1,00:1. Zie `index.css` en CONTENT-TODO.md.
 
 
 ## Paginahero met het merkpatroon
