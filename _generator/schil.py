@@ -334,22 +334,39 @@ BEELD_MATEN_3 = "(max-width: 991px) 100vw, 33vw"
 
 
 def foto(sleutel, klasse='', laden='lazy', maten='100vw', alt=None):
-    """Eén beeld met srcset. De alt-tekst beschrijft wat er te
-       zien is; bij puur decoratief beeld geef je alt='' mee.
+    """Eén beeld, in AVIF met WebP als terugval, in meerdere breedtes.
 
-       Twee of drie maten in de srcset, afhankelijk van of er een middenmaat is.
-       De browser kiest zelf, op grond van sizes en de pixeldichtheid van het
-       scherm."""
+       <picture> met een AVIF-bron en een WebP-<img>. AVIF is bij gelijke
+       kwaliteit ruwweg een derde tot de helft kleiner dan WebP; elke browser van
+       de laatste jaren kan het lezen, en wie het niet kan krijgt de WebP. De
+       browser kiest de breedte zelf, op grond van sizes en de pixeldichtheid.
+
+       De breedtes komen uit MATEN[sleutel] als die er is, anders uit de tuple
+       (kleine, middel, grote maat). Bestanden heten <naam>-<breedte>.<ext>.
+       width en height zijn die van de grootste maat; ze leggen de verhouding
+       vast, zodat er niets verspringt terwijl het beeld nog laadt.
+
+       De alt-tekst beschrijft wat er te zien is; bij puur decoratief beeld geef
+       je alt='' mee."""
     naam, gb, gh, kb, kh, standaard_alt, map_, mb = FOTOS[sleutel]
     tekst = standaard_alt if alt is None else alt
     prioriteit = ' fetchpriority="high" decoding="async"' if laden == 'eager' else ' decoding="async"'
-    maten_lijst = sorted({kb, gb} | ({mb} if mb else set()))
-    srcset = ', '.join(f'assets/{map_}/{naam}-{b}.webp {b}w' for b in maten_lijst)
-    return (f'<img src="assets/{map_}/{naam}-{gb}.webp" '
-            f'srcset="{srcset}" '
-            f'sizes="{maten}" width="{gb}" height="{gh}" alt="{tekst}" '
-            f'loading="{laden}"{prioriteit}'
-            + (f' class="{klasse}"' if klasse else '') + '>')
+    breedtes = sorted(MATEN.get(sleutel) or ({kb, gb} | ({mb} if mb else set())))
+    bron = lambda ext: ', '.join(f'assets/{map_}/{naam}-{b}.{ext} {b}w' for b in breedtes)
+    klasse_attr = f' class="{klasse}"' if klasse else ''
+    return (f'<picture>'
+            f'<source type="image/avif" srcset="{bron("avif")}" sizes="{maten}">'
+            f'<img src="assets/{map_}/{naam}-{gb}.webp" srcset="{bron("webp")}" sizes="{maten}" '
+            f'width="{gb}" height="{gh}" alt="{tekst}" loading="{laden}"{prioriteit}{klasse_attr}>'
+            f'</picture>')
+
+
+# Per fotosleutel de breedtes die er als bestand van bestaan. Staat een sleutel
+# hier niet in, dan gelden de maten uit de FOTOS-tuple. De ladder is afgestemd
+# op waar het beeld staat: een band over de volle breedte gaat tot 2400, een
+# kaart van een derde pagina hoeft niet verder dan 960.
+MATEN = {}
+
 
 PIJL = ('<svg class="arrow--animation is-{n}" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">'
         '<path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>')

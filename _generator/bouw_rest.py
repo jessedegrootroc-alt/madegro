@@ -195,7 +195,6 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
             <span class="panel__meta">Environment, Health &amp; Safety</span>
             <h3 class="panel__title">EHS-Services</h3>
             <p class="panel__body">Vaste partner voor vraagstukken rond milieu, arbeidshygi&euml;ne en gecertificeerde toetsing.</p>
-            <p class="panel__actie"><a class="button button--link" href="https://www.ehs-services.nl" target="_blank" rel="noopener">Naar de website</a></p>
           </div>
         </div>
         <div>

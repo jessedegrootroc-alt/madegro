@@ -63,11 +63,6 @@ def partners(items):
             <span class="panel__meta">{sub}</span>
             <h3 class="panel__title">{naam}</h3>
             <p class="panel__body">{tekst}</p>
-            <p class="panel__actie">
-              <a class="button button--link" href="{link}" target="_blank" rel="noopener">
-                Naar de website
-              </a>
-            </p>
           </div>
         </div>''' for i, (naam, sub, tekst, link) in enumerate(items))
 
