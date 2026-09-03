@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pathlib
 """
 Gedeelde paginaschil voor de MADEGRO-site.
 
@@ -25,13 +26,13 @@ NAV = []
 # in. Zodra Martin foto's van zijn eigen cursussen heeft, vervangen die deze.
 CURSUSSEN = [
     ("cursus-veiligheidsbewustzijn.html", "Veiligheidsbewustzijn op de werkvloer",
-     "Voor operators en uitvoerenden", "1 dagdeel", "productiehal"),
+     "Voor operators en uitvoerenden", "1 dagdeel", "cursus-bewustzijn-bouw"),
     ("cursus-risicobeoordeling.html", "Risico&rsquo;s herkennen en beoordelen",
-     "Voor voormannen en teamleiders", "2 dagdelen", "transport"),
+     "Voor voormannen en teamleiders", "2 dagdelen", "cursus-risico-lijn"),
     ("cursus-veiligheidsladder.html", "Werken met de Veiligheidsladder",
-     "Voor KAM- en HSE-co&ouml;rdinatoren", "3 dagdelen", "bouwplaats"),
+     "Voor KAM- en HSE-co&ouml;rdinatoren", "3 dagdelen", "cursus-ladder-helmen"),
     ("cursus-rie-praktijk.html", "RI&amp;E in de praktijk",
-     "Voor preventiemedewerkers", "2 dagdelen", "overleg"),
+     "Voor preventiemedewerkers", "2 dagdelen", "cursus-rie-tablet"),
 ]
 
 
@@ -324,6 +325,16 @@ FOTOS = {
     'terrein':      ('madegro-terrein', 1520, 993, 800, 523,
                      'Bedrijfsterrein van boven: een vrachtwagen rijdt door de scanpoort naar de slagboom, bij de portiersloge en het tourniquet controleren medewerkers de toegang, en camera&rsquo;s houden het hek en de laadkuil in de gaten',
                      'illustratie', None),
+    # Cursusfoto's, aangeleverd door Jesse op 3 september 2026 (assets/foto/bron/).
+    # De maten staan in MATEN; width/height hier zijn die van de grootste maat.
+    'cursus-bewustzijn-bouw': ('cursus-bewustzijn-bouw', 1920, 1280, 480, 320,
+                     'Uitvoerder in oranje veiligheidsjas kijkt toe terwijl twee bouwvakkers wapening vlechten op een bouwplaats', 'foto', 1200),
+    'cursus-risico-lijn':     ('cursus-risico-lijn', 2400, 1600, 480, 320,
+                     'Medewerker in blauwe overall en gele helm bedient een machine aan een productielijn vol slangen en kabels', 'foto', 1200),
+    'cursus-ladder-helmen':   ('cursus-ladder-helmen', 2400, 1347, 480, 269,
+                     'Twee medewerkers met helm en hesje kijken omhoog in een installatie, een van hen met een tekening in de hand', 'foto', 1200),
+    'cursus-rie-tablet':      ('cursus-rie-tablet', 700, 525, 480, 360,
+                     'Man met tablet op een bordes boven een productielijn met robotarmen', 'foto', None),
 }
 
 
@@ -354,8 +365,21 @@ def foto(sleutel, klasse='', laden='lazy', maten='100vw', alt=None):
     breedtes = sorted(MATEN.get(sleutel) or ({kb, gb} | ({mb} if mb else set())))
     bron = lambda ext: ', '.join(f'assets/{map_}/{naam}-{b}.{ext} {b}w' for b in breedtes)
     klasse_attr = f' class="{klasse}"' if klasse else ''
-    return (f'<picture>'
-            f'<source type="image/avif" srcset="{bron("avif")}" sizes="{maten}">'
+
+    # Vangnet. Een <source> naar een bestand dat er niet is, is erger dan geen
+    # <source>: de browser kiest de AVIF-bron op type, en valt bij een 404 NIET
+    # terug op de WebP. Je krijgt dan een kapot beeld. Dat is precies wat er
+    # gebeurde toen zes foto's wel een WebP hadden en nog geen AVIF. Dus: alleen
+    # een AVIF-bron als elk bestand in die srcset ook echt op schijf staat, en
+    # anders hard stoppen als ook de WebP ontbreekt, want dan is de build fout.
+    wortel = pathlib.Path(__file__).resolve().parent.parent
+    ontbreekt = [b for b in breedtes if not (wortel / f'assets/{map_}/{naam}-{b}.webp').exists()]
+    if ontbreekt:
+        raise FileNotFoundError(f'foto {sleutel!r}: WebP ontbreekt voor breedte(s) {ontbreekt}')
+    avif_compleet = all((wortel / f'assets/{map_}/{naam}-{b}.avif').exists() for b in breedtes)
+    avif_bron = f'<source type="image/avif" srcset="{bron("avif")}" sizes="{maten}">' if avif_compleet else ''
+
+    return (f'<picture>{avif_bron}'
             f'<img src="assets/{map_}/{naam}-{gb}.webp" srcset="{bron("webp")}" sizes="{maten}" '
             f'width="{gb}" height="{gh}" alt="{tekst}" loading="{laden}"{prioriteit}{klasse_attr}>'
             f'</picture>')
@@ -365,7 +389,12 @@ def foto(sleutel, klasse='', laden='lazy', maten='100vw', alt=None):
 # hier niet in, dan gelden de maten uit de FOTOS-tuple. De ladder is afgestemd
 # op waar het beeld staat: een band over de volle breedte gaat tot 2400, een
 # kaart van een derde pagina hoeft niet verder dan 960.
-MATEN = {}
+MATEN = {
+    'cursus-bewustzijn-bouw': [480, 800, 1200, 1800, 1920],
+    'cursus-risico-lijn':     [480, 800, 1200, 1800, 2400],
+    'cursus-ladder-helmen':   [480, 800, 1200, 1800, 2400],
+    'cursus-rie-tablet':      [480, 700],
+}
 
 
 PIJL = ('<svg class="arrow--animation is-{n}" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">'

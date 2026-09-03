@@ -235,6 +235,26 @@ waarop dat lukt.
 Wil je toch een kalere film, dan is de weg: een ander fragment kiezen zonder die
 loods, of de tekst uit het beeld halen en op een vlak eronder zetten.
 
+## De vier cursusfoto's: licentie, een logo en een te klein bestand
+
+De cursuspagina's en -kaarten hebben sinds 3 september 2026 de vier foto's die
+Jesse aanleverde. Drie dingen om na te gaan voor het live gaat:
+
+1. **Licentie.** Er zat geen bron bij en het zijn duidelijk professionele foto's.
+   Vaststellen dat MADEGRO ze commercieel mag gebruiken, of vervangen.
+2. **Het PILZ-logo** op de witte helm in de foto bij Werken met de
+   Veiligheidsladder. Dat is een bestaand bedrijf in machineveiligheid; hun merk
+   staat nu prominent op een MADEGRO-pagina. Kiezen: accepteren, een andere foto,
+   of laten retoucheren.
+3. **De foto bij RI&E in de praktijk is 700 pixels breed.** Als hero over de volle
+   breedte wordt hij op een bureaublad meer dan drie keer opgerekt en is hij
+   zacht. Een versie van minstens 2400 pixels breed is nodig; tot die er is staat
+   hij er wel, omdat een passende maar zachte foto beter is dan een scherpe die
+   nergens over gaat.
+
+Op de achtergrond van de foto bij Veiligheidsbewustzijn staat een gebouw met
+kpn-belettering. Klein en onscherp, maar wel zichtbaar.
+
 ## Het contactvlak is niet leesbaar genoeg
 
 Het patroon staat daar op volle sterkte, zonder waas. Dat is een keuze, geen

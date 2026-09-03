@@ -64,3 +64,23 @@ het kader.
 **Niet meer in gebruik.** Vervangen door martinv3.png. De afgeleiden zijn
 verwijderd; het origineel blijft staan.
 
+
+
+## Cursusfoto's (aangeleverd, 3 september 2026)
+
+Vier foto's, aangeleverd door Jesse als PNG en bewaard in `bron/`. **De licentie
+is bij ons niet bekend**: het zijn professionele foto's die eruitzien als
+stock- of persmateriaal. Voor het live gaat moet vaststaan dat MADEGRO ze mag
+gebruiken; zie CONTENT-TODO.md.
+
+| Bestand | Bron | Waar | Let op |
+|---|---|---|---|
+| `cursus-bewustzijn-bouw-*` | `Veiligheidsbewustzijn.png`, 1920x1280 | hero en kaart van Veiligheidsbewustzijn op de werkvloer | op de achtergrond een gebouw met kpn-belettering |
+| `cursus-risico-lijn-*` | `riscios herkennen.png`, 3600x2400 | hero en kaart van Risico's herkennen en beoordelen | |
+| `cursus-ladder-helmen-*` | `veiligheidsladder.png`, 3111x1746 | hero en kaart van Werken met de Veiligheidsladder | de witte helm draagt het logo van PILZ, een bestaand bedrijf in machineveiligheid |
+| `cursus-rie-tablet-*` | `ri&e.png`, 700x525 | hero en kaart van RI&E in de praktijk | **te klein voor een hero**: 700px breed, wordt op een bureaublad tot 2400px opgerekt en is dan zacht |
+
+Bewerking: niet bijgesneden (de hero's en kaarten snijden zelf met
+`object-fit: cover`), alleen verkleind naar de breedtes in `MATEN` en gecodeerd
+zonder metadata: WebP kwaliteit 82, AVIF kwaliteit 62. De browser kiest per
+scherm de kleinste maat die scherp is.
