@@ -274,22 +274,23 @@
      draait: zonder script zou je op pijlen klikken die niets doen. */
   /* ------------------------------------------------------------ herovideo --
      De film hangt niet in de HTML maar wordt hier pas ingehangen. Reden: het is
-     anderhalve megabyte, en er zijn vier gevallen waarin je die beter niet
+     anderhalve megabyte, en er zijn drie gevallen waarin je die beter niet
      ophaalt. Zonder JavaScript gebeurt er dus niets en blijft het bij de foto,
      die het eerste beeldje van dezelfde film is.
 
-     De grens stond op 768px en staat nu op 600. Op 768 kreeg een bureaublad met
-     een half scherm breed venster geen film, en dat ziet eruit als een storing;
-     een telefoon staand is 390 tot 430px en blijft er ruim onder. Voor de
-     gevallen waar het echt om gaat, een trage of betaalde verbinding, staan de
-     twee regels eronder: die zeggen meer over de lijn dan de vensterbreedte.
+     Er is geen grens op schermbreedte meer; de film speelt ook op een telefoon.
+     Die stond hier eerst wel (768, later 600px), maar breedte zegt niets over
+     de verbinding: een telefoon op wifi kan het prima aan, een laptop op een
+     hotspot niet. De twee regels over de lijn hieronder maken dat onderscheid
+     wel, en die blijven. Het bestand blijft dezelfde 1,5 MB op elk scherm: op
+     een staande telefoon wordt van de 16:9-film maar het middelste kwart
+     gebruikt, dus een kleinere versie zou daar juist het snelst onscherp worden.
 
      Pas zichtbaar bij 'playing' en niet bij 'canplay': weigert de browser het
      automatisch afspelen -- dat mag hij -- dan blijft de foto staan in plaats
      van een stilstaand eerste beeldje. */
   container.querySelectorAll('[data-herovideo]').forEach((video) => {
     if (kalm.matches) return;                                   // beweging uit
-    if (!window.matchMedia('(min-width: 600px)').matches) return;  // telefoon
     if (navigator.connection?.saveData) return;                 // databesparing aan
     if (/^(slow-)?2g$/.test(navigator.connection?.effectiveType || '')) return;  // trage lijn
 
@@ -300,6 +301,18 @@
     video.addEventListener('playing', () => video.classList.add('is-zichtbaar'), { once: true });
     video.load();
     video.play().catch(() => {});
+
+    /* Op een telefoon zet de browser de film stil zodra je naar een andere app
+       of een ander tabblad gaat, en niet elke browser zet hem weer aan als je
+       terugkomt. Dan sta je op een bevroren beeldje. Dus bij terugkomst nog een
+       keer play(); weigert de browser dat, dan blijft het stil en is er niets
+       kapot. De listener hangt aan het document en gaat mee weg met de rest van
+       deze pagina via het signaal. */
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && video.paused && video.isConnected) {
+        video.play().catch(() => {});
+      }
+    }, { signal: window.__madegroVast?.signal });
   });
 
   container.querySelectorAll('[data-quoteslider]').forEach((venster) => {

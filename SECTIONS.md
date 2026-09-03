@@ -476,15 +476,26 @@ Drie lagen over elkaar in `.hero--beeld`:
 2. de film erover, op `opacity: 0` tot hij speelt;
 3. de sluier.
 
-`site.js` hangt de bron van de film er pas in, en alleen als het scherm minstens
-768px breed is, `prefers-reduced-motion` uit staat en de bezoeker geen
-databesparing aan heeft. Valt een van die drie weg, dan blijft het bij de foto,
-en dat is het eerste beeldje van dezelfde film. Zonder JavaScript gebeurt er
-niets en is de uitkomst hetzelfde.
+`site.js` hangt de bron van de film er pas in, en alleen als
+`prefers-reduced-motion` uit staat, de bezoeker geen databesparing aan heeft en
+de lijn geen 2G is. Valt een van die drie weg, dan blijft het bij de foto, en
+dat is het eerste beeldje van dezelfde film. Zonder JavaScript gebeurt er niets
+en is de uitkomst hetzelfde.
+
+Op schermbreedte wordt niet meer gekeken; de film speelt ook op een telefoon.
+Die grens stond er eerst wel (768, later 600px), maar breedte zegt niets over de
+verbinding, en daar gaat het om. Het is op elk scherm hetzelfde bestand van
+1,5 MB: op een staande telefoon wordt van de 16:9-film maar het middelste kwart
+gebruikt, dus een kleinere versie zou daar juist als eerste onscherp worden.
 
 De film komt pas in beeld bij `playing` en niet bij `canplay`: weigert de
 browser het automatisch afspelen, en dat mag hij, dan zie je de foto in plaats
 van een stilstaand eerste beeldje.
+
+Ga je op een telefoon naar een andere app of een ander tabblad, dan zet de
+browser de film stil, en niet elke browser zet hem weer aan als je terugkomt.
+Daarom doet `site.js` bij `visibilitychange` nog een keer `play()` als de film
+stilstaat. Weigert de browser dat, dan blijft het stil en is er niets kapot.
 
 De hero vult het scherm: `min-height: 100svh`, niet `height`. Zo groeit hij mee
 als de tekst niet past, en dat gebeurt: op 375 bij 667 is de hero 751px hoog,
