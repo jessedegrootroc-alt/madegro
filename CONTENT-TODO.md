@@ -255,6 +255,25 @@ Jesse aanleverde. Drie dingen om na te gaan voor het live gaat:
 Op de achtergrond van de foto bij Veiligheidsbewustzijn staat een gebouw met
 kpn-belettering. Klein en onscherp, maar wel zichtbaar.
 
+## De drie dienstfoto's: licentie, een logo van een ander bedrijf en Engelse borden
+
+De dienstpagina's en de dienstkaarten op de homepage hebben sinds 3 september
+2026 de drie foto's die Jesse aanleverde. Na te gaan voor het live gaat:
+
+1. **Licentie.** Zoals bij de cursusfoto's: geen bron erbij, wel professioneel
+   beeld. Vaststellen dat MADEGRO ze commercieel mag gebruiken, of vervangen.
+2. **Het hesje op de foto bij EHS RI&E** draagt het logo en de slogan van
+   EHS-services ("a passion for change"). Dat is een ander adviesbureau, dat zo
+   met naam en logo op de pagina van MADEGRO staat. Kiezen: een andere foto, of
+   het logo laten retoucheren.
+3. **De borden op de foto bij Safety Checks zijn Engels**: SAFETY FIRST,
+   MANDATORY PPE, EMERGENCY STOP en een klembord met RISK ASSESSMENT. Op een
+   Nederlandse site over Nederlandse werkvloeren valt dat op. Rechts in beeld
+   hangt bovendien een bord met tekst die niet te lezen is.
+4. **Resolutie.** 1024 en 1200 pixels breed. Scherp op een telefoon en op een
+   gewoon bureaublad, wat zacht op een groot retinascherm. Niet zo krap als de
+   cursusfoto van 700 pixels, maar 2400 breed zou beter zijn.
+
 ## Het contactvlak is niet leesbaar genoeg
 
 Het patroon staat daar op volle sterkte, zonder waas. Dat is een keuze, geen

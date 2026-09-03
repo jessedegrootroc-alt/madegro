@@ -84,3 +84,30 @@ Bewerking: niet bijgesneden (de hero's en kaarten snijden zelf met
 `object-fit: cover`), alleen verkleind naar de breedtes in `MATEN` en gecodeerd
 zonder metadata: WebP kwaliteit 82, AVIF kwaliteit 62. De browser kiest per
 scherm de kleinste maat die scherp is.
+
+## Dienstfoto's (aangeleverd, 3 september 2026)
+
+Drie foto's, aangeleverd door Jesse als PNG en bewaard in `bron/`. Zelfde
+voorbehoud als bij de cursusfoto's: **de licentie is bij ons niet bekend**; zie
+CONTENT-TODO.md.
+
+| Bestand | Bron | Waar | Let op |
+|---|---|---|---|
+| `dienst-gedrag-*` | `veiligheidsgedrag.png`, 1024x683 | hero van Veilig gedrag en de dienstkaart op de homepage | |
+| `dienst-rie-*` | `ehs rie.png`, 1024x565 | hero van EHS RI&E en de dienstkaart op de homepage | het gele hesje draagt het logo en de slogan van EHS-services, een ander bedrijf |
+| `dienst-checks-*` | `savety check.png`, 1200x670 | hero van Safety Checks en de dienstkaart op de homepage | Engelse bordteksten in beeld: SAFETY FIRST, MANDATORY PPE, EMERGENCY STOP en een klembord met RISK ASSESSMENT |
+
+Alle drie zijn aan de krappe kant voor de hero. Die is op een bureaublad de
+halve schermbreedte: 960 CSS-pixels op een scherm van 1920, en op een
+retinascherm het dubbele daarvan. Boven de bronbreedte (1024 of 1200) rekt de
+browser op. Op een telefoon en op een gewoon bureaublad is daar niets van te
+zien; op een groot retinascherm zijn ze wat zachter dan de cursusfoto's.
+
+Bewerking als bij de cursusfoto's: niet bijgesneden, verkleind naar 480, 800 en
+de bronbreedte, WebP kwaliteit 82 en AVIF kwaliteit 62, zonder metadata. Samen
+drie keer drie maten in twee formaten, 726 kB in totaal; per paginaweergave laadt
+er daarvan één bestand van 13 tot 83 kB.
+
+De CC0-foto's die op deze plekken stonden (`overleg`, `lassen`, `haven`)
+blijven in gebruik op de cases, de cursuspagina's en in de dienstenkaart van het
+menu.

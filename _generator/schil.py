@@ -241,9 +241,9 @@ def case(slug):
 
 # Vierde veld: de beeldsleutel, net als bij CURSUSSEN.
 SERVICES = [
-    ("veilig-gedrag.html", "Veilig gedrag", "Van papier naar werkvloer", "overleg"),
-    ("ehs-rie.html", "EHS RIE", "Risico&rsquo;s in kaart, met een plan dat werkt", "lassen"),
-    ("safety-checks.html", "Safety Checks", "Periodiek toetsen wat er echt gebeurt", "haven"),
+    ("veilig-gedrag.html", "Veilig gedrag", "Van papier naar werkvloer", "dienst-gedrag"),
+    ("ehs-rie.html", "EHS RIE", "Risico&rsquo;s in kaart, met een plan dat werkt", "dienst-rie"),
+    ("safety-checks.html", "Safety Checks", "Periodiek toetsen wat er echt gebeurt", "dienst-checks"),
 ]
 
 def bouw_nav():
@@ -335,6 +335,15 @@ FOTOS = {
                      'Twee medewerkers met helm en hesje kijken omhoog in een installatie, een van hen met een tekening in de hand', 'foto', 1200),
     'cursus-rie-tablet':      ('cursus-rie-tablet', 700, 525, 480, 360,
                      'Man met tablet op een bordes boven een productielijn met robotarmen', 'foto', None),
+    # Dienstfoto's, aangeleverd door Jesse op 3 september 2026 (assets/foto/bron/).
+    # Hero van de dienstpagina en de dienstkaart op de homepage; zelfde beeld
+    # op beide plekken, zodat je na een klik ziet waar je vandaan komt.
+    'dienst-gedrag': ('dienst-gedrag', 1024, 683, 480, 320,
+                     'Twee medewerkers in oranje hesje en gele helm kijken toe hoe een collega een machine in de werkplaats bedient', 'foto', None),
+    'dienst-rie':    ('dienst-rie', 1024, 565, 480, 265,
+                     'Adviseur in geel hesje en blauwe helm legt iets uit aan drie collega\u2019s op een bouwlocatie', 'foto', None),
+    'dienst-checks': ('dienst-checks', 1200, 670, 480, 268,
+                     'Veiligheidskundige met helm en klembord test de noodstop van een machine in een productiehal, terwijl een collega met tablet de afscherming controleert', 'foto', None),
 }
 
 
@@ -394,6 +403,9 @@ MATEN = {
     'cursus-risico-lijn':     [480, 800, 1200, 1800, 2400],
     'cursus-ladder-helmen':   [480, 800, 1200, 1800, 2400],
     'cursus-rie-tablet':      [480, 700],
+    'dienst-gedrag':          [480, 800, 1024],
+    'dienst-rie':             [480, 800, 1024],
+    'dienst-checks':          [480, 800, 1200],
 }
 
 
