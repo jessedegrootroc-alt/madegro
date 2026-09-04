@@ -27,6 +27,7 @@ servicepagina({
     "service_type": "Veiligheidscultuur en gedragsverandering",
     "service_naam": "Veilig gedrag",
     "hero_foto": "dienst-gedrag",
+    "hero_positie": "links",
     "eyebrow": "Dienst 01",
     "h1": "Veilig gedrag",
     "intro": '''          <p>De regels staan op papier, de instructies zijn gegeven, en toch zie je op de vloer iets anders gebeuren. Dat is zelden onwil. Meestal is het gewoonte, tijdsdruk, of een procedure die in de praktijk niet werkt.</p>
@@ -96,6 +97,8 @@ servicepagina({
     # Zelfde beeld als de dienstkaart op de homepage, zodat je na een klik
     # ziet waar je vandaan komt.
     "hero_foto": "dienst-rie",
+    # Midden: de adviseur staat rechts van het midden, links uitlijnen zou hem
+    # half wegsnijden.
     "eyebrow": "Dienst 02",
     "h1": "EHS RI&amp;E",
     "intro": '''          <p>De risico-inventarisatie en -evaluatie is voor vrijwel elke werkgever in Nederland verplicht (Arbowet, artikel 5), inclusief een plan van aanpak. Heb je meer dan 25 medewerkers, dan moet een gecertificeerde kerndeskundige de RI&amp;E toetsen.</p>
@@ -161,6 +164,7 @@ servicepagina({
     "service_type": "Veiligheidsinspectie en audit",
     "service_naam": "Safety Checks",
     "hero_foto": "dienst-checks",
+    "hero_positie": "links",
     "eyebrow": "Dienst 03",
     "h1": "Safety Checks",
     "intro": '''          <p>Een safety check is een controle op de werkvloer: voldoet wat er in de praktijk gebeurt aan de kwaliteits- en veiligheidseisen die voor jouw bedrijf gelden? Niet vanuit de kantoortafel, maar lopend, kijkend en vragend.</p>

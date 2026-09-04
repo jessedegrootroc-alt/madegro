@@ -1145,6 +1145,13 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
    object-position blijft daarom op het midden staan en niet op de 40% die een
    foto hier krijgt, want dat zou de stralen half wegsnijden. */
 .paginahero--patroon .paginahero__beeld img { object-position: center; }
+/* Liggende foto in een vak dat op een bureaublad bijna vierkant is: de
+   zijkanten vallen af. Standaard blijft het midden over; met deze modifier de
+   linkerkant, voor foto's waar het onderwerp links staat. Alleen naast de kop:
+   onder 768px is de band breed en laag en snijdt hij juist boven en onder. */
+@media (min-width: 768px) {
+  .paginahero--beeld-links .paginahero__beeld img { object-position: left 40%; }
+}
 /* De balk staat vast over de bovenkant van de pagina heen, en dus over de
    bovenkant van het patroon. Bij een foto valt dat niet op, bij een patroon met
    een getekende compositie wel: op 900px lag een derde eronder. De hero wordt

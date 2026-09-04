@@ -90,8 +90,12 @@ def projecten(dienst):
 
 
 def servicepagina(cfg):
+    # Welke kant van de foto overblijft als het vak smaller is dan de foto.
+    # Op een bureaublad is het vak bijna vierkant en de foto's zijn liggend, dus
+    # er valt altijd een deel af; "links" houdt de linkerhelft, anders het midden.
+    hero_klasse = " paginahero--beeld-links" if cfg.get("hero_positie") == "links" else ""
     inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->
-  <section class="paginahero paginahero--hoog" id="s01-introductie">
+  <section class="paginahero paginahero--hoog{hero_klasse}" id="s01-introductie">
     <div class="paginahero__kop">
       <span class="subtitle">{cfg["eyebrow"]}</span>
       <h1 class="paginahero__titel">{cfg["h1"]}</h1>
