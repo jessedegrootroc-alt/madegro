@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.madegro.nl/sitemap.xml
+Sitemap: https://madegro.vercel.app/sitemap.xml

@@ -9,7 +9,12 @@ bestand hoort dan ook niet bij de site, het is gereedschap om de dertien pagina'
 identiek te houden terwijl ze gebouwd worden.
 """
 
-BASIS = "https://www.madegro.nl"
+# Waar de site nu echt staat. Deelvoorbeelden, canonical, sitemap en robots
+# verwijzen hierheen; een platform haalt de deelafbeelding op van deze host, en
+# zolang madegro.nl niets serveert (https faalt, http geeft 403) blijft het
+# voorbeeld leeg als hier het echte domein staat. Zodra het domein aan Vercel
+# hangt: hier terug naar https://www.madegro.nl en opnieuw bouwen.
+BASIS = "https://madegro.vercel.app"
 
 # Het hoofdmenu. Een item is óf een gewone link, óf een uitklapper met sublinks
 # en een kaart ernaast. De drie diensten en de vier cursussen stonden hier

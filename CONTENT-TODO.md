@@ -343,9 +343,9 @@ aangeleverd en vervangen de placeholders: het beeldmerk uit het logo als
 (`assets/favicon/`), en `assets/social/madegro-deelafbeelding.png` van 1200 bij
 630 voor LinkedIn, WhatsApp en de rest. Het beeldmerk is als PNG van 170 pixels
 geleverd; een SVG zou op elke schaal scherp blijven, vraag die op als hij er
-is. De deelafbeelding wordt pas zichtbaar in deelvoorbeelden zodra hij op
-`https://www.madegro.nl/assets/social/` staat; van localhost kan geen enkel
-platform hem ophalen.
+is. De tags verwijzen naar de host waar de site nu staat, `madegro.vercel.app`;
+daar haalt een platform de deelafbeelding op. Op 4 september 2026 wees de tag
+nog naar `www.madegro.nl`, dat niets serveert, en bleef het voorbeeld leeg.
 
 **2. De ondertitel is in de balk onleesbaar.** Het logo is 5,68:1 en draagt
 &ldquo;Kwaliteit | Arbo | Milieu&rdquo; in de onderste helft. Op 32 px hoog wordt die regel
@@ -476,5 +476,8 @@ gele blokken. Daar hoort niets verzonnen te worden:
   `contactformulier.js` (`ENDPOINT`).
 - **Statistieken laden niet.** Zet het meet-ID in `analytics.js` (`META_ID`).
 - **Het logo** is een voorlopig woordmerk in `assets/logo/madegro-logo.svg`.
-- **De domeinnaam** staat als `https://www.madegro.nl` in de canonical-tags,
-  `sitemap.xml` en `robots.txt`. Aanpassen als dat anders wordt.
+- **De domeinnaam** staat als `https://madegro.vercel.app` in de canonical-tags,
+  de Open Graph-tags, `sitemap.xml` en `robots.txt`: dat is waar de site nu
+  draait. Zodra `madegro.nl` aan Vercel hangt: `BASIS` in `_generator/schil.py`
+  terug naar `https://www.madegro.nl`, opnieuw bouwen, en dezelfde vervanging in
+  `sitemap.xml` en `robots.txt` (die twee worden niet gegenereerd).
