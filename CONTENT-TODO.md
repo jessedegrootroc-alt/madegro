@@ -337,9 +337,15 @@ Nog te beslissen: het logo draagt ook een bleekgeel `#EBE184` en de site een fel
 zoals het groen die nu wel heeft. Zeg het als je die erbij wilt, dat is &eacute;&eacute;n
 token.
 
-De favicon (`assets/favicon/favicon.svg`) en de deelafbeelding
-(`assets/social/madegro-deelafbeelding.png`) staan nog in de oude
-placeholderkleuren en horen bij dezelfde beslissing.
+De favicon en de deelafbeelding zijn op 4 september 2026 door Jesse
+aangeleverd en vervangen de placeholders: het beeldmerk uit het logo als
+`favicon.ico`, PNG van 32 en 192 en een apple-touch-icon op wit
+(`assets/favicon/`), en `assets/social/madegro-deelafbeelding.png` van 1200 bij
+630 voor LinkedIn, WhatsApp en de rest. Het beeldmerk is als PNG van 170 pixels
+geleverd; een SVG zou op elke schaal scherp blijven, vraag die op als hij er
+is. De deelafbeelding wordt pas zichtbaar in deelvoorbeelden zodra hij op
+`https://www.madegro.nl/assets/social/` staat; van localhost kan geen enkel
+platform hem ophalen.
 
 **2. De ondertitel is in de balk onleesbaar.** Het logo is 5,68:1 en draagt
 &ldquo;Kwaliteit | Arbo | Milieu&rdquo; in de onderste helft. Op 32 px hoog wordt die regel

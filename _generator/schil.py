@@ -718,7 +718,9 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 <noscript><link rel="stylesheet" href="cookiebalk.css" /></noscript>
 <link rel="stylesheet" href="{pagina_css}" data-page-css="{css_naam}" />
 
-<link rel="icon" href="assets/favicon/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="assets/favicon/favicon.ico" sizes="16x16 32x32 48x48" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/favicon-192.png" />
 <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png" />
 
 <meta property="og:type" content="website" />
@@ -728,7 +730,12 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 <meta property="og:title" content="{titel}" />
 <meta property="og:description" content="{omschrijving}" />
 <meta property="og:image" content="{BASIS}/assets/social/madegro-deelafbeelding.png" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="MADEGRO: van risico naar grip op de werkvloer" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="{BASIS}/assets/social/madegro-deelafbeelding.png" />
 <meta name="twitter:title" content="{titel}" />
 <meta name="twitter:description" content="{omschrijving}" />
 
