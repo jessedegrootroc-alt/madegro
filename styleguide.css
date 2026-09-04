@@ -1125,6 +1125,14 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
    grijs blok met alleen een titel erin, ruim een scherm hoog. */
 @media (min-width: 768px) {
   .paginahero--hoog .paginahero__kop { min-height: 640px; }
+  /* Kop 40, foto 60. Het fotovak is met de hoogte van 640px bijna vierkant en
+     de dienstfoto's zijn liggend; op 50/50 viel ruim veertig procent van de
+     breedte af. Op 60 procent is dat nog een kwart, en de kop heeft aan veertig
+     procent genoeg: een label en een titel van twee woorden. Alleen voor de
+     dienstpagina's (--hoog); de patroonhero's blijven 50/50, want dat patroon
+     is voor een vak van die verhouding getekend. */
+  .paginahero--hoog .paginahero__kop   { flex: 1 1 40%; }
+  .paginahero--hoog .paginahero__beeld { flex: 1 1 60%; }
 }
 
 .paginahero__titel {
@@ -1172,6 +1180,11 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
      In een kolom is flex-basis de hoogte, dus die moet hier vast staan: een
      percentage rekent tegen een onbepaalde hoogte en wordt dan nul. */
   .paginahero__beeld { order: -1; flex: 0 0 220px; }
+  /* De balk ligt vast over de bovenkant van de pagina en dus over de bovenkant
+     van de foto. Bij 220px bleef daar op een telefoon 143px van over, met het
+     onderwerp half onder de balk. Nu 240px foto plus de balkhoogte erbij, zodat
+     er onder de balk werkelijk 240px foto te zien is. */
+  .paginahero--hoog .paginahero__beeld { flex: 0 0 calc(240px + var(--balk-hoogte)); }
   /* De band is 7:3, de verhouding uit de referentie, plus de hoogte van de
      balk die eroverheen ligt. Onder de balk staat daarmee precies 7:3 aan
      patroon; zonder die optelling was op een telefoon de helft van de band
