@@ -259,6 +259,14 @@ body {
 main { position: relative; z-index: var(--z-main); }
 
 img, picture { display: block; max-width: 100%; }
+/* Elke foto zit sinds de AVIF-bronnen in een <picture>. Dat element staat
+   tussen het vak en de <img>, en een <img> met height: 100% rekent tegen zijn
+   ouder: de picture, niet het vak. Zonder deze regel is die ouder zo hoog als
+   de foto zelf en vult de foto het vak niet meer; in de cursushero bleef zo de
+   onderste helft kaal groen. Met height: 100% geeft de picture de hoogte van
+   het vak door. Waar het vak geen vaste hoogte heeft rekent 100% uit op auto en
+   verandert er niets. */
+picture { height: 100%; }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
