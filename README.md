@@ -11,9 +11,11 @@ Open `index.html` in de browser, of draai een server vanuit deze map:
 
     npx serve -l 5500 .
 
-De site staat nu in een submap van het referentieproject, dus via die server draait
-hij ook op `http://localhost:5500/madegro/`. Alle links zijn relatief, dus de map
-kan zonder aanpassing als eigen site gepubliceerd worden.
+De map staat in een projectmap die verder alleen `.claude/` bevat: een
+ontwikkelserver en een testscript voor de herovideo. Die server start je vanuit de
+projectmap met `node .claude/server.js`; hij serveert de site op
+`http://localhost:5500/madegro/`. Alle links zijn relatief, dus de map kan zonder
+aanpassing als eigen site gepubliceerd worden.
 
 ## Publiceren
 

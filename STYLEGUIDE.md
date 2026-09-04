@@ -1,8 +1,11 @@
 # STYLEGUIDE.md: MADEGRO
 
-Het ontwerpsysteem van deze site is overgenomen uit de referentie-implementatie in
-de bovenliggende map. De volledige specificatie staat daar in `STYLEGUIDE.md`; dit
-bestand beschrijft wat je moet weten om hier te werken, en waar MADEGRO afwijkt.
+Het ontwerpsysteem van deze site is overgenomen uit een referentie-implementatie
+die tot 4 september 2026 naast deze map stond en toen is verwijderd. De volledige
+specificatie van dat systeem staat nu hier, in `STYLEGUIDE-SPECIFICATIE.md`; de
+paragraafnummers (§) in de commentaren van `styleguide.css` verwijzen daarnaar.
+Dit bestand beschrijft wat je moet weten om hier te werken, en waar MADEGRO
+afwijkt.
 
 ## Het systeem in het kort
 

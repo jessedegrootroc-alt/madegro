@@ -1,6 +1,6 @@
 # MADEGRO: stand van zaken
 
-Laatst bijgewerkt: 1 september 2026
+Laatst bijgewerkt: 4 september 2026
 
 ## Wat er staat
 
@@ -67,8 +67,11 @@ Twee dingen zijn bewust níét ingevuld:
 
 ## Afspraken die afwijken van de brief
 
-1. **De site staat in een submap** van het referentieproject in plaats van in een
-   eigen map ernaast.
+1. **De site staat in de submap `madegro/`** van de projectmap. De
+   referentie-implementatie die daar eerst naast stond is op 4 september 2026
+   verwijderd; in de projectmap staat nu alleen nog `.claude/` met de
+   ontwikkelserver. De specificatie van het ontwerpsysteem is meeverhuisd naar
+   `STYLEGUIDE-SPECIFICATIE.md`.
 2. **De opzet komt van de referentie, de kleuren zijn van MADEGRO.** Structuur,
    typografie, spacing en componenten volgen de gids; het palet is vervangen door
    de huisstijlkleuren: groen `#017E84` (uit het logo), geel `#FFFC58`, wit en `#F1F1F1`.
