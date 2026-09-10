@@ -105,7 +105,7 @@ PRIVACY = '''  <section class="tekstband" id="s01-privacybeleid">
 (UIT / "privacybeleid.html").write_text(pagina(
     bestand="privacybeleid.html",
     titel="Privacybeleid | MADEGRO",
-    omschrijving="Hoe MADEGRO omgaat met de gegevens die je via het contactformulier of per e-mail deelt: waarvoor we ze gebruiken, hoe lang we ze bewaren en welke rechten je hebt.",
+    omschrijving="Hoe MADEGRO omgaat met de gegevens uit het contactformulier en e-mail: waarvoor we ze gebruiken, hoe lang we ze bewaren en welke rechten je hebt.",
     namespace="privacybeleid",
     pagina_css="tekstpagina.css",
     css_naam="tekst",
