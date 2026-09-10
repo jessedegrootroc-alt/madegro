@@ -263,7 +263,7 @@ inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->
 
 (UIT / "index.html").write_text(pagina(
     bestand="index.html",
-    titel="MADEGRO | Veiligheidskunde en kwaliteit voor productie, bouw en techniek",
+    titel="MADEGRO | Veiligheidskunde voor productie, bouw en techniek",
     omschrijving="MADEGRO brengt het veiligheidsniveau van bedrijven omhoog: veilig gedrag, EHS RI&E en safety checks. Praktisch, met kennisoverdracht aan je eigen mensen.",
     namespace="home",
     pagina_css="index.css",

@@ -105,7 +105,7 @@ PRIVACY = '''  <section class="tekstband" id="s01-privacybeleid">
 (UIT / "privacybeleid.html").write_text(pagina(
     bestand="privacybeleid.html",
     titel="Privacybeleid | MADEGRO",
-    omschrijving="Hoe MADEGRO omgaat met je gegevens.",
+    omschrijving="Hoe MADEGRO omgaat met de gegevens die je via het contactformulier of per e-mail deelt: waarvoor we ze gebruiken, hoe lang we ze bewaren en welke rechten je hebt.",
     namespace="privacybeleid",
     pagina_css="tekstpagina.css",
     css_naam="tekst",
@@ -152,7 +152,7 @@ COOKIES = f'''  <section class="tekstband" id="s01-cookies">
 (UIT / "cookies.html").write_text(pagina(
     bestand="cookies.html",
     titel="Cookies | MADEGRO",
-    omschrijving="Welke cookies MADEGRO gebruikt en hoe je je keuze aanpast.",
+    omschrijving="Welke cookies de site van MADEGRO plaatst, waarvoor ze dienen en hoe je je keuze voor statistieken op elk moment aanpast of intrekt.",
     namespace="cookies",
     pagina_css="tekstpagina.css",
     css_naam="tekst",
