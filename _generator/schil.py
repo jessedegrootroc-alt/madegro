@@ -695,7 +695,9 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{titel}</title>
 <meta name="description" content="{omschrijving}" />
-<link rel="canonical" href="{BASIS}/{bestand}" />
+<!-- De homepage is bereikbaar als / en als /index.html; de sitemap noemt /, dus
+     canonical en og:url ook, anders ziet Google twee adressen voor één pagina. -->
+<link rel="canonical" href="{BASIS}/{'' if bestand == 'index.html' else bestand}" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="author" content="Madegro Advies B.V." />
 <meta name="theme-color" content="#FFFFFF" />
@@ -731,7 +733,7 @@ def pagina(bestand, titel, omschrijving, namespace, pagina_css, css_naam,
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="MADEGRO" />
 <meta property="og:locale" content="nl_NL" />
-<meta property="og:url" content="{BASIS}/{bestand}" />
+<meta property="og:url" content="{BASIS}/{'' if bestand == 'index.html' else bestand}" />
 <meta property="og:title" content="{titel}" />
 <meta property="og:description" content="{omschrijving}" />
 <meta property="og:image" content="{BASIS}/assets/social/madegro-deelafbeelding.png" />
