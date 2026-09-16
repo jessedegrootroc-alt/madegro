@@ -305,8 +305,13 @@ dialog.voorbeeld::backdrop { background: rgba(1,65,68,.6); }
 
 @media (max-width: 991px) {
   .editor { grid-template-columns: 1fr; gap: 28px; }
-  .stappen { position: static; display: flex; overflow-x: auto; gap: 8px; padding-bottom: 6px; }
-  .stappen__item { grid-template-columns: 36px auto; padding: 8px 12px; white-space: nowrap; flex: 0 0 auto; }
+  /* Op een smal scherm: een rij rondjes met alleen bij de huidige stap de
+     naam erbij, anders past de rij niet en staat de huidige stap buiten beeld. */
+  .stappen { position: static; display: flex; overflow-x: auto; gap: 6px; padding-bottom: 6px; scrollbar-width: none; }
+  .stappen::-webkit-scrollbar { display: none; }
+  .stappen__item { width: auto; grid-template-columns: 40px auto; gap: 10px; padding: 6px 8px; white-space: nowrap; flex: 0 0 auto; }
+  .stappen__item:not([aria-current="step"]) > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .stappen__item:not([aria-current="step"]) { grid-template-columns: 40px; position: relative; }
   .kaartvoorbeeld { grid-template-columns: 1fr; }
   .kaartvoorbeeld img, .kaartvoorbeeld__leeg { order: -1; min-height: 0; aspect-ratio: 16 / 10; }
 }
@@ -1181,6 +1186,7 @@ function tekenEditor() {
     <iframe title="Voorbeeld van de casepagina"></iframe>
   </dialog>`);
 
+  toonHuidigeStap();
   const form = document.getElementById('editorform');
   const zet = (pad, waarde) => { const el = form.querySelector(`[data-pad="${pad}"]`); if (el) el.value = waarde; };
   const markeerGewijzigd = () => {
@@ -1298,6 +1304,12 @@ function gaNaarStap(i) {
   tekenEditor();
   window.scrollTo(0, 0);
   document.getElementById('stapkop')?.focus();
+}
+
+/* Op een smal scherm staat de stappenrij horizontaal; de huidige stap hoort in beeld. */
+function toonHuidigeStap() {
+  const huidig = document.querySelector('.stappen__item[aria-current="step"]');
+  if (huidig && window.matchMedia('(max-width: 991px)').matches) huidig.scrollIntoView({ inline: 'center', block: 'nearest' });
 }
 
 function toonSlugFout(tekst) {
