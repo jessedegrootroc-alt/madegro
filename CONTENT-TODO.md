@@ -300,6 +300,42 @@ door de petrolwaas eroverheen.
 Te beslissen: het paars laten staan als donkerste tint, of de patronen opnieuw
 exporteren met het diepe petrol daar. Zie `assets/patronen/HERKOMST.md`.
 
+## Het casebeheer (admin.html) wacht op de tabel `cases` in Supabase
+
+`admin.html` leest en schrijft cases rechtstreeks in Supabase via de REST-API
+(project `ltkqjffncezrtidthbox`, tabel `cases`). Op 16 september 2026 bestond
+die tabel daar nog niet: de API antwoordt met "Could not find the table
+'public.cases'" en noemt alleen een tabel `posts`. Het dashboard toont die
+melding dan ook letterlijk, met een knop om het opnieuw te proberen.
+
+Aanmaken in de SQL-editor van Supabase, precies met de vijf afgesproken kolommen:
+
+```sql
+create table public.cases (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz not null default now(),
+  slug        text not null unique,
+  published   boolean not null default false,
+  content     jsonb not null default '{}'::jsonb
+);
+
+alter table public.cases enable row level security;
+
+create policy "cases lezen"      on public.cases for select using (true);
+create policy "cases toevoegen"  on public.cases for insert with check (true);
+create policy "cases bijwerken"  on public.cases for update using (true) with check (true);
+create policy "cases verwijderen" on public.cases for delete using (true);
+```
+
+Let op: met deze open policies kan iedereen die de sleutel uit `admin.html`
+leest ook schrijven en verwijderen. Het wachtwoordscherm houdt alleen mensen
+tegen, geen verzoeken. Voor de echte site horen de schrijfpolicies achter
+Supabase Auth te staan en het wachtwoord uit de code.
+
+Wat de editor opslaat verandert de sitepagina's nog niet: de casepagina's
+worden nog door de generator gebouwd. De koppeling daartussen is de volgende
+stap.
+
 ## De herovideo: licentie onbekend
 
 De homepage-hero draait sinds 2 september 2026 een film in plaats van een foto
