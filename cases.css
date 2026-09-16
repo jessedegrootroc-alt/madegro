@@ -66,7 +66,7 @@
 /* De actieve filterpil staat op de cases-pagina en draagt daarom hetzelfde
    diepgroen als de rest van de case-acties, niet het geel van de primaire CTA. */
 .filter-pil.is-actief { background: var(--color-groen-diepst); color: var(--color-white); }
-.filter-pil.is-actief .filter-pil__vink svg { fill: var(--color-white); }
+.filter-pil.is-actief .filter-pil__vink svg { color: var(--color-white); }
 .filter-pil__vink { display: inline-flex; width: 0; overflow: hidden;
                     transition: width var(--duration-fast) var(--ease-standard); }
 .filter-pil.is-actief .filter-pil__vink { width: 14px; }

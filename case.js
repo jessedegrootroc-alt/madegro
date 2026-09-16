@@ -34,8 +34,10 @@
   const alinea = (t) => String(t || '').split(/\n{2,}/).map((x) => x.trim()).filter(Boolean)
     .map((x) => `<p>${esc(x).replace(/\n/g, '<br>')}</p>`).join('\n          ');
 
-  const pijl = (m) => `<svg class="arrow--animation is-1" width="${m}" height="${m}" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>`
-                   + `<svg class="arrow--animation is-2" width="${m}" height="${m}" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>`;
+  /* Uit de iconenset, gelijk aan iconen.py in de generator. */
+  const PIJL_BINNEN = '<path d="M3 12H21H20.5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/><path d="M14 19L21 12L14 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/>';
+  const pijl = (m) => `<svg class="arrow--animation is-1" width="${m}" height="${m}" viewBox="0 0 24 24" fill="none" aria-hidden="true">${PIJL_BINNEN}</svg>`
+                   + `<svg class="arrow--animation is-2" width="${m}" height="${m}" viewBox="0 0 24 24" fill="none" aria-hidden="true">${PIJL_BINNEN}</svg>`;
   const knop = (tekst, href, soort = 'primary') =>
     `<a href="${esc(href)}" class="button button--${soort}"><span class="button__inhoud">${esc(tekst)}<span class="button__spoor" aria-hidden="true">${pijl(14)}</span></span></a>`;
   const ICOONKNOP_54 = `<span class="button--icon button--icon--54 button--secundair" aria-hidden="true" inert><span class="button--circle"><span class="circle-container">${pijl(16)}</span></span></span>`;

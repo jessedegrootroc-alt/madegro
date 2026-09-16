@@ -414,8 +414,11 @@ MATEN = {
 }
 
 
-PIJL = ('<svg class="arrow--animation is-{n}" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">'
-        '<path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>')
+from iconen import icoon as _icoon
+
+# Uit de iconenset (assets/iconen/); zie iconen.py. {n} wordt 1 of 2: de knop
+# heeft twee pijlen die bij hover van plaats wisselen.
+PIJL = _icoon("arrow-right", klasse="arrow--animation is-{n}", maat=16)
 
 
 SPOOR = ('<span class="button__spoor" aria-hidden="true">'
@@ -446,8 +449,7 @@ def icoonknop(maat="", soort=""):
             f'</span></span></span>')
 
 
-CHEVRON = ('<svg class="submenu--chevron" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">'
-           '<path d="M12 15.4 5.6 9 7 7.6l5 5 5-5L18.4 9 12 15.4Z"/></svg>')
+CHEVRON = _icoon("chevron-down", klasse="submenu--chevron", maat=12)
 
 
 def header(actief):
@@ -539,7 +541,7 @@ def header(actief):
 
     <button type="button" id="hamburger" class="hamburger" aria-expanded="false" aria-controls="mobilePanel">
       Menu
-      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v2H2V5Zm0 6h20v2H2v-2Zm0 6h20v2H2v-2Z"/></svg>
+      {_icoon("menu", maat=16)}
     </button>
   </div>
 
@@ -552,7 +554,7 @@ def header(actief):
     <a class="mobile-panel--chip" href="contact.html">Contact</a>
     <button type="button" class="mobile-panel--chip is-close" id="panelSluit">
       Sluiten
-      <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19l5.6-5.6 5.6 5.6 1.4-1.4-5.6-5.6L19 6.4Z"/></svg>
+      {_icoon("xmark", maat=14)}
     </button>
   </div>
   <nav class="mobile-panel--nav" aria-label="Hoofdmenu">
@@ -1131,11 +1133,8 @@ def quoteslider(nr, ident, subtitel, kop, items):
 def _pijl_paar(richting):
     """De pijl uit de icoonknop, twee keer, zodat de bestaande hover-animatie
        (de ene schuift weg, de andere komt binnen) blijft werken."""
-    draai = ' style="transform:scaleX(-1)"' if richting == "links" else ""
-    pad = ('<path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/>')
-    return "".join(
-        f'<svg class="arrow--animation is-{n}" width="16" height="16" viewBox="0 0 24 24"'
-        f' aria-hidden="true"{draai}>{pad}</svg>' for n in (1, 2))
+    naam = "arrow-left" if richting == "links" else "arrow-right"
+    return "".join(_icoon(naam, klasse=f"arrow--animation is-{n}", maat=16) for n in (1, 2))
 
 
 def slotblok(nr, kop, tekst=None):

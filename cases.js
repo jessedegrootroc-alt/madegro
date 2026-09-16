@@ -32,13 +32,14 @@
 
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
   /* 'EHS RIE' -> 'ehs-rie', hetzelfde als sleutelvorm() in de generator. */
-  const sleutel = (w) => String(w || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  const sleutel = (w) => String(w || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
-  const PIJL = '<svg class="arrow--animation is-1" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>'
-             + '<svg class="arrow--animation is-2" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg>';
+  /* Uit de iconenset, gelijk aan iconen.py in de generator. */
+  const PIJL = '<svg class="arrow--animation is-1" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H21H20.5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/><path d="M14 19L21 12L14 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/></svg>'
+             + '<svg class="arrow--animation is-2" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H21H20.5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/><path d="M14 19L21 12L14 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/></svg>';
   const ICOONKNOP = `<span class="button--icon  button--secundair" aria-hidden="true" inert><span class="button--circle"><span class="circle-container">${PIJL}</span></span></span>`;
-  const VINKJE = '<span class="filter-pil__vink" aria-hidden="true"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M10 15.2 19.2 6l1.4 1.4L10 18 3.6 11.6 5 10.2 10 15.2Z"/></svg></span>';
+  const VINKJE = '<span class="filter-pil__vink" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13L8 19L21 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/></svg></span>';
 
   /* Kaartsamenvatting: de eigen tekst, anders de eerste twee zinnen van de
      inleiding. Dezelfde regel als in het beheer. */

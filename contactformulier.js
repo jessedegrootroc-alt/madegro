@@ -113,7 +113,7 @@
                aria-hidden="true" class="honeypot">
 
         <div class="contactformulier__voet">
-          <button type="submit" class="button button--primary"><span class="button__inhoud">Versturen<span class="button__spoor" aria-hidden="true"><svg class="arrow--animation is-1" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg><svg class="arrow--animation is-2" width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M13.2 4.6 20.6 12l-7.4 7.4-1.4-1.4 5-5H3.4v-2h13.4l-5-5 1.4-1.4Z"/></svg></span></span></button>
+          <button type="submit" class="button button--primary"><span class="button__inhoud">Versturen<span class="button__spoor" aria-hidden="true"><svg class="arrow--animation is-1" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H21H20.5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/><path d="M14 19L21 12L14 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/></svg><svg class="arrow--animation is-2" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H21H20.5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/><path d="M14 19L21 12L14 5" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" stroke-linecap="square"/></svg></span></span></button>
         </div>
 
         <p class="contactformulier__melding" role="status" aria-live="polite"></p>

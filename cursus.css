@@ -77,7 +77,7 @@
 .check-lijst li { display: flex; align-items: flex-start; gap: var(--space-300);
                   font-family: var(--font-regular); font-weight: var(--weight-regular);
                   font-size: 1rem; line-height: 1.5; }
-.check-lijst svg { flex-shrink: 0; margin-top: 4px; fill: var(--color-text-primary); }
+.check-lijst svg { flex-shrink: 0; margin-top: 4px; fill: none; color: var(--color-text-primary); }
 
 /* ---- Certificaat --------------------------------------------------------- */
 /* Op klasse en niet op id: het sectienummer verandert als de volgorde wijzigt. */

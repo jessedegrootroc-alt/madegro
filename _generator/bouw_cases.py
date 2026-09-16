@@ -11,12 +11,11 @@ import sys, pathlib, json, re, html
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from schil import *
 from schil import _plat
+from iconen import icoon as _icoon
 
 UIT = pathlib.Path("/Users/jessevialuxury.nl/Library/CloudStorage/OneDrive-Advalley(2)/Documenten/Code/SERVICE.BASED.LANDINGSPAGE/madegro")
 
-VINKJE = ('<span class="filter-pil__vink" aria-hidden="true">'
-          '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">'
-          '<path d="M10 15.2 19.2 6l1.4 1.4L10 18 3.6 11.6 5 10.2 10 15.2Z"/></svg></span>')
+VINKJE = f'<span class="filter-pil__vink" aria-hidden="true">{_icoon("check", maat=14)}</span>'
 
 
 def sleutelvorm(waarde):

@@ -51,7 +51,7 @@
 }
 
 /* ---- 04 Voordelen -------------------------------------------------------- */
-.voordeel__icoon { fill: var(--color-text-primary); width: 24px; height: 24px; }
+.voordeel__icoon { color: var(--color-text-primary); fill: none; width: 24px; height: 24px; }
 .voordeel__titel { font-size: 1.5rem; line-height: 1.1; }
 
 /* ---- 06 Projecten -------------------------------------------------------

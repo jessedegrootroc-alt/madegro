@@ -575,7 +575,7 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
   display: block; overflow: hidden;
   width: 14px; height: 14px;
 }
-.button__spoor .arrow--animation { width: 14px; height: 14px; fill: currentColor; }
+.button__spoor .arrow--animation { width: 14px; height: 14px; fill: none; }
 .button__spoor .arrow--animation.is-2 { top: 0; left: 0; }
 .button:hover .button__spoor .arrow--animation.is-1,
 .button:focus-visible .button__spoor .arrow--animation.is-1 { opacity: 0; transform: translate3d(165%, 0, 0); }
@@ -626,19 +626,19 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
    pijlen blijven groen, want die staan zowel op grijs als op geel goed. */
 .button--icon { background-color: var(--color-grey); }
 .button--icon .button--circle { background-color: var(--color-geel); }
-.button--icon :is(svg, i) { fill: var(--color-text-primary); color: var(--color-text-primary); }
+.button--icon :is(svg, i) { fill: none; color: var(--color-text-primary); }
 
 .button--icon.button--groen-vlak { background-color: var(--color-groen); }
-.button--icon.button--groen-vlak :is(svg, i) { fill: var(--color-white); color: var(--color-white); }
+.button--icon.button--groen-vlak :is(svg, i) { fill: none; color: var(--color-white); }
 .button--icon.button--groen-vlak .button--circle { background-color: var(--color-geel); }
 .button--icon.button--groen-vlak:hover :is(svg, i),
-.hover--icon:hover .button--icon.button--groen-vlak :is(svg, i) { fill: var(--color-text-primary); color: var(--color-text-primary); }
+.hover--icon:hover .button--icon.button--groen-vlak :is(svg, i) { fill: none; color: var(--color-text-primary); }
 /* Dezelfde tweede keus voor de ronde knop: de vulling wordt diepgroen en de
    pijl wit, in plaats van geel met een groene pijl. */
 .button--icon.button--secundair .button--circle { background-color: var(--color-groen-diepst); }
 .button--icon.button--secundair:active .button--circle,
 .hover--icon:active .button--icon.button--secundair .button--circle { background-color: var(--color-groen-diep); }
-.button--icon.button--secundair :is(svg, i) { fill: var(--color-white); color: var(--color-white); }
+.button--icon.button--secundair :is(svg, i) { fill: none; color: var(--color-white); }
 
 /* Derde keus: helemaal grijs. Voor knoppen die geen actie zijn maar bediening,
    zoals de pijlen onder de citaten. Daar bladert iemand mee, hij gaat er niet
@@ -647,7 +647,7 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
    niets te zien als de cirkel opengaat. */
 .button--icon.button--grijs { background-color: var(--color-grey); }
 .button--icon.button--grijs .button--circle { background-color: var(--color-grey-diep); }
-.button--icon.button--grijs :is(svg, i) { fill: var(--color-text-primary); color: var(--color-text-primary); }
+.button--icon.button--grijs :is(svg, i) { fill: none; color: var(--color-text-primary); }
 
 .button--icon.button--white-fill { background-color: var(--color-white); }
 
@@ -1613,7 +1613,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible, .field:focus-vi
    stonden Diensten en Cursussen groter en lichter dan Cases en Over ons.
    .submenu--link zet die eigenschappen zelf al, en een regel van de auteur wint
    van wat de browser aan een <button> geeft. Er hoeft hier dus niets te staan. */
-.submenu--chevron { fill: currentColor; flex-shrink: 0;
+.submenu--chevron { fill: none; flex-shrink: 0;
                     transition: transform var(--duration-base) var(--ease-standard); }
 .submenu--trigger[aria-expanded="true"] .submenu--chevron { transform: rotate(180deg); }
 /* Het open vlak wint van de actieve staat, ook op een lichte header: anders

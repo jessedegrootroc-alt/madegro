@@ -3,6 +3,7 @@
 import sys, pathlib, json
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from schil import *
+from iconen import icoon as _icoon
 from schil import _plat
 
 UIT = pathlib.Path("/Users/jessevialuxury.nl/Library/CloudStorage/OneDrive-Advalley(2)/Documenten/Code/SERVICE.BASED.LANDINGSPAGE/madegro")
@@ -50,8 +51,7 @@ def cursuspagina(cfg):
        soort staan nergens achter elkaar."""
 
     resultaten = chr(10).join(
-        f'              <li><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">'
-        f'<path d="M9.6 16.2 5.4 12l-1.4 1.4 5.6 5.6L20.4 8.2 19 6.8 9.6 16.2Z"/></svg>{r}</li>'
+        f'              <li>{_icoon("check", maat=16)}{r}</li>'
         for r in cfg["resultaten"])
 
     inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->

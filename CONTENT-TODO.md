@@ -336,6 +336,15 @@ Wat de editor opslaat verandert de sitepagina's nog niet: de casepagina's
 worden nog door de generator gebouwd. De koppeling daartussen is de volgende
 stap.
 
+## De iconenset: licentie onbekend
+
+Alle iconen op de site (pijlen, vinkjes, menu, de voordelen op de
+dienstpagina's) komen sinds 16 september 2026 uit de set in `assets/iconen/`
+(3185 lijniconen, aangeleverd door Jesse). Er zat geen licentie of bronvermelding
+bij; ga na uit welk pakket ze komen en of commercieel gebruik is toegestaan.
+De set gaat niet mee naar de server (`.vercelignore`); alleen de dertien
+gebruikte iconen staan inline in de HTML.
+
 ## De herovideo: licentie onbekend
 
 De homepage-hero draait sinds 2 september 2026 een film in plaats van een foto
