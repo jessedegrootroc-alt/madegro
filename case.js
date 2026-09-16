@@ -217,6 +217,25 @@ ${verwant.map(verwantRij).join('\n')}
   /* ----------------------------------------------------------------------
      Laden
      -------------------------------------------------------------------- */
+  /* Voorbeeldmodus voor het beheer: case.html?voorbeeld=1 staat in een iframe
+     in admin.html en krijgt de nog niet opgeslagen case via postMessage. Er
+     wordt dan niets uit de database gehaald; de cookiebalk blijft verborgen. */
+  const voorbeeld = new URLSearchParams(location.search).get('voorbeeld') === '1';
+  if (voorbeeld) {
+    document.documentElement.classList.add('is-voorbeeld');
+    const stijl = document.createElement('style');
+    stijl.textContent = '.is-voorbeeld .cookiebalk { display: none !important; }';
+    document.head.appendChild(stijl);
+    window.addEventListener('message', (e) => {
+      if (e.origin !== location.origin || !e.data || e.data.type !== 'madegro:voorbeeld') return;
+      if (!container.isConnected) return;
+      toon({ slug: e.data.slug || 'voorbeeld', content: e.data.content || {} }, Array.isArray(e.data.verwant) ? e.data.verwant : []);
+    });
+    veld('titel').textContent = 'Voorbeeld wordt geladen…';
+    window.parent?.postMessage({ type: 'madegro:voorbeeld-klaar' }, location.origin);
+    return;
+  }
+
   const laad = async () => {
     if (!slug) { nietGevonden(); return; }
     try {

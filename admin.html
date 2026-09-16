@@ -8,12 +8,17 @@
 <link rel="icon" href="assets/favicon/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================================
    MADEGRO Beheer: het casebeheer achter de Admin-link in de voet van de site.
    Eén bestand. De cases staan in Supabase (tabel `posts`) en worden via de
    REST-API gelezen en geschreven met fetch(); er is geen lokale opslag.
+
+   De editor is gemaakt voor mensen die weinig met computers werken: één
+   onderwerp per stap, gewone woorden, grote letters en knoppen, foto's kiezen
+   uit plaatjes in plaats van bestandsnamen typen, en een voorbeeld van de
+   echte pagina terwijl je typt.
    ========================================================================== */
 :root {
   --color-groen: #017E84;
@@ -29,6 +34,11 @@
   --color-accent: var(--color-geel);
   --color-background: var(--color-white);
   --color-fout: #B3261E;
+  --color-fout-licht: #fbeeed;
+  --color-oranje: #8a4b00;
+  --color-oranje-licht: #fff4e0;
+  --color-goed: #1d6b3a;
+  --color-goed-licht: #e6f4ea;
 
   --font: "Inter Tight", "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
   --inset-x: clamp(16px, 4vw, 48px);
@@ -40,7 +50,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 body {
   margin: 0; min-height: 100vh; min-height: 100svh;
-  font-family: var(--font); font-weight: 400; font-size: 17px; line-height: 1.55;
+  font-family: var(--font); font-weight: 400; font-size: 18px; line-height: 1.55;
   color: var(--color-text-primary); background: var(--color-background);
   -webkit-font-smoothing: antialiased;
 }
@@ -60,23 +70,26 @@ p { margin: 0; }
 .kop-l { font-size: clamp(1.9rem, 1.4rem + 2vw, 3rem); }
 .kop-m { font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
 
-/* Knoppen: pillen. Primair geel met zwarte tekst, secundair wit met groene rand. */
+/* Knoppen: pillen. Primair geel met zwarte tekst, secundair wit met groene rand.
+   Minstens 48px hoog, zodat ze ook met een trillende hand te raken zijn. */
 .knop {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 14px 26px; border-radius: var(--radius-pill); border: 1.5px solid transparent;
-  font-size: 13px; font-weight: 500; letter-spacing: 2.2px; text-transform: uppercase;
-  text-decoration: none; line-height: 1; white-space: nowrap;
+  min-height: 48px; padding: 12px 26px; border-radius: var(--radius-pill); border: 1.5px solid transparent;
+  font-size: 14px; font-weight: 500; letter-spacing: 1.6px; text-transform: uppercase;
+  text-decoration: none; line-height: 1.2; white-space: nowrap;
   transition: background-color var(--duur), border-color var(--duur), color var(--duur), opacity var(--duur);
 }
 .knop--primair { background: var(--color-geel); color: #000; }
 .knop--primair:hover { background: var(--color-geel-hover); }
 .knop--secundair { background: var(--color-white); color: var(--color-groen-diepst); border-color: var(--color-groen); }
 .knop--secundair:hover { background: var(--color-grey); }
-.knop--klein { padding: 9px 16px; font-size: 11px; letter-spacing: 1.8px; }
+.knop--groot { min-height: 56px; padding: 14px 32px; font-size: 15px; }
+.knop--klein { min-height: 40px; padding: 8px 16px; font-size: 12px; letter-spacing: 1.4px; }
 .knop--gevaar { border-color: var(--color-fout); color: var(--color-fout); }
-.knop--gevaar:hover { background: #fbeeed; }
-.knop--tekst { background: none; border: 0; padding: 0; text-transform: none; letter-spacing: 0; font-size: 15px; text-decoration: underline; text-underline-offset: 3px; }
-.knop--pijl::after { content: "\2192"; font-size: 15px; letter-spacing: 0; }
+.knop--gevaar:hover { background: var(--color-fout-licht); }
+.knop--tekst { background: none; border: 0; padding: 0; min-height: 0; text-transform: none; letter-spacing: 0; font-size: 17px; text-decoration: underline; text-underline-offset: 3px; }
+.knop--pijl::after { content: "\2192"; font-size: 17px; letter-spacing: 0; }
+.knop--terug::before { content: "\2190"; font-size: 17px; letter-spacing: 0; }
 .knop[disabled], .knop[aria-disabled="true"] { opacity: .45; cursor: not-allowed; pointer-events: none; }
 
 /* Kopbalk */
@@ -85,44 +98,51 @@ p { margin: 0; }
 .woordmerk { display: inline-flex; flex-direction: column; text-decoration: none; line-height: 1; }
 .woordmerk__naam { font-size: 26px; font-weight: 500; letter-spacing: 3px; color: var(--color-groen); }
 .woordmerk__sub { font-size: 11px; letter-spacing: 2.2px; text-transform: uppercase; color: var(--color-groen-diep); margin-top: 6px; }
-.balk__links { display: flex; gap: 22px; flex-wrap: wrap; font-size: 15px; }
+.balk__links { display: flex; gap: 22px; flex-wrap: wrap; font-size: 17px; }
 .balk__links a { text-decoration: none; }
 .balk__links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-/* Voet: dezelfde vier items als op de site, netjes afbrekend op smal scherm. */
+/* Voet */
 .voet { background: var(--color-groen-diepst); color: var(--color-white); }
 .voet__inner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 32px; padding-block: 22px; font-size: 14px; line-height: 1.5; }
 .voet__inner a { color: var(--color-white); text-decoration: none; }
 .voet__inner a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* Inloggen */
-.inlog { max-width: 420px; margin: clamp(48px, 10vw, 120px) auto; padding-inline: var(--inset-x); }
+.inlog { max-width: 440px; margin: clamp(48px, 10vw, 120px) auto; padding-inline: var(--inset-x); }
 .inlog h1 { margin: 12px 0 28px; }
-.fout { color: var(--color-fout); font-size: 15px; margin-top: 12px; min-height: 1.5em; }
+.fout { color: var(--color-fout); font-size: 16px; margin-top: 12px; min-height: 1.5em; }
 
-/* Velden */
+/* Velden: grote letters, een duidelijk label in gewone woorden, en waar het
+   helpt een korte uitleg of een voorbeeld eronder. */
 .veld { display: grid; gap: 8px; }
-.veld label, .veldlabel { font-size: 12px; font-weight: 500; letter-spacing: 2.2px; text-transform: uppercase; color: var(--color-groen-diep); }
+.veld > label, .veldlabel { font-size: 17px; font-weight: 500; color: var(--color-groen-diepst); }
 .veld input[type="text"], .veld input[type="password"], .veld input[type="date"], .veld select, .veld textarea {
-  width: 100%; padding: 12px 14px; border: 1.5px solid var(--color-grey-diep); border-radius: 4px;
-  background: var(--color-white); color: var(--color-text-primary); font: inherit; font-size: 16px;
+  width: 100%; padding: 14px 16px; border: 2px solid var(--color-grey-diep); border-radius: 6px;
+  background: var(--color-white); color: var(--color-text-primary); font: inherit; font-size: 18px;
   transition: border-color var(--duur);
 }
-.veld textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
-.veld input:focus, .veld select:focus, .veld textarea:focus { border-color: var(--color-groen); outline: none; box-shadow: 0 0 0 3px rgba(1,126,132,.15); }
-.veld__hint { font-size: 13px; color: var(--color-groen-diep); }
-.veld__fout { font-size: 14px; color: var(--color-fout); }
+.veld textarea { min-height: 140px; resize: vertical; line-height: 1.5; }
+.veld input:focus, .veld select:focus, .veld textarea:focus { border-color: var(--color-groen); outline: none; box-shadow: 0 0 0 4px rgba(1,126,132,.15); }
+.veld__hint { font-size: 15px; color: var(--color-groen-diep); line-height: 1.45; }
+.veld__fout { font-size: 16px; color: var(--color-fout); font-weight: 500; }
 .veld__fout:empty { display: none; }
 .veld--fout input { border-color: var(--color-fout); }
-.velden { display: grid; gap: 22px; }
-.velden--2 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
-.schakel { display: inline-flex; align-items: center; gap: 12px; cursor: pointer; font-size: 15px; }
+.velden { display: grid; gap: 26px; }
+.velden--2 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.schakel { display: inline-flex; align-items: center; gap: 14px; cursor: pointer; font-size: 18px; }
 .schakel input { position: absolute; opacity: 0; width: 0; height: 0; }
-.schakel__spoor { width: 46px; height: 26px; border-radius: 13px; background: var(--color-grey-diep); position: relative; transition: background var(--duur); flex: 0 0 auto; }
-.schakel__spoor::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: var(--color-white); transition: transform var(--duur); }
+.schakel__spoor { width: 56px; height: 32px; border-radius: 16px; background: var(--color-grey-diep); position: relative; transition: background var(--duur); flex: 0 0 auto; }
+.schakel__spoor::after { content: ""; position: absolute; top: 4px; left: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--color-white); transition: transform var(--duur); }
 .schakel input:checked + .schakel__spoor { background: var(--color-groen); }
-.schakel input:checked + .schakel__spoor::after { transform: translateX(20px); }
+.schakel input:checked + .schakel__spoor::after { transform: translateX(24px); }
 .schakel input:focus-visible + .schakel__spoor { outline: 3px solid var(--color-groen); outline-offset: 3px; }
+.geavanceerd { border-top: 1px solid var(--color-grey-diep); padding-top: 18px; }
+.geavanceerd > summary { cursor: pointer; font-size: 16px; color: var(--color-groen-diep); list-style: none; display: inline-flex; gap: 8px; align-items: center; }
+.geavanceerd > summary::-webkit-details-marker { display: none; }
+.geavanceerd > summary::before { content: "+"; font-size: 20px; line-height: 1; }
+.geavanceerd[open] > summary::before { content: "\2212"; }
+.geavanceerd > .velden { margin-top: 18px; }
 
 /* Dashboard */
 .admin { padding-block: clamp(32px, 5vw, 64px); }
@@ -133,27 +153,27 @@ p { margin: 0; }
 .stat { background: var(--color-grey); padding: 22px 24px; }
 .stat__getal { font-size: 2.6rem; font-weight: 300; line-height: 1; color: var(--color-groen); margin-top: 10px; }
 .tabs { display: flex; gap: 6px; flex-wrap: wrap; border-bottom: 1px solid var(--color-grey-diep); margin-bottom: 8px; }
-.tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 16px; font-size: 15px; margin-bottom: -1px; }
+.tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 12px 16px; font-size: 17px; margin-bottom: -1px; }
 .tab[aria-selected="true"] { border-bottom-color: var(--color-groen); font-weight: 500; }
-.tab__aantal { display: inline-block; margin-left: 6px; font-size: 12px; background: var(--color-grey); padding: 2px 8px; border-radius: var(--radius-pill); }
+.tab__aantal { display: inline-block; margin-left: 6px; font-size: 13px; background: var(--color-grey); padding: 2px 8px; border-radius: var(--radius-pill); }
 
 .tabel { width: 100%; border-collapse: collapse; }
 .tabel th { text-align: left; font-size: 12px; font-weight: 500; letter-spacing: 2.2px; text-transform: uppercase; color: var(--color-groen-diep); padding: 14px 12px; border-bottom: 1px solid var(--color-grey-diep); }
-.tabel td { padding: 16px 12px; border-bottom: 1px solid var(--color-grey-diep); vertical-align: middle; }
+.tabel td { padding: 18px 12px; border-bottom: 1px solid var(--color-grey-diep); vertical-align: middle; }
 .tabel td:first-child, .tabel th:first-child { padding-left: 0; }
 .tabel td:last-child, .tabel th:last-child { padding-right: 0; }
 .tabel__klant { font-weight: 500; }
-.tabel__titel { color: var(--color-groen-diep); font-size: 15px; margin-top: 2px; }
+.tabel__titel { color: var(--color-groen-diep); font-size: 16px; margin-top: 2px; }
 .tabel__acties { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-.badge { display: inline-block; padding: 5px 12px; border-radius: var(--radius-pill); font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase; font-weight: 500; }
+.badge { display: inline-block; padding: 6px 14px; border-radius: var(--radius-pill); font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 500; }
 .badge--gepubliceerd { background: var(--color-groen); color: var(--color-white); }
 .badge--concept { background: var(--color-geel); color: #000; }
 .leeg { padding: 48px 0; text-align: center; color: var(--color-groen-diep); }
-.melding { font-size: 14px; color: var(--color-groen-diep); min-height: 1.4em; margin-top: 12px; }
+.melding { font-size: 16px; color: var(--color-groen-diep); min-height: 1.4em; margin-top: 12px; }
 .melding--fout { color: var(--color-fout); }
-.foutvlak { border: 1.5px solid var(--color-fout); background: #fbeeed; padding: 18px 22px; display: grid; gap: 12px; margin-bottom: 24px; }
+.foutvlak { border: 2px solid var(--color-fout); background: var(--color-fout-licht); padding: 20px 24px; display: grid; gap: 12px; margin-bottom: 24px; border-radius: 6px; }
 .foutvlak p { color: var(--color-fout); }
-.bezig { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--color-grey-diep); border-top-color: var(--color-groen); border-radius: 50%; animation: draai .8s linear infinite; vertical-align: -2px; margin-right: 8px; }
+.bezig { display: inline-block; width: 16px; height: 16px; border: 2px solid var(--color-grey-diep); border-top-color: var(--color-groen); border-radius: 50%; animation: draai .8s linear infinite; vertical-align: -2px; margin-right: 8px; }
 @keyframes draai { to { transform: rotate(360deg); } }
 
 @media (max-width: 860px) {
@@ -165,34 +185,130 @@ p { margin: 0; }
   .tabel__acties { justify-content: flex-start; padding-top: 10px; }
 }
 
-/* Editor: elke sectie een <details>, ingeklapt, met eigen kop. */
-.editor { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: start; }
-.editor__zij { position: sticky; top: 24px; display: grid; gap: 14px; background: var(--color-grey); padding: 24px; }
-.sectie { border: 1px solid var(--color-grey-diep); margin-bottom: 12px; background: var(--color-white); }
-.sectie > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 16px; padding: 18px 22px; }
-.sectie > summary::-webkit-details-marker { display: none; }
-.sectie__nr { font-size: 12px; letter-spacing: 2.2px; color: var(--color-groen); font-weight: 500; min-width: 2.2em; }
-.sectie__kop { font-size: 1.15rem; font-weight: 400; flex: 1; }
-.sectie__toestand { font-size: 13px; color: var(--color-groen-diep); }
-.sectie > summary::after { content: "+"; font-size: 24px; font-weight: 300; color: var(--color-groen); line-height: 1; }
-.sectie[open] > summary::after { content: "\2212"; }
-.sectie[open] > summary { border-bottom: 1px solid var(--color-grey-diep); }
-.sectie__inhoud { padding: 24px 22px 28px; display: grid; gap: 22px; }
-.herhaal { display: grid; gap: 12px; }
-.herhaal__rij { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; }
-.herhaal__velden { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+/* ---------------------------------------------------------------------------
+   Editor: stappen
+   ------------------------------------------------------------------------- */
+.editor { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 48px; align-items: start; padding-bottom: 120px; }
+.stappen { position: sticky; top: 24px; display: grid; gap: 4px; }
+.stappen__item {
+  display: grid; grid-template-columns: 40px 1fr; gap: 14px; align-items: center;
+  width: 100%; text-align: left; background: none; border: 0; padding: 12px 12px; border-radius: 8px;
+  font-size: 17px; line-height: 1.3; color: var(--color-groen-diepst);
+}
+.stappen__item:hover { background: var(--color-grey); }
+.stappen__item[aria-current="step"] { background: var(--color-grey); font-weight: 500; }
+.stappen__nr {
+  width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  border: 2px solid var(--color-groen); color: var(--color-groen); font-weight: 500; font-size: 16px; background: var(--color-white);
+}
+.stappen__item[aria-current="step"] .stappen__nr { background: var(--color-groen); color: var(--color-white); }
+.stappen__item.is-klaar .stappen__nr { background: var(--color-goed-licht); border-color: var(--color-goed); color: var(--color-goed); }
+.stappen__item.is-klaar .stappen__nr::before { content: "\2713"; }
+.stappen__item.is-klaar .stappen__nr span { display: none; }
+
+.stap { display: grid; gap: 32px; }
+.stap__kop h2 { font-size: clamp(1.8rem, 1.3rem + 1.6vw, 2.6rem); margin-top: 10px; }
+.stap__uitleg { font-size: 18px; color: var(--color-groen-diep); margin-top: 14px; max-width: 640px; }
+.stap__nr { font-size: 15px; color: var(--color-groen-diep); }
+.blok { background: var(--color-white); border: 1px solid var(--color-grey-diep); border-radius: 10px; padding: clamp(20px, 3vw, 32px); display: grid; gap: 26px; }
+.blok__kop { font-size: 1.25rem; font-weight: 500; }
+
+/* Keuzekaarten (dienst) en aanvinkkaarten (gerelateerde cases) */
+.keuzes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; }
+.keuze { position: relative; display: block; cursor: pointer; }
+.keuze input { position: absolute; opacity: 0; width: 0; height: 0; }
+.keuze__vak {
+  border: 2px solid var(--color-grey-diep); border-radius: 10px; padding: 18px 18px 18px 52px; min-height: 64px;
+  display: flex; align-items: center; font-size: 18px; position: relative; transition: border-color var(--duur), background var(--duur);
+}
+.keuze__vak::before {
+  content: ""; position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--color-grey-diep); background: var(--color-white);
+}
+.keuze input:checked + .keuze__vak { border-color: var(--color-groen); background: #eef7f7; }
+.keuze input:checked + .keuze__vak::before { border-color: var(--color-groen); background: var(--color-groen); box-shadow: inset 0 0 0 5px var(--color-white); }
+.keuze input:focus-visible + .keuze__vak { outline: 3px solid var(--color-groen); outline-offset: 3px; }
+
+.casekaarten { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
+.casekaart { display: grid; gap: 0; text-align: left; background: var(--color-white); border: 2px solid var(--color-grey-diep); border-radius: 10px; overflow: hidden; padding: 0; transition: border-color var(--duur); }
+.casekaart img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.casekaart__leeg { width: 100%; aspect-ratio: 16 / 10; background: var(--color-grey); }
+.casekaart__tekst { padding: 14px 16px 16px; display: grid; gap: 4px; }
+.casekaart__klant { font-weight: 500; font-size: 17px; }
+.casekaart__sub { font-size: 15px; color: var(--color-groen-diep); }
+.casekaart[aria-pressed="true"] { border-color: var(--color-groen); box-shadow: 0 0 0 3px rgba(1,126,132,.2); }
+.casekaart[aria-pressed="true"] .casekaart__klant::before { content: "\2713  "; color: var(--color-goed); }
+.casekaart[disabled] { opacity: .5; cursor: not-allowed; }
+
+/* Fotokiezer: plaatjes aanklikken in plaats van paden typen */
+.fotokiezer { display: grid; gap: 14px; }
+.fotokiezer__raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.foto-optie { position: relative; padding: 0; border: 3px solid transparent; border-radius: 8px; overflow: hidden; background: var(--color-grey); }
+.foto-optie img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.foto-optie__naam { display: block; font-size: 14px; padding: 8px 10px; text-align: left; color: var(--color-groen-diepst); background: var(--color-white); }
+.foto-optie[aria-pressed="true"] { border-color: var(--color-groen); }
+.foto-optie[aria-pressed="true"]::after {
+  content: "\2713"; position: absolute; top: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%;
+  background: var(--color-groen); color: var(--color-white); display: grid; place-items: center; font-weight: 600;
+}
+.foto-optie--geen { display: grid; place-items: center; min-height: 100%; font-size: 15px; color: var(--color-groen-diep); border-style: dashed; border-color: var(--color-grey-diep); background: var(--color-white); }
+.fotokiezer__gekozen { display: flex; gap: 16px; align-items: center; background: var(--color-grey); padding: 12px 16px; border-radius: 8px; font-size: 16px; }
+.fotokiezer__gekozen img { width: 96px; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+
+/* Herhaalbare rijen: kerncijfers en punten */
+.herhaal { display: grid; gap: 14px; }
+.herhaal__rij { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: end; background: var(--color-grey); padding: 16px; border-radius: 8px; }
+.herhaal__velden { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
 .herhaal__velden--1 { grid-template-columns: 1fr; }
-.herhaal__verwijder { border: 1.5px solid var(--color-grey-diep); background: var(--color-white); border-radius: var(--radius-pill); width: 42px; height: 42px; font-size: 20px; line-height: 1; }
+.herhaal__velden .veld input { background: var(--color-white); }
+.herhaal__verwijder { border: 2px solid var(--color-grey-diep); background: var(--color-white); border-radius: var(--radius-pill); min-height: 48px; padding: 0 16px; font-size: 15px; white-space: nowrap; }
 .herhaal__verwijder:hover { border-color: var(--color-fout); color: var(--color-fout); }
 .herhaal__verwijder[disabled] { opacity: .35; cursor: not-allowed; }
-.voorvertoning { display: grid; gap: 8px; }
-.voorvertoning img { max-height: 160px; width: auto; border: 1px solid var(--color-grey-diep); }
-.kaartvoorbeeld { border: 1px solid var(--color-grey-diep); background: var(--color-grey); padding: 20px; display: grid; gap: 10px; }
+.herhaal__nr { font-size: 15px; color: var(--color-groen-diep); grid-column: 1 / -1; margin-bottom: -6px; }
+
+/* Voorbeeldkaart en controle */
+.kaartvoorbeeld { border: 1px solid var(--color-grey-diep); background: var(--color-grey); border-radius: 10px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) 220px; }
+.kaartvoorbeeld__tekst { padding: 22px; display: grid; gap: 10px; align-content: center; }
+.kaartvoorbeeld img { width: 100%; height: 100%; object-fit: cover; min-height: 160px; }
+.kaartvoorbeeld__leeg { background: var(--color-groen); min-height: 160px; }
 .rij__meta { display: flex; gap: 20px; flex-wrap: wrap; }
+.checklist { display: grid; gap: 12px; margin: 0; padding: 0; }
+.checklist li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; align-items: start; font-size: 17px; list-style: none; }
+.checklist__teken { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 15px; font-weight: 600; }
+.checklist li.is-goed .checklist__teken { background: var(--color-goed-licht); color: var(--color-goed); }
+.checklist li.is-goed .checklist__teken::before { content: "\2713"; }
+.checklist li.is-open .checklist__teken { background: var(--color-oranje-licht); color: var(--color-oranje); }
+.checklist li.is-open .checklist__teken::before { content: "!"; }
+.checklist a { color: var(--color-groen); }
+.publiceer { display: grid; gap: 12px; padding: 22px; border-radius: 10px; border: 2px solid var(--color-grey-diep); }
+.publiceer.is-aan { border-color: var(--color-groen); background: #eef7f7; }
+.publiceer__uitleg { font-size: 16px; color: var(--color-groen-diep); }
+
+/* Vaste balk onderaan: altijd Opslaan, Vorige en Volgende in beeld */
+.balkonder {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--color-white); border-top: 1px solid var(--color-grey-diep); box-shadow: 0 -6px 24px rgba(1,65,68,.08);
+}
+.balkonder__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; flex-wrap: wrap; padding-block: 14px; }
+.balkonder__groep { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.balkonder__status { font-size: 16px; min-height: 1.4em; }
+.balkonder__status--fout { color: var(--color-fout); font-weight: 500; }
+.balkonder__status--let { color: var(--color-oranje); font-weight: 500; }
+.balkonder__status--goed { color: var(--color-goed); }
+
+/* Voorbeeldvenster met de echte pagina */
+dialog.voorbeeld { border: 0; padding: 0; width: min(1400px, 96vw); height: 92vh; border-radius: 12px; overflow: hidden; }
+dialog.voorbeeld::backdrop { background: rgba(1,65,68,.6); }
+.voorbeeld__kop { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; background: var(--color-grey); border-bottom: 1px solid var(--color-grey-diep); }
+.voorbeeld__kop strong { font-weight: 500; font-size: 18px; }
+.voorbeeld iframe { width: 100%; height: calc(92vh - 76px); border: 0; background: var(--color-white); }
 
 @media (max-width: 991px) {
-  .editor { grid-template-columns: 1fr; }
-  .editor__zij { position: static; }
+  .editor { grid-template-columns: 1fr; gap: 28px; }
+  .stappen { position: static; display: flex; overflow-x: auto; gap: 8px; padding-bottom: 6px; }
+  .stappen__item { grid-template-columns: 36px auto; padding: 8px 12px; white-space: nowrap; flex: 0 0 auto; }
+  .kaartvoorbeeld { grid-template-columns: 1fr; }
+  .kaartvoorbeeld img, .kaartvoorbeeld__leeg { order: -1; min-height: 0; aspect-ratio: 16 / 10; }
 }
 </style>
 </head>
@@ -209,12 +325,12 @@ const TABEL = 'posts'; // De tabel in Supabase heet posts; de inhoud zijn cases.
 const SESSIE_SLEUTEL = 'madegro-cms-ingelogd';
 const WACHTWOORD = 'admin123'; // Voorlopig; komt later uit een echte login.
 const DIENSTEN = ['Veilig gedrag', 'EHS RIE', 'Safety Checks'];
+const BRANCHES = ['Productie', 'Logistiek', 'Bouw', 'Techniek', 'Transport', 'Zorg', 'Overheid'];
 const SITE = { home: 'index.html', privacy: 'privacybeleid.html', cookies: 'cookies.html' };
+const BIBLIOTHEEK_URL = 'assets/foto/bibliotheek.json';
 
 /* ============================================================================
-   Supabase REST via fetch(). Eén functie voor alle aanroepen: zet de sleutels
-   in de headers, controleert response.ok en maakt van een foutantwoord een
-   Error met status en de melding van Supabase, zodat de UI die kan tonen.
+   Supabase REST via fetch()
    ========================================================================== */
 class ApiFout extends Error {
   constructor(status, bericht) { super(bericht); this.status = status; }
@@ -256,8 +372,7 @@ const db = {
 };
 
 /* ============================================================================
-   Datamodel. Een rij is { id, created_at, slug, published, content }; alle
-   inhoud van de case staat in content, precies zoals de kolom is afgesproken.
+   Datamodel: { id, created_at, slug, published, content }
    ========================================================================== */
 function vandaag() { return new Date().toISOString().slice(0, 10); }
 
@@ -283,8 +398,6 @@ function leegCase() {
   return { id: null, created_at: null, slug: '', published: false, content: leegContent() };
 }
 
-/* Vult een rij uit de database aan met alles wat het dashboard en de editor
-   verwachten, zodat een half gevulde case nergens breekt. Schrijft niets terug. */
 function normaliseer(rij) {
   const b = leegContent();
   const c = (rij && typeof rij.content === 'object' && rij.content) || {};
@@ -303,8 +416,6 @@ function normaliseer(rij) {
   return { id: rij.id, created_at: rij.created_at || null, slug: rij.slug || '', published: !!rij.published, content };
 }
 
-/* Wat er wegvalt voordat het de database ingaat: lege punten, lege
-   gerelateerde slugs, meer dan vier kerncijfers. */
 function schoonContent(content) {
   const c = JSON.parse(JSON.stringify(content));
   c.kerncijfers = (c.kerncijfers || []).slice(0, 4);
@@ -321,6 +432,7 @@ let cases = [];
 let casesGeladen = false;
 let laadFout = null;
 let laadBezig = null;
+let bibliotheek = null; // foto's voor de kiezer, uit assets/foto/bibliotheek.json
 
 async function laadCases() {
   if (laadBezig) return laadBezig;
@@ -337,6 +449,15 @@ async function laadCases() {
     }
   })();
   return laadBezig;
+}
+
+async function laadBibliotheek() {
+  if (bibliotheek) return bibliotheek;
+  try {
+    const a = await fetch(BIBLIOTHEEK_URL, { cache: 'no-cache' });
+    bibliotheek = a.ok ? await a.json() : [];
+  } catch (e) { bibliotheek = []; }
+  return bibliotheek;
 }
 
 function datumVan(c) { return c.content.publicatiedatum || (c.created_at || '').slice(0, 10) || ''; }
@@ -366,8 +487,6 @@ function datumKort(iso) {
   const d = new Date(iso.length === 10 ? iso + 'T00:00:00' : iso);
   return isNaN(d) ? iso : new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }).format(d);
 }
-/* Kaartsamenvatting: uit content.kaart.samenvatting, anders ter plekke uit de
-   inleiding afgeleid (eerste twee zinnen, hoogstens 160 tekens). Nooit opgeslagen. */
 function samenvatting(content) {
   const eigen = (content.kaart?.samenvatting || '').trim();
   if (eigen) return eigen;
@@ -393,9 +512,23 @@ function schrijf(obj, pad, waarde) {
    ========================================================================== */
 const app = document.getElementById('app');
 let dashboardTab = 'alle';
+let huidigeHash = location.hash;
 
 async function route() {
   const delen = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
+
+  /* Weg uit een editor met onopgeslagen werk? Eerst vragen. */
+  const naarEditor = delen[0] === 'nieuw' || delen[0] === 'bewerk';
+  const zelfdeEditor = naarEditor && bewerk && (delen[0] === 'nieuw' ? bewerk.id == null : String(delen[1]) === String(bewerk.id));
+  if (bewerk && gewijzigd && !zelfdeEditor) {
+    if (!confirm('Je hebt wijzigingen die nog niet zijn opgeslagen. Wil je toch weggaan? Dan gaan die wijzigingen verloren.')) {
+      history.replaceState(null, '', huidigeHash);
+      return;
+    }
+  }
+  huidigeHash = location.hash;
+  if (!naarEditor) { bewerk = null; gewijzigd = false; }
+
   window.scrollTo(0, 0);
   if (!ingelogd()) return renderLogin();
   if (!casesGeladen && !laadFout) { renderLaden(); await laadCases(); }
@@ -404,6 +537,7 @@ async function route() {
   return renderDashboard();
 }
 window.addEventListener('hashchange', route);
+window.addEventListener('beforeunload', (e) => { if (bewerk && gewijzigd) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ============================================================================
    Gedeelde stukken
@@ -412,12 +546,12 @@ function balk(ingelogd = true) {
   return `
   <header class="balk">
     <div class="container balk__inner">
-      <a class="woordmerk" href="#/" aria-label="MADEGRO Beheer, naar het dashboard">
+      <a class="woordmerk" href="#/" aria-label="MADEGRO Beheer, naar het overzicht">
         <span class="woordmerk__naam">MADEGRO</span>
         <span class="woordmerk__sub">Beheer · Cases</span>
       </a>
       <nav class="balk__links" aria-label="Beheermenu">
-        <a href="${SITE.home}">Naar de site</a>
+        <a href="${SITE.home}">Naar de website</a>
         ${ingelogd ? `<a href="${SITE.home}" data-actie="uitloggen">Uitloggen</a>` : ''}
       </nav>
     </div>
@@ -441,6 +575,7 @@ function toon(html) { app.innerHTML = html; bindAdminBalk(); }
 function bindAdminBalk() {
   app.querySelector('[data-actie="uitloggen"]')?.addEventListener('click', e => {
     e.preventDefault();
+    if (bewerk && gewijzigd && !confirm('Je hebt wijzigingen die nog niet zijn opgeslagen. Toch uitloggen?')) return;
     sessionStorage.removeItem(SESSIE_SLEUTEL);
     location.href = SITE.home;
   });
@@ -449,7 +584,7 @@ function bindAdminBalk() {
 function renderLaden() {
   toon(`${balk()}
   <main class="app__main"><div class="container admin">
-    <span class="label">Dashboard</span>
+    <span class="label">Overzicht</span>
     <h1 class="kop-l">Cases</h1>
     <p class="melding" style="margin-top:24px" aria-live="polite"><span class="bezig" aria-hidden="true"></span>Cases laden uit de database…</p>
   </div></main>${voet()}`);
@@ -469,7 +604,7 @@ function renderLogin() {
         <input type="password" id="ww" name="ww" autocomplete="current-password" required autofocus>
       </div>
       <p class="fout" id="inlogfout" role="alert" aria-live="assertive"></p>
-      <button class="knop knop--primair knop--pijl" type="submit">Inloggen</button>
+      <button class="knop knop--primair knop--groot knop--pijl" type="submit">Inloggen</button>
     </form>
   </main>
   ${voet()}`);
@@ -481,7 +616,7 @@ function renderLogin() {
       sessionStorage.setItem(SESSIE_SLEUTEL, '1');
       route();
     } else {
-      document.getElementById('inlogfout').textContent = 'Onjuist wachtwoord. Probeer het opnieuw.';
+      document.getElementById('inlogfout').textContent = 'Dat wachtwoord klopt niet. Probeer het nog eens.';
       document.getElementById('wwveld').classList.add('veld--fout');
       ww.value = ''; ww.focus();
     }
@@ -495,12 +630,12 @@ function renderDashboard() {
   if (laadFout) {
     toon(`${balk()}
     <main class="app__main"><div class="container admin">
-      <span class="label">Dashboard</span>
+      <span class="label">Overzicht</span>
       <h1 class="kop-l" style="margin-bottom:28px">Cases</h1>
       <div class="foutvlak" role="alert">
         <p><strong>De cases konden niet uit de database worden geladen.</strong></p>
         <p>${esc(foutTekst(laadFout))}</p>
-        <div><button class="knop knop--secundair knop--klein" type="button" data-actie="opnieuw">Opnieuw proberen</button></div>
+        <div><button class="knop knop--secundair" type="button" data-actie="opnieuw">Opnieuw proberen</button></div>
       </div>
     </div></main>${voet()}`);
     app.querySelector('[data-actie="opnieuw"]').addEventListener('click', async () => { renderLaden(); await laadCases(); renderDashboard(); });
@@ -522,14 +657,14 @@ function renderDashboard() {
     <tr data-id="${esc(c.id)}">
       <td data-kop="Klant"><div class="tabel__klant">${esc(k.klantnaam) || '<em>Zonder klantnaam</em>'}</div><div class="tabel__titel">${esc(k.titel) || '<em>Zonder titel</em>'}</div></td>
       <td data-kop="Dienst">${esc(k.dienst || '')}</td>
-      <td data-kop="Locatie">${esc(k.locatie || '')}</td>
-      <td data-kop="Status"><span class="badge badge--${c.published ? 'gepubliceerd' : 'concept'}">${c.published ? 'gepubliceerd' : 'concept'}</span></td>
-      <td data-kop="Publicatiedatum">${esc(datumKort(datumVan(c)))}</td>
+      <td data-kop="Plaats">${esc(k.locatie || '')}</td>
+      <td data-kop="Status"><span class="badge badge--${c.published ? 'gepubliceerd' : 'concept'}">${c.published ? 'Op de website' : 'Concept'}</span></td>
+      <td data-kop="Datum">${esc(datumKort(datumVan(c)))}</td>
       <td>
         <div class="tabel__acties">
-          <button class="knop knop--secundair knop--klein" type="button" data-actie="wissel" data-id="${esc(c.id)}">${c.published ? 'Naar concept' : 'Publiceren'}</button>
-          ${c.published && c.slug ? `<a class="knop knop--secundair knop--klein" href="case.html?slug=${encodeURIComponent(c.slug)}">Bekijk</a>` : ''}
           <a class="knop knop--primair knop--klein" href="#/bewerk/${esc(c.id)}">Bewerken</a>
+          <button class="knop knop--secundair knop--klein" type="button" data-actie="wissel" data-id="${esc(c.id)}">${c.published ? 'Van de website halen' : 'Op de website zetten'}</button>
+          ${c.published && c.slug ? `<a class="knop knop--secundair knop--klein" href="case.html?slug=${encodeURIComponent(c.slug)}">Bekijk</a>` : ''}
           <button class="knop knop--secundair knop--klein knop--gevaar" type="button" data-actie="verwijder" data-id="${esc(c.id)}">Verwijderen</button>
         </div>
       </td>
@@ -541,33 +676,33 @@ function renderDashboard() {
     <div class="container admin">
       <div class="admin__kop">
         <div>
-          <span class="label">Dashboard</span>
+          <span class="label">Overzicht</span>
           <h1 class="kop-l">Cases</h1>
         </div>
         <div class="admin__acties">
           <button class="knop knop--secundair knop--klein" type="button" data-actie="exporteer" ${cases.length ? '' : 'disabled'}>Exporteer als JSON</button>
           <button class="knop knop--secundair knop--klein" type="button" data-actie="importeer">Importeer JSON</button>
           <input type="file" id="importbestand" accept="application/json,.json" class="visueel-verborgen" tabindex="-1">
-          <a class="knop knop--primair knop--klein knop--pijl" href="#/nieuw">Nieuwe case</a>
+          <a class="knop knop--primair knop--pijl" href="#/nieuw">Nieuwe case</a>
         </div>
       </div>
 
       <div class="stats">
         <div class="stat"><span class="label">Totaal</span><div class="stat__getal">${cases.length}</div></div>
-        <div class="stat"><span class="label">Gepubliceerd</span><div class="stat__getal">${aantalPub}</div></div>
+        <div class="stat"><span class="label">Op de website</span><div class="stat__getal">${aantalPub}</div></div>
         <div class="stat"><span class="label">Concepten</span><div class="stat__getal">${aantalCon}</div></div>
         <div class="stat"><span class="label">Deze maand</span><div class="stat__getal">${dezeMaand}</div></div>
       </div>
 
       <div class="tabs" role="tablist" aria-label="Filter op status">
         <button class="tab" role="tab" type="button" data-tab="alle" aria-selected="${dashboardTab === 'alle'}">Alle<span class="tab__aantal">${cases.length}</span></button>
-        <button class="tab" role="tab" type="button" data-tab="gepubliceerd" aria-selected="${dashboardTab === 'gepubliceerd'}">Gepubliceerd<span class="tab__aantal">${aantalPub}</span></button>
+        <button class="tab" role="tab" type="button" data-tab="gepubliceerd" aria-selected="${dashboardTab === 'gepubliceerd'}">Op de website<span class="tab__aantal">${aantalPub}</span></button>
         <button class="tab" role="tab" type="button" data-tab="concept" aria-selected="${dashboardTab === 'concept'}">Concepten<span class="tab__aantal">${aantalCon}</span></button>
       </div>
 
       <table class="tabel">
-        <thead><tr><th>Klant en titel</th><th>Dienst</th><th>Locatie</th><th>Status</th><th>Publicatiedatum</th><th><span class="visueel-verborgen">Acties</span></th></tr></thead>
-        <tbody>${rijen || `<tr><td colspan="6" class="leeg">${cases.length ? 'Geen cases in deze weergave.' : 'Nog geen cases. Maak de eerste aan met “Nieuwe case”.'}</td></tr>`}</tbody>
+        <thead><tr><th>Klant en titel</th><th>Dienst</th><th>Plaats</th><th>Status</th><th>Datum</th><th><span class="visueel-verborgen">Acties</span></th></tr></thead>
+        <tbody>${rijen || `<tr><td colspan="6" class="leeg">${cases.length ? 'Geen cases in deze weergave.' : 'Nog geen cases. Klik op “Nieuwe case” om de eerste te maken.'}</td></tr>`}</tbody>
       </table>
       <p class="melding" id="dashmelding" aria-live="polite"></p>
     </div>
@@ -589,16 +724,16 @@ function renderDashboard() {
       if (!Array.isArray(rijen) || !rijen.length) throw new ApiFout(200, 'De database gaf geen bijgewerkte rij terug.');
       vervangInLijst(normaliseer(rijen[0]));
       renderDashboard();
-      melding(`“${rijen[0].content?.klantnaam || rijen[0].slug}” staat nu op ${rijen[0].published ? 'gepubliceerd' : 'concept'}.`);
+      melding(`“${rijen[0].content?.klantnaam || rijen[0].slug}” staat nu ${rijen[0].published ? 'op de website' : 'als concept, niet op de website'}.`);
     } catch (e) {
       renderDashboard();
-      melding('Status wisselen is mislukt: ' + foutTekst(e), true);
+      melding('Dat is niet gelukt: ' + foutTekst(e), true);
     }
   }));
 
   app.querySelectorAll('[data-actie="verwijder"]').forEach(k => k.addEventListener('click', async () => {
     const c = vindCase(k.dataset.id); if (!c) return;
-    if (!confirm(`“${c.content.klantnaam || c.content.titel || c.slug}” definitief verwijderen uit de database?`)) return;
+    if (!confirm(`Weet je zeker dat je “${c.content.klantnaam || c.content.titel || c.slug}” wilt verwijderen?\n\nDit kan niet ongedaan worden gemaakt.`)) return;
     k.disabled = true; k.textContent = 'Bezig…';
     try {
       const rijen = await db.verwijder(c.id);
@@ -608,7 +743,7 @@ function renderDashboard() {
       melding(`“${c.content.klantnaam || c.slug}” is verwijderd.`);
     } catch (e) {
       renderDashboard();
-      melding('Verwijderen is mislukt: ' + foutTekst(e), true);
+      melding('Verwijderen is niet gelukt: ' + foutTekst(e), true);
     }
   }));
 
@@ -628,8 +763,6 @@ function exporteerJSON() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/* Importeren maakt nieuwe rijen aan (slug, published, content); id en
-   created_at uit het bestand worden genegeerd, die geeft de database zelf. */
 function importeerJSON(bestand, melding) {
   const lezer = new FileReader();
   lezer.onload = async () => {
@@ -640,8 +773,8 @@ function importeerJSON(bestand, melding) {
       if (!Array.isArray(lijst)) throw new Error();
     } catch (e) { melding('Dit bestand is geen geldige cases-export.', true); return; }
     const bruikbaar = lijst.filter(r => r && typeof r === 'object' && r.content && typeof r.content === 'object');
-    if (!bruikbaar.length) { melding('Geen cases met een content-veld gevonden in dit bestand.', true); return; }
-    if (!confirm(`${bruikbaar.length} case(s) als nieuwe rijen toevoegen aan de database?`)) return;
+    if (!bruikbaar.length) { melding('Geen cases gevonden in dit bestand.', true); return; }
+    if (!confirm(`${bruikbaar.length} case(s) toevoegen aan de database?`)) return;
     let gelukt = 0; const fouten = [];
     for (const r of bruikbaar) {
       const c = normaliseer({ ...r, id: null });
@@ -650,37 +783,67 @@ function importeerJSON(bestand, melding) {
         const rijen = await db.maak(c);
         if (Array.isArray(rijen) && rijen[0]) { vervangInLijst(normaliseer(rijen[0])); gelukt++; }
       } catch (e) {
-        fouten.push(`${c.slug || '(zonder slug)'}: ${e.status === 409 ? 'slug al in gebruik' : foutTekst(e)}`);
+        fouten.push(`${c.slug || '(zonder webadres)'}: ${e.status === 409 ? 'webadres al in gebruik' : foutTekst(e)}`);
       }
     }
     renderDashboard();
     const m = document.getElementById('dashmelding');
-    if (m) { m.textContent = `${gelukt} case(s) toegevoegd.` + (fouten.length ? ` Mislukt: ${fouten.join('; ')}` : ''); m.classList.toggle('melding--fout', fouten.length > 0); }
+    if (m) { m.textContent = `${gelukt} case(s) toegevoegd.` + (fouten.length ? ` Niet gelukt: ${fouten.join('; ')}` : ''); m.classList.toggle('melding--fout', fouten.length > 0); }
   };
   lezer.readAsText(bestand);
 }
 
 /* ============================================================================
-   Editor
+   Editor: stap voor stap
    ========================================================================== */
 let bewerk = null;          // de rij die open staat (kopie tot je opslaat)
-let slugHandmatig = false;  // true zodra iemand de slug zelf aanpast
+let gewijzigd = false;      // iets veranderd sinds de laatste keer opslaan?
+let slugHandmatig = false;  // true zodra iemand het webadres zelf aanpast
 let nieuw = false;
-let vorigeKlant = '';       // om de kop "Over [klant]" mee te laten lopen
+let vorigeKlant = '';
 let opslaanBezig = false;
+let stap = 0;
+let voorbeeldTimer = null;
 
+const STAPPEN = [
+  { id: 'klant', kort: 'De klant', titel: 'Over welke klant gaat deze case?',
+    uitleg: 'Begin met de basis: wie de klant is, wat we voor ze hebben gedaan en waar.',
+    klaar: (c) => heeftTekst(c.klantnaam) && heeftTekst(c.dienst) },
+  { id: 'kop', kort: 'Kop en foto', titel: 'De kop van de pagina',
+    uitleg: 'Dit is het eerste wat een bezoeker ziet: een grote titel en een foto over de volle breedte.',
+    klaar: (c) => heeftTekst(c.titel) && heeftTekst(c.hero.afbeelding) },
+  { id: 'cijfers', kort: 'Cijfers', titel: 'Cijfers die eruit springen',
+    uitleg: 'Twee tot vier getallen die het resultaat in één oogopslag laten zien. Ze staan groot onder de kop.',
+    klaar: (c) => c.kerncijfers.filter(k => heeftTekst(k.getal) && heeftTekst(k.label)).length >= 2 },
+  { id: 'situatie', kort: 'De situatie', titel: 'Wat was de situatie?',
+    uitleg: 'Vertel in gewone woorden waar het om ging. Korte zinnen lezen het prettigst.',
+    klaar: (c) => heeftTekst(c.inleiding) && heeftTekst(c.over.body) && heeftTekst(c.uitdaging.body) },
+  { id: 'aanpak', kort: 'Aanpak en resultaat', titel: 'Wat hebben we gedaan, en wat leverde het op?',
+    uitleg: 'Eerst de aanpak, daarna het resultaat. Losse punten maken het overzichtelijk.',
+    klaar: (c) => heeftTekst(c.aanpak.body) && heeftTekst(c.resultaat.body) },
+  { id: 'citaat', kort: 'Uitspraak klant', titel: 'Een uitspraak van de klant',
+    uitleg: 'Een zin van iemand bij de klant maakt het verhaal geloofwaardig. Heb je er geen, zet dit dan uit.',
+    klaar: (c) => !c.citaat.tonen || (heeftTekst(c.citaat.tekst) && heeftTekst(c.citaat.naam)) },
+  { id: 'overzicht', kort: 'In het overzicht', titel: 'Zo staat de case in het overzicht',
+    uitleg: 'Op de casespagina staat elke case als een kaartje met een foto en twee zinnen. Kies hier ook welke andere cases onderaan worden getoond.',
+    klaar: (c) => heeftTekst(c.kaart.afbeelding) && heeftTekst(samenvatting(c)) },
+  { id: 'klaar', kort: 'Controleren', titel: 'Controleren en op de website zetten',
+    uitleg: 'Kijk of alles erin staat, bekijk het voorbeeld, en zet de case op de website als je tevreden bent.',
+    klaar: () => true },
+];
+
+/* --- Bouwstenen ---------------------------------------------------------- */
 function veld(pad, label, opties = {}) {
   const id = 'v_' + pad.replace(/\W/g, '_');
   const waarde = lees(bewerk, pad) ?? '';
-  const hint = opties.hint ? `<span class="veld__hint">${esc(opties.hint)}</span>` : '';
+  const hint = opties.hint ? `<span class="veld__hint">${opties.hint}</span>` : '';
   const fout = opties.foutId ? `<span class="veld__fout" id="${opties.foutId}" role="alert"></span>` : '';
+  const lijst = opties.lijst ? ` list="${id}_lijst"` : '';
+  const datalist = opties.lijst ? `<datalist id="${id}_lijst">${opties.lijst.map(w => `<option value="${esc(w)}">`).join('')}</datalist>` : '';
   if (opties.soort === 'tekstvak') {
     return `<div class="veld"><label for="${id}">${esc(label)}</label><textarea id="${id}" data-pad="${pad}" rows="${opties.rijen || 5}" placeholder="${esc(opties.placeholder || '')}">${esc(waarde)}</textarea>${hint}</div>`;
   }
-  if (opties.soort === 'keuze') {
-    return `<div class="veld"><label for="${id}">${esc(label)}</label><select id="${id}" data-pad="${pad}">${opties.keuzes.map(([w, t]) => `<option value="${esc(w)}" ${String(w) === String(waarde) ? 'selected' : ''}>${esc(t)}</option>`).join('')}</select>${hint}</div>`;
-  }
-  return `<div class="veld" ${opties.foutId ? `id="${opties.foutId}-veld"` : ''}><label for="${id}">${esc(label)}</label><input type="${opties.soort || 'text'}" id="${id}" data-pad="${pad}" value="${esc(waarde)}" placeholder="${esc(opties.placeholder || '')}">${fout}${hint}</div>`;
+  return `<div class="veld" ${opties.foutId ? `id="${opties.foutId}-veld"` : ''}><label for="${id}">${esc(label)}</label><input type="${opties.soort || 'text'}" id="${id}" data-pad="${pad}" value="${esc(waarde)}" placeholder="${esc(opties.placeholder || '')}"${lijst}>${datalist}${fout}${hint}</div>`;
 }
 
 function schakel(pad, label) {
@@ -688,9 +851,30 @@ function schakel(pad, label) {
   return `<label class="schakel"><input type="checkbox" id="${id}" data-pad="${pad}" ${lees(bewerk, pad) ? 'checked' : ''}><span class="schakel__spoor" aria-hidden="true"></span><span>${esc(label)}</span></label>`;
 }
 
-function beeldvoorbeeld(pad) {
-  const p = lees(bewerk, pad);
-  return `<div class="voorvertoning" data-voorbeeld="${pad}">${p ? `<img src="${esc(p)}" alt="">` : '<span class="veld__hint">Nog geen afbeelding.</span>'}</div>`;
+/* Fotokiezer: plaatjes uit de bibliotheek. `slot` is het pad naar het
+   afbeeldingsveld, `maat` groot of klein. Wie een eigen pad kent kan dat
+   onder "Zelf een bestandsnaam opgeven" nog altijd typen. */
+function fotokiezer(slot, altPad, maat, kop, hint) {
+  const gekozen = lees(bewerk, slot) || '';
+  const lijst = bibliotheek || [];
+  const gekozenFoto = lijst.find(f => f[maat] === gekozen || f.groot === gekozen || f.klein === gekozen);
+  return `
+    <div class="fotokiezer" data-slot="${slot}" data-alt="${altPad}" data-maat="${maat}">
+      <span class="veldlabel">${esc(kop)}</span>
+      ${hint ? `<span class="veld__hint" style="margin-top:-8px">${hint}</span>` : ''}
+      <div class="fotokiezer__raster">
+        <button type="button" class="foto-optie foto-optie--geen" data-kies="" aria-pressed="${gekozen ? 'false' : 'true'}">Geen foto</button>
+        ${lijst.map(f => `<button type="button" class="foto-optie" data-kies="${esc(f[maat])}" data-kies-alt="${esc(f.alt)}" aria-pressed="${f === gekozenFoto ? 'true' : 'false'}" aria-label="${esc(f.alt)}"><img src="${esc(f.klein)}" alt="" loading="lazy"><span class="foto-optie__naam">${esc(f.naam)}</span></button>`).join('')}
+      </div>
+      <div class="fotokiezer__gekozen" data-gekozen>${gekozen ? `<img src="${esc(gekozen)}" alt=""><span>Gekozen: <strong>${esc(gekozenFoto ? gekozenFoto.naam : gekozen)}</strong></span>` : '<span>Nog geen foto gekozen.</span>'}</div>
+      <details class="geavanceerd">
+        <summary>Zelf een bestandsnaam opgeven</summary>
+        <div class="velden">
+          ${veld(slot, 'Bestandsnaam van de foto', { placeholder: 'assets/foto/naam-1024.webp', hint: 'Alleen nodig als de foto niet in de lijst hierboven staat.' })}
+          ${veld(altPad, 'Korte beschrijving van de foto', { placeholder: 'Bijvoorbeeld: lasser aan het werk in de hal', hint: 'Wordt voorgelezen aan mensen die slecht zien. Bij een foto uit de lijst is dit al ingevuld.' })}
+        </div>
+      </details>
+    </div>`;
 }
 
 function kerncijferLijst() {
@@ -699,308 +883,505 @@ function kerncijferLijst() {
     <div class="herhaal" data-lijst="content.kerncijfers">
       ${lijst.map((k, i) => `
       <div class="herhaal__rij">
+        <span class="herhaal__nr">Cijfer ${i + 1}</span>
         <div class="herhaal__velden">
-          ${veld(`content.kerncijfers.${i}.label`, 'Label', { placeholder: 'TREDE BIJ DE NULMETING' })}
-          ${veld(`content.kerncijfers.${i}.getal`, 'Getal', { placeholder: '2' })}
-          ${veld(`content.kerncijfers.${i}.eenheid`, 'Eenheid', { placeholder: 'van 5' })}
+          ${veld(`content.kerncijfers.${i}.label`, 'Waar gaat het over?', { placeholder: 'Bijvoorbeeld: Doorlooptijd' })}
+          ${veld(`content.kerncijfers.${i}.getal`, 'Het getal', { placeholder: 'Bijvoorbeeld: 7' })}
+          ${veld(`content.kerncijfers.${i}.eenheid`, 'Eenheid (mag leeg)', { placeholder: 'Bijvoorbeeld: maanden' })}
         </div>
-        <button class="herhaal__verwijder" type="button" data-actie="verwijder-item" data-lijst="content.kerncijfers" data-index="${i}" aria-label="Kerncijfer ${i + 1} verwijderen" ${lijst.length <= 2 ? 'disabled' : ''}>×</button>
+        <button class="herhaal__verwijder" type="button" data-actie="verwijder-item" data-lijst="content.kerncijfers" data-index="${i}" ${lijst.length <= 2 ? 'disabled' : ''}>Weghalen</button>
       </div>`).join('')}
-      <div><button class="knop knop--secundair knop--klein" type="button" data-actie="voeg-item" data-lijst="content.kerncijfers" ${lijst.length >= 4 ? 'disabled' : ''}>Kerncijfer toevoegen</button> <span class="veld__hint">Minimaal twee, maximaal vier.</span></div>
+      <div><button class="knop knop--secundair" type="button" data-actie="voeg-item" data-lijst="content.kerncijfers" ${lijst.length >= 4 ? 'disabled' : ''}>+ Nog een cijfer</button> <span class="veld__hint" style="margin-left:12px">Minimaal twee, maximaal vier.</span></div>
     </div>`;
 }
 
-function puntenLijst(pad, naam) {
+function puntenLijst(pad, kop, hint) {
   const lijst = lees(bewerk, pad);
   const basis = 'v_' + pad.replace(/\W/g, '_');
   return `
     <div class="herhaal" data-lijst="${pad}">
-      <span class="veldlabel">${esc(naam)}</span>
+      <span class="veldlabel">${esc(kop)}</span>
+      ${hint ? `<span class="veld__hint" style="margin-top:-8px">${hint}</span>` : ''}
       ${lijst.map((p, i) => `
       <div class="herhaal__rij">
         <div class="herhaal__velden herhaal__velden--1">
-          <div class="veld"><label class="visueel-verborgen" for="${basis}_${i}">Punt ${i + 1}</label><input type="text" id="${basis}_${i}" data-pad="${pad}.${i}" value="${esc(p)}"></div>
+          <div class="veld"><label class="visueel-verborgen" for="${basis}_${i}">Punt ${i + 1}</label><input type="text" id="${basis}_${i}" data-pad="${pad}.${i}" value="${esc(p)}" placeholder="Punt ${i + 1}"></div>
         </div>
-        <button class="herhaal__verwijder" type="button" data-actie="verwijder-item" data-lijst="${pad}" data-index="${i}" aria-label="Punt ${i + 1} verwijderen">×</button>
+        <button class="herhaal__verwijder" type="button" data-actie="verwijder-item" data-lijst="${pad}" data-index="${i}">Weghalen</button>
       </div>`).join('')}
-      <div><button class="knop knop--secundair knop--klein" type="button" data-actie="voeg-item" data-lijst="${pad}">Punt toevoegen</button></div>
+      <div><button class="knop knop--secundair" type="button" data-actie="voeg-item" data-lijst="${pad}">+ Punt toevoegen</button></div>
     </div>`;
 }
 
-/* Gerelateerde cases worden als slug bewaard: dat is wat de site zelf ook
-   gebruikt, en het overleeft een export en import beter dan een id. */
-function gerelateerdKeuzes(index) {
+function gerelateerdKaarten() {
   const anderen = gesorteerd(cases.filter(c => c.published && String(c.id) !== String(bewerk.id) && c.slug));
-  const keuzes = [['', 'Geen'], ...anderen.map(c => [c.slug, `${c.content.klantnaam || c.slug}: ${c.content.titel || ''}`])];
-  return veld(`content.gerelateerd.${index}`, `Gerelateerde case ${index + 1}`, { soort: 'keuze', keuzes });
+  const gekozen = bewerk.content.gerelateerd.filter(Boolean);
+  if (!anderen.length) return '<p class="veld__hint">Er zijn nog geen andere cases op de website om te kiezen.</p>';
+  return `<div class="casekaarten" data-gerelateerd>
+    ${anderen.map(c => {
+      const aan = gekozen.includes(c.slug);
+      const vol = !aan && gekozen.length >= 2;
+      return `<button type="button" class="casekaart" data-kies-case="${esc(c.slug)}" aria-pressed="${aan}" ${vol ? 'disabled' : ''}>
+        ${c.content.kaart.afbeelding ? `<img src="${esc(c.content.kaart.afbeelding)}" alt="" loading="lazy">` : '<span class="casekaart__leeg"></span>'}
+        <span class="casekaart__tekst"><span class="casekaart__klant">${esc(c.content.klantnaam || c.slug)}</span><span class="casekaart__sub">${esc(c.content.dienst || '')}${c.content.locatie ? ' · ' + esc(c.content.locatie) : ''}</span></span>
+      </button>`;
+    }).join('')}
+  </div>
+  <p class="veld__hint" data-gerelateerd-telling>${gekozen.length} van 2 gekozen.</p>`;
 }
 
-function sectie(nr, kop, inhoud, open = false, toestand = '') {
-  return `
-    <details class="sectie" ${open ? 'open' : ''} data-sectie="${nr}">
-      <summary><span class="sectie__nr">${nr}</span><span class="sectie__kop">${esc(kop)}</span><span class="sectie__toestand">${esc(toestand)}</span></summary>
-      <div class="sectie__inhoud">${inhoud}</div>
-    </details>`;
+function kaartvoorbeeld() {
+  const k = bewerk.content;
+  return `<div class="kaartvoorbeeld" aria-label="Zo ziet het kaartje eruit">
+    <div class="kaartvoorbeeld__tekst">
+      <div class="rij__meta"><span class="label" data-kaart="dienst">${esc(k.dienst)}</span><span class="label" data-kaart="locatie">${esc(k.locatie)}</span></div>
+      <h3 class="kop-m" data-kaart="klant">${esc(k.klantnaam) || '[klantnaam]'}</h3>
+      <p data-kaart="samenvatting">${esc(samenvatting(k)) || '[korte samenvatting]'}</p>
+    </div>
+    ${k.kaart.afbeelding ? `<img src="${esc(k.kaart.afbeelding)}" alt="" data-kaart="beeld">` : '<div class="kaartvoorbeeld__leeg" data-kaart="beeld"></div>'}
+  </div>`;
+}
+
+/* --- De stappen zelf ------------------------------------------------------ */
+function stapInhoud(i) {
+  const c = bewerk.content;
+  switch (STAPPEN[i].id) {
+    case 'klant': return `
+      <div class="blok">
+        ${veld('content.klantnaam', 'Naam van het bedrijf', { placeholder: 'Bijvoorbeeld: Van Deursen Metaal B.V.', hint: 'Zo komt hij op de website te staan.' })}
+        <div class="veld">
+          <span class="veldlabel">Welke dienst hebben we geleverd?</span>
+          <div class="keuzes" role="radiogroup" aria-label="Dienst">
+            ${DIENSTEN.map(d => `<label class="keuze"><input type="radio" name="dienst" value="${esc(d)}" data-pad="content.dienst" ${c.dienst === d ? 'checked' : ''}><span class="keuze__vak">${esc(d)}</span></label>`).join('')}
+          </div>
+        </div>
+        <div class="velden velden--2">
+          ${veld('content.branche', 'In welke branche werkt de klant?', { placeholder: 'Bijvoorbeeld: Productie', lijst: BRANCHES, hint: 'Begin met typen, dan verschijnen suggesties.' })}
+          ${veld('content.locatie', 'Waar zit de klant?', { placeholder: 'Bijvoorbeeld: Gorinchem' })}
+          ${veld('content.publicatiedatum', 'Wanneer was dit?', { soort: 'date', hint: 'Een dag in die maand is genoeg. De nieuwste komt bovenaan.' })}
+        </div>
+        <details class="geavanceerd">
+          <summary>Webadres van de pagina (wordt automatisch gemaakt)</summary>
+          <div class="velden">
+            ${veld('slug', 'Webadres', { placeholder: 'case-van-deursen-metaal', foutId: 'slugfout', hint: 'Wordt uit de bedrijfsnaam gemaakt. Je hoeft hier niets te doen.' })}
+          </div>
+        </details>
+      </div>`;
+
+    case 'kop': return `
+      <div class="blok">
+        ${veld('content.titel', 'De titel bovenaan de pagina', { placeholder: 'Bijvoorbeeld: Van reactief naar proactief in drie blokken', hint: 'Eén zin die zegt wat er is veranderd. Niet de bedrijfsnaam; die staat al in het overzicht.' })}
+      </div>
+      <div class="blok">
+        ${fotokiezer('content.hero.afbeelding', 'content.hero.alt', 'groot', 'De grote foto bovenaan', 'Klik op een foto om hem te kiezen. Hij komt over de volle breedte achter de titel.')}
+      </div>
+      <div class="blok">
+        <details class="geavanceerd">
+          <summary>Kleine regel boven de titel en de knoppen (staan standaard goed)</summary>
+          <div class="velden">
+            ${veld('content.hero.label', 'Kleine regel boven de titel', { placeholder: autoLabel(c) || 'DIENST · BRANCHE', hint: 'Leeg laten = automatisch de dienst en de branche: <strong>' + esc(autoLabel(c) || '…') + '</strong>' })}
+            <div class="velden velden--2">
+              ${veld('content.hero.ctaPrimair', 'Tekst op de gele knop')}
+              ${veld('content.hero.ctaSecundair', 'Tekst op de witte knop')}
+            </div>
+          </div>
+        </details>
+      </div>`;
+
+    case 'cijfers': return `
+      <div class="blok">
+        <p class="veld__hint">Een voorbeeld: <strong>Doorlooptijd</strong> · <strong>7</strong> · <strong>maanden</strong> komt op de pagina als een grote 7 met “maanden” erachter en “Doorlooptijd” erboven.</p>
+        ${kerncijferLijst()}
+      </div>`;
+
+    case 'situatie': return `
+      <div class="blok">
+        ${veld('content.inleiding', 'Waarmee begon het?', { soort: 'tekstvak', rijen: 4, placeholder: 'Bijvoorbeeld: Na een samenvoeging van twee hallen liepen de werkafspraken uiteen…', hint: 'Eén korte alinea. Dit staat groot onder de cijfers, en de eerste twee zinnen worden ook gebruikt op het kaartje in het overzicht.' })}
+      </div>
+      <div class="blok">
+        <h3 class="blok__kop">Over de klant</h3>
+        ${veld('content.over.body', 'Wie is de klant?', { soort: 'tekstvak', rijen: 4, placeholder: 'Bijvoorbeeld: Van Deursen Metaal maakt constructiedelen voor de scheepsbouw. Zestig medewerkers, twee ploegen…', hint: 'Twee of drie zinnen: wat ze maken of doen, hoe groot ze zijn.' })}
+        <details class="geavanceerd">
+          <summary>Kop boven dit stuk (standaard “Over ${esc(c.klantnaam || 'de klant')}”)</summary>
+          <div class="velden">${veld('content.over.kop', 'Kop', { placeholder: 'Over ' + (c.klantnaam || '[bedrijf]') })}</div>
+        </details>
+      </div>
+      <div class="blok">
+        <h3 class="blok__kop">Wat was het probleem?</h3>
+        ${veld('content.uitdaging.body', 'Beschrijf het probleem', { soort: 'tekstvak', rijen: 5, placeholder: 'Bijvoorbeeld: Op papier lag alles vast, maar op de vloer werkte iedere ploeg naar eigen inzicht…' })}
+        ${puntenLijst('content.uitdaging.lijst', 'De belangrijkste punten, kort', 'Losse zinnen die als opsomming onder de tekst komen. Mag leeg blijven.')}
+        <details class="geavanceerd">
+          <summary>Kop boven dit stuk (standaard “De uitdaging”)</summary>
+          <div class="velden">${veld('content.uitdaging.kop', 'Kop')}</div>
+        </details>
+      </div>`;
+
+    case 'aanpak': return `
+      <div class="blok">
+        <h3 class="blok__kop">Wat hebben we gedaan?</h3>
+        ${veld('content.aanpak.body', 'Beschrijf de aanpak', { soort: 'tekstvak', rijen: 5, placeholder: 'Bijvoorbeeld: In drie blokken van twee maanden hebben we met de voormannen gewerkt aan…' })}
+        ${puntenLijst('content.aanpak.lijst', 'De stappen, kort', 'Losse zinnen die als opsomming onder de tekst komen. Mag leeg blijven.')}
+        <details class="geavanceerd">
+          <summary>Kop boven dit stuk (standaard “De aanpak”)</summary>
+          <div class="velden">${veld('content.aanpak.kop', 'Kop')}</div>
+        </details>
+      </div>
+      <div class="blok">
+        ${fotokiezer('content.aanpak.afbeelding', 'content.aanpak.alt', 'groot', 'Een sfeerfoto tussen de tekst (mag leeg)', 'Komt over de volle breedte tussen de aanpak en het resultaat.')}
+      </div>
+      <div class="blok">
+        <h3 class="blok__kop">Wat leverde het op?</h3>
+        ${veld('content.resultaat.body', 'Beschrijf het resultaat', { soort: 'tekstvak', rijen: 4, placeholder: 'Bijvoorbeeld: Bij de hermeting stond de organisatie op trede vier…' })}
+        ${veld('content.resultaat.kop', 'Kop boven dit stuk', { placeholder: 'Het resultaat', hint: 'Leeg laten = “Het resultaat”. Een eigen kop mag ook, bijvoorbeeld “Zelfde plek, ander resultaat”.' })}
+      </div>`;
+
+    case 'citaat': return `
+      <div class="blok">
+        ${schakel('content.citaat.tonen', 'Een uitspraak van de klant op de pagina tonen')}
+        ${c.citaat.tonen ? `
+        ${veld('content.citaat.tekst', 'Wat zei de klant?', { soort: 'tekstvak', rijen: 3, placeholder: 'Bijvoorbeeld: De rapportage was de eerste die onze ploegleiders uit zichzelf hebben doorgelezen.', hint: 'Zonder aanhalingstekens; die zet de pagina er zelf omheen.' })}
+        <div class="velden velden--2">
+          ${veld('content.citaat.naam', 'Wie zei het?', { placeholder: 'Bijvoorbeeld: Karin Vermeer' })}
+          ${veld('content.citaat.functie', 'Functie en bedrijf', { placeholder: 'Bijvoorbeeld: KAM-coördinator, Van Deursen Metaal B.V.' })}
+        </div>` : '<p class="veld__hint">De uitspraak wordt niet getoond. Zet de schakelaar aan om er een in te vullen.</p>'}
+      </div>`;
+
+    case 'overzicht': return `
+      <div class="blok">
+        <h3 class="blok__kop">Het kaartje in het overzicht</h3>
+        ${kaartvoorbeeld()}
+        ${veld('content.kaart.samenvatting', 'Twee zinnen op het kaartje', { soort: 'tekstvak', rijen: 3, placeholder: samenvatting({ ...c, kaart: { samenvatting: '' } }) || 'Bijvoorbeeld: Twee ploegen die anders werkten, teruggebracht naar één manier van doen.', hint: 'Leeg laten = de eerste twee zinnen van “Waarmee begon het?”.' })}
+        ${fotokiezer('content.kaart.afbeelding', 'content.kaart.alt', 'klein', 'De foto op het kaartje', 'Meestal dezelfde als de grote foto bovenaan.')}
+      </div>
+      <div class="blok">
+        <h3 class="blok__kop">Andere cases onderaan de pagina</h3>
+        <p class="veld__hint" style="margin-top:-18px">Kies er hoogstens twee. Ze verschijnen onder de kop “Andere trajecten”.</p>
+        ${gerelateerdKaarten()}
+      </div>
+      <div class="blok">
+        <h3 class="blok__kop">De uitnodiging om contact op te nemen</h3>
+        <p class="veld__hint" style="margin-top:-18px">Het groene vlak helemaal onderaan de pagina.</p>
+        ${veld('content.cta.kop', 'Kop', { placeholder: 'Herken je dit?' })}
+        ${veld('content.cta.tekst', 'Tekst', { soort: 'tekstvak', rijen: 3, placeholder: 'Bijvoorbeeld: Twee ploegen, twee manieren van werken. In een gesprek van een halfuur kijken we wat er in jouw situatie nodig is.' })}
+        <details class="geavanceerd">
+          <summary>Kleine regel en knoptekst (staan standaard goed)</summary>
+          <div class="velden velden--2">
+            ${veld('content.cta.label', 'Kleine regel boven de kop')}
+            ${veld('content.cta.knoptekst', 'Tekst op de knop')}
+          </div>
+        </details>
+      </div>`;
+
+    case 'klaar': {
+      const punten = [
+        [heeftTekst(c.klantnaam), 'Naam van het bedrijf', 0],
+        [heeftTekst(c.titel), 'Titel bovenaan de pagina', 1],
+        [heeftTekst(c.hero.afbeelding), 'Grote foto bovenaan', 1],
+        [c.kerncijfers.filter(k => heeftTekst(k.getal) && heeftTekst(k.label)).length >= 2, 'Minstens twee cijfers ingevuld', 2],
+        [heeftTekst(c.inleiding), 'Waarmee begon het?', 3],
+        [heeftTekst(c.over.body) && heeftTekst(c.uitdaging.body), 'Over de klant en het probleem', 3],
+        [heeftTekst(c.aanpak.body) && heeftTekst(c.resultaat.body), 'Aanpak en resultaat', 4],
+        [!c.citaat.tonen || (heeftTekst(c.citaat.tekst) && heeftTekst(c.citaat.naam)), 'Uitspraak van de klant (of uitgezet)', 5],
+        [heeftTekst(c.kaart.afbeelding), 'Foto op het kaartje in het overzicht', 6],
+      ];
+      const open = punten.filter(p => !p[0]).length;
+      return `
+      <div class="blok">
+        <h3 class="blok__kop">${open ? `Nog ${open} ${open === 1 ? 'ding' : 'dingen'} om naar te kijken` : 'Alles is ingevuld'}</h3>
+        <ul class="checklist">
+          ${punten.map(([goed, tekst, naar]) => `<li class="${goed ? 'is-goed' : 'is-open'}"><span class="checklist__teken" aria-hidden="true"></span><span>${esc(tekst)}${goed ? '' : ` &nbsp;<a href="#" data-naar-stap="${naar}">invullen</a>`}</span></li>`).join('')}
+        </ul>
+        <p class="veld__hint">Een case mag ook op de website met open punten; de pagina laat lege stukken gewoon weg.</p>
+      </div>
+      <div class="blok">
+        <button class="knop knop--secundair knop--groot" type="button" data-actie="voorbeeld">Bekijk hoe de pagina eruitziet</button>
+        <p class="veld__hint" style="margin-top:-12px">Je ziet de echte pagina met wat je nu hebt ingevuld, ook als het nog niet is opgeslagen.</p>
+      </div>
+      <div class="publiceer ${bewerk.published ? 'is-aan' : ''}" data-publiceer>
+        ${schakel('published', bewerk.published ? 'Deze case staat op de website' : 'Deze case op de website zetten')}
+        <p class="publiceer__uitleg">${bewerk.published
+          ? 'Iedereen kan hem zien op de casespagina. Zet de schakelaar uit om hem weer als concept te bewaren.'
+          : 'Nu is het een concept: alleen hier zichtbaar, niet op de website. Zet de schakelaar aan en klik op Opslaan om hem te tonen.'}</p>
+      </div>`;
+    }
+  }
+  return '';
 }
 
 function renderEditor(id) {
   nieuw = !id;
   const bron = id ? vindCase(id) : null;
   if (id && !bron) { location.hash = '#/'; return; }
-  /* Altijd een verse kopie: wie zonder opslaan wegklikt en terugkomt, ziet
-     wat er in de database staat en geen half bewerkte versie. */
-  bewerk = bron ? JSON.parse(JSON.stringify(bron)) : leegCase();
-  while (bewerk.content.kerncijfers.length < 2) bewerk.content.kerncijfers.push({ label: '', getal: '', eenheid: '' });
-  bewerk.content.gerelateerd = [bewerk.content.gerelateerd[0] || '', bewerk.content.gerelateerd[1] || ''];
-  slugHandmatig = !!bron && bron.slug !== slugVoorKlant(bron.content.klantnaam);
-  vorigeKlant = bewerk.content.klantnaam;
+  const zelfde = bewerk && (bron ? String(bewerk.id) === String(bron.id) : bewerk.id == null);
+  if (!zelfde) {
+    bewerk = bron ? JSON.parse(JSON.stringify(bron)) : leegCase();
+    while (bewerk.content.kerncijfers.length < 2) bewerk.content.kerncijfers.push({ label: '', getal: '', eenheid: '' });
+    slugHandmatig = !!bron && bron.slug !== slugVoorKlant(bron.content.klantnaam);
+    vorigeKlant = bewerk.content.klantnaam;
+    gewijzigd = false;
+    stap = 0;
+  }
+  laadBibliotheek().then(() => { if (bewerk) tekenEditor(); });
   tekenEditor();
 }
 
 function tekenEditor() {
-  const b = bewerk, k = b.content;
-  const openSecties = new Set([...app.querySelectorAll('details.sectie[open]')].map(d => d.dataset.sectie));
-  const isOpen = nr => openSecties.size ? openSecties.has(String(nr)) : nr === 1;
+  const b = bewerk, c = b.content;
+  const s = STAPPEN[stap];
+  const laatste = stap === STAPPEN.length - 1;
 
   toon(`${balk()}
   <main class="app__main">
     <div class="container admin">
-      <div class="admin__kop">
+      <div class="admin__kop" style="margin-bottom:28px">
         <div>
-          <a class="knop knop--tekst" href="#/">← Terug naar het dashboard</a>
-          <h1 class="kop-l" id="editorkop" style="margin-top:14px">${nieuw ? 'Nieuwe case' : esc(k.klantnaam || 'Case bewerken')}</h1>
+          <a class="knop knop--tekst" href="#/">← Terug naar het overzicht</a>
+          <h1 class="kop-l" id="editorkop" style="margin-top:14px">${nieuw && !heeftTekst(c.klantnaam) ? 'Nieuwe case' : esc(c.klantnaam || 'Case bewerken')}</h1>
         </div>
+        <span class="badge badge--${b.published ? 'gepubliceerd' : 'concept'}">${b.published ? 'Op de website' : 'Concept'}</span>
       </div>
 
-      <form class="editor" id="editorform" novalidate>
-        <div class="editor__secties">
-          ${sectie(1, 'Basis', `
-            <div class="velden">
-              ${veld('content.titel', 'Casetitel', { placeholder: 'Van reactief naar proactief in drie blokken', hint: 'De grote kop in de hero.' })}
-              <div class="velden velden--2">
-                ${veld('content.klantnaam', 'Klantnaam', { placeholder: 'Van Deursen Metaal B.V.' })}
-                ${veld('content.dienst', 'Dienst', { soort: 'keuze', keuzes: DIENSTEN.map(d => [d, d]) })}
-                ${veld('content.branche', 'Branche of sector', { placeholder: 'Productie' })}
-                ${veld('content.locatie', 'Locatie', { placeholder: 'Gorinchem' })}
-                ${veld('slug', 'Slug / bestandsnaam', { placeholder: 'case-van-deursen-metaal', hint: 'Wordt uit de klantnaam gemaakt; je mag hem aanpassen. Wordt later case-….html.', foutId: 'slugfout' })}
-                ${veld('content.publicatiedatum', 'Publicatiedatum', { soort: 'date' })}
-              </div>
-              ${schakel('published', 'Gepubliceerd (uit = concept)')}
-            </div>`, isOpen(1))}
+      <div class="editor">
+        <nav class="stappen" aria-label="Stappen">
+          ${STAPPEN.map((st, i) => `<button type="button" class="stappen__item ${i !== stap && st.klaar(c) ? 'is-klaar' : ''}" data-stap="${i}" ${i === stap ? 'aria-current="step"' : ''}><span class="stappen__nr"><span>${i + 1}</span></span><span>${esc(st.kort)}</span></button>`).join('')}
+        </nav>
 
-          ${sectie(2, 'Hero', `
-            <div class="velden">
-              <div class="velden velden--2">
-                ${veld('content.hero.afbeelding', 'Pad naar hero-afbeelding', { placeholder: 'assets/foto/lassen-1024.webp' })}
-                ${veld('content.hero.alt', 'Alt-tekst van de afbeelding', { placeholder: 'Lasser aan het werk aan een constructie' })}
-              </div>
-              ${beeldvoorbeeld('content.hero.afbeelding')}
-              ${veld('content.hero.label', 'Label boven de titel', { placeholder: autoLabel(k) || 'DIENST · BRANCHE', hint: 'Leeg = automatisch uit dienst en branche: ' + (autoLabel(k) || '…') })}
-              <div class="velden velden--2">
-                ${veld('content.hero.ctaPrimair', 'Tekst primaire knop')}
-                ${veld('content.hero.ctaSecundair', 'Tekst secundaire knop')}
-              </div>
-            </div>`, isOpen(2))}
-
-          ${sectie(3, 'Kerncijfers', kerncijferLijst(), isOpen(3), `${k.kerncijfers.length} van 4`)}
-
-          ${sectie(4, 'Inleiding', veld('content.inleiding', 'Lead-tekst', { soort: 'tekstvak', rijen: 4, hint: 'Eén alinea, zonder kop: de aanleiding van het traject. Zonder eigen kaartsamenvatting worden hieruit de eerste twee zinnen gebruikt.' }), isOpen(4))}
-
-          ${sectie(5, 'Over de klant', `
-            <div class="velden">
-              ${veld('content.over.kop', 'Kop', { placeholder: 'Over ' + (k.klantnaam || '[klantnaam]') })}
-              ${veld('content.over.body', 'Bodytekst', { soort: 'tekstvak' })}
-            </div>`, isOpen(5))}
-
-          ${sectie(6, 'De uitdaging', `
-            <div class="velden">
-              ${veld('content.uitdaging.kop', 'Kop')}
-              ${veld('content.uitdaging.body', 'Bodytekst', { soort: 'tekstvak' })}
-              ${puntenLijst('content.uitdaging.lijst', 'Punten')}
-            </div>`, isOpen(6))}
-
-          ${sectie(7, 'Citaat', `
-            <div class="velden">
-              ${schakel('content.citaat.tonen', 'Citaat tonen op de pagina')}
-              ${veld('content.citaat.tekst', 'Citaattekst', { soort: 'tekstvak', rijen: 3 })}
-              <div class="velden velden--2">
-                ${veld('content.citaat.naam', 'Naam')}
-                ${veld('content.citaat.functie', 'Functie en bedrijf', { placeholder: 'KAM-coördinator, Van Deursen Metaal B.V.' })}
-              </div>
-            </div>`, isOpen(7), k.citaat.tonen ? '' : 'weggelaten')}
-
-          ${sectie(8, 'De aanpak', `
-            <div class="velden">
-              ${veld('content.aanpak.kop', 'Kop')}
-              ${veld('content.aanpak.body', 'Bodytekst', { soort: 'tekstvak' })}
-              ${puntenLijst('content.aanpak.lijst', 'Punten')}
-              <div class="velden velden--2">
-                ${veld('content.aanpak.afbeelding', 'Pad naar sfeerafbeelding (optioneel)', { placeholder: 'assets/foto/productiehal-1024.webp' })}
-                ${veld('content.aanpak.alt', 'Alt-tekst')}
-              </div>
-              ${beeldvoorbeeld('content.aanpak.afbeelding')}
-            </div>`, isOpen(8))}
-
-          ${sectie(9, 'Het resultaat', `
-            <div class="velden">
-              ${veld('content.resultaat.kop', 'Kop', { placeholder: 'Zelfde plek, ander resultaat' })}
-              ${veld('content.resultaat.body', 'Bodytekst', { soort: 'tekstvak' })}
-            </div>`, isOpen(9))}
-
-          ${sectie(10, 'Kaartweergave', `
-            <div class="velden">
-              ${veld('content.kaart.samenvatting', 'Korte samenvatting', { soort: 'tekstvak', rijen: 3, hint: 'Maximaal twee zinnen. Leeg = de eerste twee zinnen van de inleiding (wordt niet opgeslagen).' })}
-              <div class="velden velden--2">
-                ${veld('content.kaart.afbeelding', 'Pad naar kaartafbeelding', { placeholder: 'assets/foto/lassen-640.webp' })}
-                ${veld('content.kaart.alt', 'Alt-tekst')}
-              </div>
-              ${beeldvoorbeeld('content.kaart.afbeelding')}
-              <div class="kaartvoorbeeld" aria-label="Voorbeeld van de kaart">
-                <div class="rij__meta"><span class="label" data-kaart="dienst">${esc(k.dienst)}</span><span class="label" data-kaart="locatie">${esc(k.locatie)}</span></div>
-                <h3 class="kop-m" data-kaart="klant">${esc(k.klantnaam) || '[klantnaam]'}</h3>
-                <p data-kaart="samenvatting">${esc(samenvatting(k)) || '[korte samenvatting]'}</p>
-              </div>
-            </div>`, isOpen(10))}
-
-          ${sectie(11, 'Gerelateerde cases', `
-            <div class="velden velden--2">
-              ${gerelateerdKeuzes(0)}
-              ${gerelateerdKeuzes(1)}
-            </div>
-            <span class="veld__hint">Alleen gepubliceerde cases zijn te kiezen. Ze verschijnen onderaan de pagina onder “Andere trajecten”.</span>`, isOpen(11))}
-
-          ${sectie(12, 'CTA-blok', `
-            <div class="velden">
-              <div class="velden velden--2">
-                ${veld('content.cta.label', 'Label')}
-                ${veld('content.cta.kop', 'Kop', { placeholder: 'Herken je dit?' })}
-              </div>
-              ${veld('content.cta.tekst', 'Tekst', { soort: 'tekstvak', rijen: 3 })}
-              ${veld('content.cta.knoptekst', 'Knoptekst')}
-            </div>`, isOpen(12))}
-        </div>
-
-        <aside class="editor__zij" aria-label="Opslaan">
-          <span class="badge badge--${b.published ? 'gepubliceerd' : 'concept'}" style="justify-self:start">${b.published ? 'gepubliceerd' : 'concept'}</span>
-          <button class="knop knop--primair knop--pijl" type="submit" id="opslaanknop">Opslaan</button>
-          <button class="knop knop--secundair" type="button" data-actie="opslaan-sluiten">Opslaan en sluiten</button>
-          ${!nieuw && b.published && b.slug ? `<a class="knop knop--secundair" href="case.html?slug=${encodeURIComponent(b.slug)}">Bekijk pagina</a>` : ''}
-          <p class="melding" id="editormelding" aria-live="polite">${b.created_at ? 'Aangemaakt ' + esc(datumKort(b.created_at)) + '.' : ''}</p>
-        </aside>
-      </form>
+        <form class="stap" id="editorform" novalidate aria-labelledby="stapkop">
+          <div class="stap__kop">
+            <span class="stap__nr">Stap ${stap + 1} van ${STAPPEN.length}</span>
+            <h2 id="stapkop" tabindex="-1">${esc(s.titel)}</h2>
+            <p class="stap__uitleg">${esc(s.uitleg)}</p>
+          </div>
+          ${stapInhoud(stap)}
+        </form>
+      </div>
     </div>
   </main>
-  ${voet()}`);
+  ${voet()}
+
+  <div class="balkonder">
+    <div class="container balkonder__inner">
+      <div class="balkonder__groep">
+        <button class="knop knop--secundair knop--terug" type="button" data-actie="vorige" ${stap === 0 ? 'disabled' : ''}>Vorige</button>
+        ${laatste ? '' : '<button class="knop knop--secundair knop--pijl" type="button" data-actie="volgende">Volgende</button>'}
+        <button class="knop knop--secundair" type="button" data-actie="voorbeeld">Voorbeeld</button>
+      </div>
+      <div class="balkonder__groep">
+        <span class="balkonder__status ${gewijzigd ? 'balkonder__status--let' : ''}" id="editormelding" aria-live="polite">${gewijzigd ? 'Nog niet opgeslagen' : (b.created_at ? 'Alles is opgeslagen' : '')}</span>
+        <button class="knop knop--primair knop--groot" type="button" id="opslaanknop" data-actie="opslaan">Opslaan</button>
+      </div>
+    </div>
+  </div>
+
+  <dialog class="voorbeeld" id="voorbeeld">
+    <div class="voorbeeld__kop">
+      <strong>Zo ziet de pagina eruit</strong>
+      <button class="knop knop--secundair knop--klein" type="button" data-actie="sluit-voorbeeld">Sluiten</button>
+    </div>
+    <iframe title="Voorbeeld van de casepagina"></iframe>
+  </dialog>`);
 
   const form = document.getElementById('editorform');
   const zet = (pad, waarde) => { const el = form.querySelector(`[data-pad="${pad}"]`); if (el) el.value = waarde; };
+  const markeerGewijzigd = () => {
+    gewijzigd = true;
+    const m = document.getElementById('editormelding');
+    if (m) { m.textContent = 'Nog niet opgeslagen'; m.className = 'balkonder__status balkonder__status--let'; }
+    stuurVoorbeeld();
+  };
+
+  /* Stappenmenu en vaste balk */
+  app.querySelectorAll('[data-stap]').forEach(k => k.addEventListener('click', () => gaNaarStap(Number(k.dataset.stap))));
+  app.querySelector('[data-actie="vorige"]')?.addEventListener('click', () => gaNaarStap(stap - 1));
+  app.querySelector('[data-actie="volgende"]')?.addEventListener('click', () => gaNaarStap(stap + 1));
+  app.querySelectorAll('[data-actie="opslaan"]').forEach(k => k.addEventListener('click', () => slaOp()));
+  app.querySelectorAll('[data-actie="voorbeeld"]').forEach(k => k.addEventListener('click', openVoorbeeld));
+  app.querySelector('[data-actie="sluit-voorbeeld"]').addEventListener('click', () => document.getElementById('voorbeeld').close());
+  form.addEventListener('submit', e => { e.preventDefault(); slaOp(); });
 
   form.addEventListener('input', e => {
     const el = e.target; const pad = el.dataset.pad; if (!pad) return;
     const waarde = el.type === 'checkbox' ? el.checked : el.value;
     schrijf(bewerk, pad, waarde);
+    markeerGewijzigd();
 
     if (pad === 'slug') { slugHandmatig = true; toonSlugFout(''); }
     if (pad === 'content.klantnaam') {
       if (!slugHandmatig) { bewerk.slug = slugVoorKlant(waarde); zet('slug', bewerk.slug); toonSlugFout(''); }
-      if (!heeftTekst(bewerk.content.over.kop) || bewerk.content.over.kop === 'Over ' + vorigeKlant) {
-        bewerk.content.over.kop = waarde ? 'Over ' + waarde : ''; zet('content.over.kop', bewerk.content.over.kop);
+      if (!heeftTekst(c.over.kop) || c.over.kop === 'Over ' + vorigeKlant) {
+        c.over.kop = waarde ? 'Over ' + waarde : ''; zet('content.over.kop', c.over.kop);
       }
       vorigeKlant = waarde;
-      document.getElementById('editorkop').textContent = nieuw ? 'Nieuwe case' : (waarde || 'Case bewerken');
-      const kl = form.querySelector('[data-kaart="klant"]'); if (kl) kl.textContent = waarde || '[klantnaam]';
+      document.getElementById('editorkop').textContent = waarde || (nieuw ? 'Nieuwe case' : 'Case bewerken');
     }
     if (pad === 'content.dienst' || pad === 'content.branche') {
       const labelVeld = form.querySelector('[data-pad="content.hero.label"]');
-      if (labelVeld) { labelVeld.placeholder = autoLabel(bewerk.content) || 'DIENST · BRANCHE'; labelVeld.parentElement.querySelector('.veld__hint').textContent = 'Leeg = automatisch uit dienst en branche: ' + (autoLabel(bewerk.content) || '…'); }
-      const d = form.querySelector('[data-kaart="dienst"]'); if (d) d.textContent = bewerk.content.dienst;
+      if (labelVeld) labelVeld.placeholder = autoLabel(c) || 'DIENST · BRANCHE';
     }
-    if (pad === 'content.locatie') { const l = form.querySelector('[data-kaart="locatie"]'); if (l) l.textContent = waarde; }
+    /* Kaartvoorbeeld meebewegen */
+    const kaartVeld = { 'content.dienst': 'dienst', 'content.locatie': 'locatie', 'content.klantnaam': 'klant' }[pad];
+    if (kaartVeld) { const el2 = form.querySelector(`[data-kaart="${kaartVeld}"]`); if (el2) el2.textContent = waarde || (kaartVeld === 'klant' ? '[klantnaam]' : ''); }
     if (pad === 'content.kaart.samenvatting' || pad === 'content.inleiding') {
-      const s = form.querySelector('[data-kaart="samenvatting"]'); if (s) s.textContent = samenvatting(bewerk.content) || '[korte samenvatting]';
+      const sEl = form.querySelector('[data-kaart="samenvatting"]'); if (sEl) sEl.textContent = samenvatting(c) || '[korte samenvatting]';
     }
-    if (pad.endsWith('.afbeelding')) {
-      const vak = form.querySelector(`[data-voorbeeld="${pad}"]`);
-      if (vak) vak.innerHTML = waarde ? `<img src="${esc(waarde)}" alt="">` : '<span class="veld__hint">Nog geen afbeelding.</span>';
-    }
+    if (pad.endsWith('.afbeelding')) werkFotokiezerBij(form.querySelector(`.fotokiezer[data-slot="${pad}"]`), waarde);
     if (pad === 'published' || pad === 'content.citaat.tonen') tekenEditor();
   });
 
   form.addEventListener('click', e => {
-    const knop = e.target.closest('[data-actie]'); if (!knop) return;
+    const knop = e.target.closest('[data-actie], [data-kies], [data-kies-case], [data-naar-stap]'); if (!knop) return;
+
+    if (knop.dataset.naarStap !== undefined) { e.preventDefault(); gaNaarStap(Number(knop.dataset.naarStap)); return; }
+
+    if (knop.hasAttribute('data-kies')) {
+      const kiezer = knop.closest('.fotokiezer');
+      const pad = kiezer.dataset.slot; const altPad = kiezer.dataset.alt;
+      const waarde = knop.dataset.kies || '';
+      schrijf(bewerk, pad, waarde);
+      /* De beschrijving van een bibliotheekfoto gaat mee, tenzij iemand er zelf een schreef. */
+      const huidigeAlt = lees(bewerk, altPad) || '';
+      const bibliotheekAlts = (bibliotheek || []).map(f => f.alt);
+      if (!huidigeAlt || bibliotheekAlts.includes(huidigeAlt) || !waarde) { schrijf(bewerk, altPad, waarde ? (knop.dataset.kiesAlt || '') : ''); zet(altPad, lees(bewerk, altPad)); }
+      zet(pad, waarde);
+      werkFotokiezerBij(kiezer, waarde);
+      const beeld = form.querySelector('[data-kaart="beeld"]');
+      if (beeld && pad === 'content.kaart.afbeelding') { beeld.outerHTML = waarde ? `<img src="${esc(waarde)}" alt="" data-kaart="beeld">` : '<div class="kaartvoorbeeld__leeg" data-kaart="beeld"></div>'; }
+      markeerGewijzigd();
+      return;
+    }
+
+    if (knop.hasAttribute('data-kies-case')) {
+      const slug = knop.dataset.kiesCase;
+      let lijst = c.gerelateerd.filter(Boolean);
+      if (lijst.includes(slug)) lijst = lijst.filter(s => s !== slug);
+      else if (lijst.length < 2) lijst.push(slug);
+      c.gerelateerd = lijst;
+      const vak = form.querySelector('[data-gerelateerd]');
+      vak.querySelectorAll('[data-kies-case]').forEach(k => {
+        const aan = lijst.includes(k.dataset.kiesCase);
+        k.setAttribute('aria-pressed', String(aan));
+        k.disabled = !aan && lijst.length >= 2;
+      });
+      form.querySelector('[data-gerelateerd-telling]').textContent = `${lijst.length} van 2 gekozen.`;
+      markeerGewijzigd();
+      return;
+    }
+
     const actie = knop.dataset.actie;
     if (actie === 'voeg-item') {
       const lijst = lees(bewerk, knop.dataset.lijst);
       if (knop.dataset.lijst === 'content.kerncijfers') { if (lijst.length < 4) lijst.push({ label: '', getal: '', eenheid: '' }); }
       else lijst.push('');
-      tekenEditor();
+      markeerGewijzigd(); tekenEditor();
       app.querySelector(`[data-lijst="${knop.dataset.lijst}"] .herhaal__rij:last-of-type input`)?.focus();
     }
     if (actie === 'verwijder-item') {
       const lijst = lees(bewerk, knop.dataset.lijst);
       if (knop.dataset.lijst === 'content.kerncijfers' && lijst.length <= 2) return;
       lijst.splice(Number(knop.dataset.index), 1);
-      tekenEditor();
+      markeerGewijzigd(); tekenEditor();
     }
-    if (actie === 'opslaan-sluiten') slaOp(true);
   });
+}
 
-  form.addEventListener('submit', e => { e.preventDefault(); slaOp(false); });
+function werkFotokiezerBij(kiezer, waarde) {
+  if (!kiezer) return;
+  kiezer.querySelectorAll('[data-kies]').forEach(k => k.setAttribute('aria-pressed', String((k.dataset.kies || '') === (waarde || ''))));
+  const foto = (bibliotheek || []).find(f => f.groot === waarde || f.klein === waarde);
+  const vak = kiezer.querySelector('[data-gekozen]');
+  if (vak) vak.innerHTML = waarde ? `<img src="${esc(waarde)}" alt=""><span>Gekozen: <strong>${esc(foto ? foto.naam : waarde)}</strong></span>` : '<span>Nog geen foto gekozen.</span>';
+}
+
+function gaNaarStap(i) {
+  if (i < 0 || i >= STAPPEN.length) return;
+  stap = i;
+  tekenEditor();
+  window.scrollTo(0, 0);
+  document.getElementById('stapkop')?.focus();
 }
 
 function toonSlugFout(tekst) {
   const el = document.getElementById('slugfout'); if (el) el.textContent = tekst;
   document.getElementById('slugfout-veld')?.classList.toggle('veld--fout', !!tekst);
-  if (tekst) document.querySelector('details.sectie[data-sectie="1"]')?.setAttribute('open', '');
+  if (tekst) { const d = document.getElementById('slugfout-veld')?.closest('details'); if (d) d.open = true; }
 }
 
-async function slaOp(sluiten) {
-  if (opslaanBezig) return;
-  const m = document.getElementById('editormelding');
-  const zegt = (tekst, fout = false) => { m.textContent = tekst; m.classList.toggle('melding--fout', fout); };
+/* --- Voorbeeld: de echte pagina in een venster --------------------------- */
+function openVoorbeeld() {
+  const dialoog = document.getElementById('voorbeeld'); if (!dialoog) return;
+  const frame = dialoog.querySelector('iframe');
+  if (!frame.getAttribute('src')) {
+    frame.setAttribute('src', 'case.html?voorbeeld=1');
+    frame.addEventListener('load', () => setTimeout(stuurVoorbeeld, 200), { once: true });
+  }
+  dialoog.showModal();
+  stuurVoorbeeld();
+}
+window.addEventListener('message', (e) => {
+  if (e.origin !== location.origin || e.data?.type !== 'madegro:voorbeeld-klaar') return;
+  stuurVoorbeeld();
+});
+function stuurVoorbeeld() {
+  const dialoog = document.getElementById('voorbeeld');
+  if (!dialoog || !dialoog.open || !bewerk) return;
+  clearTimeout(voorbeeldTimer);
+  voorbeeldTimer = setTimeout(() => {
+    const frame = dialoog.querySelector('iframe');
+    const content = schoonContent(bewerk.content);
+    const verwant = content.gerelateerd.map(s => cases.find(c => c.slug === s && c.published)).filter(Boolean).map(c => ({ slug: c.slug, content: c.content }));
+    frame.contentWindow?.postMessage({ type: 'madegro:voorbeeld', slug: bewerk.slug || 'voorbeeld', content, verwant }, location.origin);
+  }, 250);
+}
+
+/* --- Opslaan -------------------------------------------------------------- */
+async function slaOp() {
+  if (opslaanBezig || !bewerk) return;
   const k = bewerk.content;
+  const zegt = (tekst, soort = '') => {
+    const m = document.getElementById('editormelding'); if (!m) return;
+    m.textContent = tekst; m.className = 'balkonder__status' + (soort ? ' balkonder__status--' + soort : '');
+  };
 
   const fouten = [];
-  if (!heeftTekst(k.titel)) fouten.push('een casetitel');
-  if (!heeftTekst(k.klantnaam)) fouten.push('een klantnaam');
+  if (!heeftTekst(k.klantnaam)) fouten.push('de naam van het bedrijf (stap 1)');
+  if (!heeftTekst(k.titel)) fouten.push('de titel (stap 2)');
   if (!heeftTekst(bewerk.slug)) bewerk.slug = slugVoorKlant(k.klantnaam);
   const kern = slugify(bewerk.slug.replace(/^case-/, ''));
   bewerk.slug = kern ? 'case-' + kern : '';
-  if (!heeftTekst(bewerk.slug)) fouten.push('een slug');
-  if (fouten.length) { zegt('Nog nodig: ' + fouten.join(', ') + '.', true); return; }
+  if (!heeftTekst(bewerk.slug)) fouten.push('een webadres (volgt uit de bedrijfsnaam)');
+  if (fouten.length) {
+    gaNaarStap(!heeftTekst(k.klantnaam) ? 0 : 1);
+    zegt('Vul eerst nog in: ' + fouten.join(' en ') + '.', 'fout');
+    return;
+  }
   if (!heeftTekst(k.over.kop) && heeftTekst(k.over.body)) k.over.kop = 'Over ' + k.klantnaam;
-  const slugVeld = document.querySelector('[data-pad="slug"]'); if (slugVeld) slugVeld.value = bewerk.slug;
   toonSlugFout('');
 
-  const knoppen = [...document.querySelectorAll('.editor__zij .knop')];
-  opslaanBezig = true; knoppen.forEach(b => b.setAttribute('aria-disabled', 'true'));
-  zegt('Opslaan…');
+  opslaanBezig = true;
+  const knop = document.getElementById('opslaanknop'); if (knop) { knop.setAttribute('aria-disabled', 'true'); knop.textContent = 'Bezig met opslaan…'; }
   try {
-    const rijen = bewerk.id == null
-      ? await db.maak(bewerk)
-      : await db.werkBij(bewerk.id, payload(bewerk));
+    const rijen = bewerk.id == null ? await db.maak(bewerk) : await db.werkBij(bewerk.id, payload(bewerk));
     if (!Array.isArray(rijen) || !rijen[0]) throw new ApiFout(200, 'De database gaf geen opgeslagen rij terug.');
     const rij = normaliseer(rijen[0]);
     vervangInLijst(rij);
     const wasNieuw = bewerk.id == null;
     bewerk = JSON.parse(JSON.stringify(rij));
-    bewerk.content.gerelateerd = [bewerk.content.gerelateerd[0] || '', bewerk.content.gerelateerd[1] || ''];
     while (bewerk.content.kerncijfers.length < 2) bewerk.content.kerncijfers.push({ label: '', getal: '', eenheid: '' });
-    nieuw = false;
-    if (sluiten) { location.hash = '#/'; return; }
-    if (wasNieuw) history.replaceState(null, '', '#/bewerk/' + rij.id);
+    nieuw = false; gewijzigd = false;
+    if (wasNieuw) { huidigeHash = '#/bewerk/' + rij.id; history.replaceState(null, '', huidigeHash); }
     tekenEditor();
-    document.getElementById('editormelding').textContent = `Opgeslagen om ${new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}.`;
+    zegt(`Opgeslagen om ${new Date().toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' })}${rij.published ? ', en staat op de website' : ' als concept'}.`, 'goed');
   } catch (e) {
     if (e instanceof ApiFout && e.status === 409) {
+      gaNaarStap(0);
       toonSlugFout('Deze slug is al in gebruik.');
-      zegt('Niet opgeslagen: de slug bestaat al. Pas hem aan bij Basis.', true);
+      zegt('Niet opgeslagen: dit webadres is al in gebruik door een andere case. Pas het aan bij stap 1.', 'fout');
     } else {
-      zegt('Opslaan is mislukt: ' + foutTekst(e), true);
+      zegt('Opslaan is niet gelukt: ' + foutTekst(e), 'fout');
     }
   } finally {
     opslaanBezig = false;
-    document.querySelectorAll('.editor__zij .knop').forEach(b => b.removeAttribute('aria-disabled'));
+    const k2 = document.getElementById('opslaanknop'); if (k2) { k2.removeAttribute('aria-disabled'); k2.textContent = 'Opslaan'; }
   }
 }
 

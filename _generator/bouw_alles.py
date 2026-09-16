@@ -7,6 +7,6 @@ HIER = pathlib.Path(__file__).parent
 sys.path.insert(0, str(HIER))
 
 for naam in ["bouw_home", "inhoud_services", "inhoud_cursussen",
-             "bouw_cases", "bouw_rest", "bouw_contact"]:
+             "bouw_cases", "bouw_rest", "bouw_contact", "bouw_bibliotheek"]:
     print(f"--- {naam}")
     runpy.run_path(str(HIER / f"{naam}.py"), run_name="__main__")

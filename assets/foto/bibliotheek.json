@@ -1,0 +1,100 @@
+[
+ {
+  "sleutel": "bouwplaats",
+  "naam": "Bouwplaats",
+  "groot": "assets/foto/bouwplaats-1200.webp",
+  "klein": "assets/foto/bouwplaats-1200.webp",
+  "alt": "Bouwplaats met torenkraan"
+ },
+ {
+  "sleutel": "logistiek",
+  "naam": "Logistiek",
+  "groot": "assets/foto/logistiek-1200.webp",
+  "klein": "assets/foto/logistiek-1200.webp",
+  "alt": "Vrachtwagen op een dijkweg langs het water"
+ },
+ {
+  "sleutel": "productiehal",
+  "naam": "Productiehal",
+  "groot": "assets/foto/productiehal-1024.webp",
+  "klein": "assets/foto/productiehal-640.webp",
+  "alt": "Productiehal met medewerkers aan de lijn"
+ },
+ {
+  "sleutel": "lassen",
+  "naam": "Lassen",
+  "groot": "assets/foto/lassen-1024.webp",
+  "klein": "assets/foto/lassen-640.webp",
+  "alt": "Lasser aan het werk aan een constructie"
+ },
+ {
+  "sleutel": "overleg",
+  "naam": "Overleg",
+  "groot": "assets/foto/overleg-960.webp",
+  "klein": "assets/foto/overleg-640.webp",
+  "alt": "Werkoverleg met een klein team"
+ },
+ {
+  "sleutel": "transport",
+  "naam": "Transport",
+  "groot": "assets/foto/transport-1024.webp",
+  "klein": "assets/foto/transport-640.webp",
+  "alt": "Industriële transportbrug en constructie"
+ },
+ {
+  "sleutel": "haven",
+  "naam": "Haven",
+  "groot": "assets/foto/haven-960.webp",
+  "klein": "assets/foto/haven-640.webp",
+  "alt": "Zeeschip aan de kade van een containerterminal"
+ },
+ {
+  "sleutel": "cursus-bewustzijn-bouw",
+  "naam": "Cursus bewustzijn bouw",
+  "groot": "assets/foto/cursus-bewustzijn-bouw-1200.webp",
+  "klein": "assets/foto/cursus-bewustzijn-bouw-480.webp",
+  "alt": "Uitvoerder in oranje veiligheidsjas kijkt toe terwijl twee bouwvakkers wapening vlechten op een bouwplaats"
+ },
+ {
+  "sleutel": "cursus-risico-lijn",
+  "naam": "Cursus risico lijn",
+  "groot": "assets/foto/cursus-risico-lijn-1200.webp",
+  "klein": "assets/foto/cursus-risico-lijn-480.webp",
+  "alt": "Medewerker in blauwe overall en gele helm bedient een machine aan een productielijn vol slangen en kabels"
+ },
+ {
+  "sleutel": "cursus-ladder-helmen",
+  "naam": "Cursus ladder helmen",
+  "groot": "assets/foto/cursus-ladder-helmen-1200.webp",
+  "klein": "assets/foto/cursus-ladder-helmen-480.webp",
+  "alt": "Twee medewerkers met helm en hesje kijken omhoog in een installatie, een van hen met een tekening in de hand"
+ },
+ {
+  "sleutel": "cursus-rie-tablet",
+  "naam": "Cursus rie tablet",
+  "groot": "assets/foto/cursus-rie-tablet-700.webp",
+  "klein": "assets/foto/cursus-rie-tablet-480.webp",
+  "alt": "Man met tablet op een bordes boven een productielijn met robotarmen"
+ },
+ {
+  "sleutel": "dienst-gedrag",
+  "naam": "Dienst gedrag",
+  "groot": "assets/foto/dienst-gedrag-1024.webp",
+  "klein": "assets/foto/dienst-gedrag-480.webp",
+  "alt": "Twee medewerkers in oranje hesje en gele helm kijken toe hoe een collega een machine in de werkplaats bedient"
+ },
+ {
+  "sleutel": "dienst-rie",
+  "naam": "Dienst rie",
+  "groot": "assets/foto/dienst-rie-1024.webp",
+  "klein": "assets/foto/dienst-rie-480.webp",
+  "alt": "Adviseur in geel hesje en blauwe helm legt iets uit aan drie collega’s op een bouwlocatie"
+ },
+ {
+  "sleutel": "dienst-checks",
+  "naam": "Dienst checks",
+  "groot": "assets/foto/dienst-checks-1200.webp",
+  "klein": "assets/foto/dienst-checks-480.webp",
+  "alt": "Veiligheidskundige met helm en klembord test de noodstop van een machine in een productiehal, terwijl een collega met tablet de afscherming controleert"
+ }
+]
