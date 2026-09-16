@@ -71,7 +71,7 @@ def projecten(dienst):
     """De cases die bij deze dienst horen, uit dezelfde lijst als het overzicht."""
     van_ons = [c for c in CASES if c["dienst"] == dienst]
     return "\n".join(f'''      <a class="cases-grid__row {'cases-grid__row--grey' if i % 2 == 0 else 'cases-grid__row--white'} hover--icon"
-         href="case-{c["slug"]}.html" aria-label="{c["klant"]}: {_plat(c["titel"])}">
+         href="case.html?slug=case-{c["slug"]}" aria-label="{c["klant"]}: {_plat(c["titel"])}">
         <div class="cases-grid__body">
           <div class="cases-grid__meta">
             <span class="cases-grid__meta-item">{c["branche"]}</span>

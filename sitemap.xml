@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://madegro.vercel.app/case-de-groot-bouwstoffen.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-de-groot-bouwstoffen</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://madegro.vercel.app/case-hollands-diep-transport.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-hollands-diep-transport</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://madegro.vercel.app/case-merwede-bouwgroep.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-merwede-bouwgroep</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://madegro.vercel.app/case-rivierpoort-logistiek.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-rivierpoort-logistiek</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://madegro.vercel.app/case-van-deursen-metaal.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-van-deursen-metaal</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://madegro.vercel.app/case-waalhaven-terminal.html</loc>
+    <loc>https://madegro.vercel.app/case.html?slug=case-waalhaven-terminal</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

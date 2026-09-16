@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Het cases-overzicht met filters, en één template voor de detailpagina's."""
+"""Het cases-overzicht met filters, en de ene detailpagina case.html.
+
+   De cases zelf staan in Supabase (tabel posts). cases.js vult het overzicht
+   uit de database; de kaarten die hier uit CASES komen zijn het vertrekpunt
+   en de terugval als de database niet antwoordt. case.js bouwt de
+   detailpagina uit de rij met de slug uit ?slug=. Er worden geen losse
+   case-<slug>.html-bestanden meer gebouwd; vercel.json stuurt oude links
+   door naar case.html?slug=."""
 import sys, pathlib, json, re, html
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from schil import *
@@ -25,14 +32,14 @@ def filtergroep(label, naam, waarden, alles):
         pillen.append(f'''          <button type="button" class="filter-pil" data-filter="{naam}" data-waarde="{sleutelvorm(w)}" aria-pressed="false">
             {VINKJE}<span>{w}</span>
           </button>''')
-    return f'''        <div class="filter-groep" role="group" aria-label="{label}">
+    return f'''        <div class="filter-groep" role="group" aria-label="{label}" data-groep="{naam}">
 {chr(10).join(pillen)}
         </div>'''
 
 
 def kaart(c):
     return f'''        <article class="case-kaart" data-dienst="{sleutelvorm(c["dienst"])}" data-branche="{sleutelvorm(c["branche"])}">
-          <a class="case-kaart__link hover--icon" href="case-{c["slug"]}.html">
+          <a class="case-kaart__link hover--icon" href="case.html?slug=case-{c["slug"]}">
             <figure class="case-kaart__beeld">
               {foto(c["beeld"], maten="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw", alt="")}
             </figure>
@@ -78,7 +85,7 @@ def overzicht():
         <div class="col-lg-8 col-12">
           <h2 class="section-heading" style="margin:0 0 var(--space-500)">Wat er verandert als je het serieus aanpakt</h2>
           <div class="article-body content-fit--half">
-            <p>Zes trajecten uit de praktijk: wat de situatie was, wat we hebben gedaan en wat het opleverde. Filter op dienst of op branche om te zien wat het dichtst bij jouw situatie ligt.</p>
+            <p>Trajecten uit de praktijk: wat de situatie was, wat we hebben gedaan en wat het opleverde. Filter op dienst of op branche om te zien wat het dichtst bij jouw situatie ligt.</p>
           </div>
         </div>
       </div>
@@ -110,7 +117,7 @@ def overzicht():
     (UIT / "cases.html").write_text(pagina(
         bestand="cases.html",
         titel="Cases | MADEGRO",
-        omschrijving="Zes trajecten uit de praktijk: veilig gedrag, EHS RI&E en safety checks bij productie-, logistiek- en bouwbedrijven.",
+        omschrijving="Trajecten uit de praktijk: veilig gedrag, EHS RI&E en safety checks bij productie-, logistiek- en bouwbedrijven.",
         namespace="cases",
         pagina_css="cases.css",
         css_naam="cases",
@@ -121,154 +128,45 @@ def overzicht():
     print("cases.html geschreven")
 
 
-# ==================================================================== detailblad
-def detail(c):
-    cijfers = "\n".join(f'''          <div class="kerncijfer">
-            <span class="kerncijfer__label">{label}</span>
-            <p class="kerncijfer__getal">{getal}<span class="kerncijfer__eenheid">{eenheid}</span></p>
-          </div>''' for label, getal, eenheid in c["cijfers"])
-
-    citaat, naam, functie = c["citaat"]
-    verwant = [case(s) for s in c["verwant"]]
-    verwante_rijen = "\n".join(f'''      <a class="cases-grid__row {'cases-grid__row--grey' if i % 2 == 0 else 'cases-grid__row--white'} hover--icon"
-         href="case-{v["slug"]}.html" aria-label="{v["klant"]}: {_plat(v["titel"])}">
-        <div class="cases-grid__body">
-          <div class="cases-grid__meta">
-            <span class="cases-grid__meta-item">{v["dienst"]}</span>
-            <span class="cases-grid__meta-item">{v["plaats"]}</span>
-          </div>
-          <h3 class="cases-grid__title">{v["klant"]}</h3>
-          <div class="cases-grid__wrapper">
-            <p class="cases-grid__text">{v["kort"]}</p>
-            {icoonknop("button--icon--54", "button--secundair")}
-          </div>
-        </div>
-        <figure class="cases-grid__image">
-          {foto(v["beeld"], maten="(max-width: 991px) 100vw, 50vw")}
-        </figure>
-      </a>''' for i, v in enumerate(verwant))
-
-    def punten(lijst):
-        regels = "\n".join(f"          <li>{x}</li>" for x in lijst)
-        return f'''        <ul class="case-lijst">
-{regels}
-        </ul>'''
-
-    def bleed(sleutel, alt):
-        return f'''  <figure class="case-bleed">
-    {foto(sleutel, maten="100vw", alt=alt)}
-  </figure>'''
-
-    def blok(nr, ident, kop, tekst, lijst=None):
-        extra = "\n" + punten(lijst) if lijst else ""
-        return f'''  <section class="band background--white case-blok" id="s{nr}-{ident}">
-    <div class="container">
-      <div class="case-blok__inner">
-        <h2 class="section-heading case-blok__kop">{kop}</h2>
-        <div class="case-blok__body">
-          <p>{tekst}</p>
-        </div>{extra}
-      </div>
-    </div>
-  </section>'''
-
-    b1, b2 = c["bleed"]
-
-    inhoud = f'''  <!-- ================= 01 KOP ================= -->
+# ================================================================ detailpagina
+def detailpagina():
+    """case.html: de hero staat al in de HTML, met data-header-theme voor het
+       witte logo, en wordt door case.js gevuld; de overige secties komen in
+       #caseSecties. Zonder ?slug= of zonder gepubliceerde rij toont case.js
+       een nette melding met een knop naar het overzicht."""
+    inhoud = '''  <div id="caseDetail">
+  <!-- ================= 01 KOP ================= -->
   <section class="service-hero" id="s01-introductie" data-header-theme="light">
     <div class="service-hero--beeld" aria-hidden="true">
-      {foto(c["beeld"], laden="eager", maten="100vw", alt="")}
+      <img data-veld="beeld" alt="" hidden decoding="async" fetchpriority="high">
       <span class="service-hero--sluier"></span>
     </div>
     <div class="container">
       <div class="service-hero--inner">
-        <span class="subtitle" style="color:var(--color-white)">{c["dienst"]} &middot; {c["branche"]}</span>
-        <h1 class="service-hero--titel">{c["titel"]}</h1>
-        <div class="hero--actions">
-          {knop("Zelfde vraag? Neem contact op", "contact.html")}
-          {knop("Alle cases", "cases.html", "secundair")}
-        </div>
+        <span class="subtitle" style="color:var(--color-white)" data-veld="label">Case</span>
+        <h1 class="service-hero--titel" data-veld="titel">Case laden&hellip;</h1>
+        <div class="hero--actions" data-veld="acties"></div>
       </div>
     </div>
   </section>
 
-  <!-- ================= 02 KERNCIJFERS ================= -->
-  <section class="band background--white" id="s02-kerncijfers">
-    <div class="container">
-      <div class="kerncijfers">
-{cijfers}
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= 03 INLEIDING ================= -->
-  <section class="band background--white" id="s03-inleiding">
-    <div class="container">
-      <p class="case-lead">{c["situatie"]}</p>
-    </div>
-  </section>
-
-{blok("04", "over", f'Over {c["klant"]}', c["over"])}
-
-{bleed(b1, "")}
-
-{blok("05", "uitdaging", "De uitdaging", c["uitdaging"], c["uitdaging_punten"])}
-
-  <!-- ================= 06 CITAAT ================= -->
-  <section class="band background--white" id="s06-citaat">
-    <div class="container">
-      <figure class="case-citaat">
-        <blockquote><p>&ldquo;{c["citaat"][0]}&rdquo;</p></blockquote>
-        <figcaption class="case-citaat__wie">
-          <strong>{naam}</strong><span>{functie}, {c["klant"]}</span>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
-{blok("07", "aanpak", "De aanpak", c["oplossing"], c["aanpak_punten"])}
-
-{bleed(b2, "")}
-
-{blok("08", "resultaat", "Zelfde plek, ander resultaat", c["resultaat"])}
-
-  <!-- ================= 09 VERWANTE CASES ================= -->
-  <section class="cases-grid" id="s09-verwant">
-    <div class="container">
-      <div class="cases-grid__header">
-        <h2 class="cases-grid__heading">Andere trajecten</h2>
-        {knop("Alle cases", "cases.html", "secundair")}
-      </div>
-      <div class="cases-grid__list">
-{verwante_rijen}
-      </div>
-    </div>
-  </section>
-
-{slotblok("10", "Herken je dit?")}
+  <div id="caseSecties" aria-live="polite"></div>
+  </div>
 '''
-
-    (UIT / f'case-{c["slug"]}.html').write_text(pagina(
-        bestand=f'case-{c["slug"]}.html',
-        titel=f'{c["klant"]} | Case | MADEGRO',
-        omschrijving=_plat(c["kort"])[:155],
-        namespace=f'case-{c["slug"]}',
+    (UIT / "case.html").write_text(pagina(
+        bestand="case.html",
+        titel="Case | MADEGRO",
+        omschrijving="Een traject uit de praktijk van MADEGRO: de situatie, de aanpak en het resultaat.",
+        namespace="case",
         pagina_css="cases.css",
         css_naam="cases",
         inhoud=inhoud,
+        scripts=["case.js"],
         actief="cases.html",
-        extra_ld=json.dumps({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            "headline": _plat(c["titel"]),
-            "about": _plat(c["dienst"]),
-            "publisher": {"@type": "Organization", "name": "Madegro Advies B.V."},
-        }, ensure_ascii=False, indent=2),
     ), encoding="utf-8")
-    print(f'case-{c["slug"]}.html geschreven')
+    print("case.html geschreven")
 
 
 if __name__ == "__main__":
     overzicht()
-    for c in CASES:
-        detail(c)
+    detailpagina()

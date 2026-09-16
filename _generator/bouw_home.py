@@ -38,7 +38,7 @@ PROJECTEN = CASES[:3]
 
 def projectkaart(c, grijs):
     return f'''      <a class="cases-grid__row {'cases-grid__row--grey' if grijs else 'cases-grid__row--white'} hover--icon"
-         href="case-{c["slug"]}.html" aria-label="{c["klant"]}: {_plat(c["titel"])}">
+         href="case.html?slug=case-{c["slug"]}" aria-label="{c["klant"]}: {_plat(c["titel"])}">
         <div class="cases-grid__body">
           <div class="cases-grid__meta">
             <span class="cases-grid__meta-item">{c["dienst"]}</span>

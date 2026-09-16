@@ -348,6 +348,10 @@
            vast op fixed en werkt scrollen niet meer. */
         after: (data) => {
           werkKopBij(data.nieuweDocument);
+          /* Een pagina die zijn kop zelf invult (case.html zet titel, canonical
+             en beschrijving uit de database) krijgt hiermee het sein dat de
+             vaste waarden net zijn teruggezet, en zet de zijne opnieuw. */
+          document.dispatchEvent(new CustomEvent('madegro:kopbijgewerkt'));
 
           gsap.set(data.next.container, { clearProps: 'all' });
           if (data.opruimenStijlen) data.opruimenStijlen();

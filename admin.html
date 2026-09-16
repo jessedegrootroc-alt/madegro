@@ -528,7 +528,7 @@ function renderDashboard() {
       <td>
         <div class="tabel__acties">
           <button class="knop knop--secundair knop--klein" type="button" data-actie="wissel" data-id="${esc(c.id)}">${c.published ? 'Naar concept' : 'Publiceren'}</button>
-          ${c.published && c.slug ? `<a class="knop knop--secundair knop--klein" href="${esc(c.slug)}.html">Bekijk</a>` : ''}
+          ${c.published && c.slug ? `<a class="knop knop--secundair knop--klein" href="case.html?slug=${encodeURIComponent(c.slug)}">Bekijk</a>` : ''}
           <a class="knop knop--primair knop--klein" href="#/bewerk/${esc(c.id)}">Bewerken</a>
           <button class="knop knop--secundair knop--klein knop--gevaar" type="button" data-actie="verwijder" data-id="${esc(c.id)}">Verwijderen</button>
         </div>
@@ -884,7 +884,7 @@ function tekenEditor() {
           <span class="badge badge--${b.published ? 'gepubliceerd' : 'concept'}" style="justify-self:start">${b.published ? 'gepubliceerd' : 'concept'}</span>
           <button class="knop knop--primair knop--pijl" type="submit" id="opslaanknop">Opslaan</button>
           <button class="knop knop--secundair" type="button" data-actie="opslaan-sluiten">Opslaan en sluiten</button>
-          ${!nieuw && b.published && b.slug ? `<a class="knop knop--secundair" href="${esc(b.slug)}.html">Bekijk pagina</a>` : ''}
+          ${!nieuw && b.published && b.slug ? `<a class="knop knop--secundair" href="case.html?slug=${encodeURIComponent(b.slug)}">Bekijk pagina</a>` : ''}
           <p class="melding" id="editormelding" aria-live="polite">${b.created_at ? 'Aangemaakt ' + esc(datumKort(b.created_at)) + '.' : ''}</p>
         </aside>
       </form>
