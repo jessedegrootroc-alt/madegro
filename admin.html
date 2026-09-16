@@ -12,7 +12,7 @@
 <style>
 /* ============================================================================
    MADEGRO Beheer: het casebeheer achter de Admin-link in de voet van de site.
-   Eén bestand. De cases staan in Supabase (tabel `cases`) en worden via de
+   Eén bestand. De cases staan in Supabase (tabel `posts`) en worden via de
    REST-API gelezen en geschreven met fetch(); er is geen lokale opslag.
    ========================================================================== */
 :root {
@@ -205,7 +205,7 @@ p { margin: 0; }
    ========================================================================== */
 const SUPABASE_URL = 'https://ltkqjffncezrtidthbox.supabase.co/rest/v1/';
 const SUPABASE_KEY = 'sb_publishable__LAsCC26uaKcwBJdaQvPNw_hNs2t_mP';
-const TABEL = 'cases';
+const TABEL = 'posts'; // De tabel in Supabase heet posts; de inhoud zijn cases.
 const SESSIE_SLEUTEL = 'madegro-cms-ingelogd';
 const WACHTWOORD = 'admin123'; // Voorlopig; komt later uit een echte login.
 const DIENSTEN = ['Veilig gedrag', 'EHS RIE', 'Safety Checks'];
