@@ -838,6 +838,7 @@ OPDRACHTGEVERS = [
     ("ooms",          "Ooms Bouw &amp; Ontwikkeling", 248),
     ("stork",         "Stork",                        197),
     ("tes",           "TES Industrial Systems",       160),
+    ("thialf",        "Thialf",                       270),
 ]
 
 

@@ -1,6 +1,6 @@
 # assets/partners: logo's van opdrachtgevers
 
-In de logoband staan dertien opdrachtgevers van MADEGRO, met de logo's die
+In de logoband staan veertien opdrachtgevers van MADEGRO, met de logo's die
 Martin heeft aangeleverd (1 september 2026). Ze komen overeen met de lijst die
 hij op zijn LinkedIn-profiel noemt.
 
@@ -19,6 +19,7 @@ hij op zijn LinkedIn-profiel noemt.
 | `ooms.webp` | Ooms Bouw &amp; Ontwikkeling |
 | `stork.webp` | Stork |
 | `tes.webp` | TES Industrial Systems |
+| `thialf.webp` | Thialf (aangeleverd 25 september 2026) |
 
 Van vijf opdrachtgevers die Martin noemt is geen logo aangeleverd: BAM Infra,
 NEM Standaard Kessel, Fisia Babcock, AEB Amsterdam en Fitweld. Die staan niet in
