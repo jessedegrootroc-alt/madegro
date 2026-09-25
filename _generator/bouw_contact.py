@@ -40,9 +40,9 @@ inhoud = f'''{patroonhero("01", "contact", "Contact", "Contact")}
     ("E-mail",
      f'<a href="mailto:{EMAIL}">{EMAIL}</a><br>Antwoord binnen {REACTIETIJD}'),
     ("Adres",
-     "Wieling 39<br>3371 PB Hardinxveld-Giessendam"),
-    ("Madegro Advies B.V.",
-     f"KvK {KVK}"),
+     f"Madegro Advies B.V.<br>Wieling 39<br>3371 PB Hardinxveld-Giessendam<br>KvK {KVK}"),
+    ("",
+     f"Madegro Advies B.V.<br>KvK {KVK}"),
 ])}
 '''
 

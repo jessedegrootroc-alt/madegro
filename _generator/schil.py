@@ -966,8 +966,8 @@ def vlakkenrij(nr, ident, kop, vlakken, subtitel=None):
     label = f'        <span class="subtitle" style="margin-bottom:var(--space-500)">{subtitel}</span>\n' if subtitel else ""
     items = "\n".join(
         f'      <li class="vlak vlak--{KLEURENRIJ[i % 4]}">\n'
-        f'        <h3 class="vlak__kop">{titel}</h3>\n'
-        f'        <p class="vlak__tekst">{tekst}</p>\n'
+        + (f'        <h3 class="vlak__kop">{titel}</h3>\n' if titel else '')
+        + f'        <p class="vlak__tekst">{tekst}</p>\n'
         '      </li>'
         for i, (titel, tekst) in enumerate(vlakken)
     )
