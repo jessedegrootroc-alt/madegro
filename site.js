@@ -342,9 +342,9 @@
     toon(0);
 
     /* Elke zes seconden het volgende citaat, met het balkje in de navigatie als
-       klok. Een klik op een pijl zet de klok opnieuw op nul. Stil zolang de
-       muis op de sectie staat of er iets in focus heeft, zolang het tabblad
-       niet in beeld is, en helemaal uit bij 'beweging verminderen'. De timer
+       klok. Een klik op een pijl zet de klok opnieuw op nul. Stil zolang er
+       iets in de sectie focus heeft en zolang het tabblad niet in beeld is;
+       helemaal uit bij 'beweging verminderen'. De timer
        gaat mee weg met de pagina via het signaal. */
     const DUUR = 6000;
     const balk = sectie?.querySelector('.quotes__timer-balk');
@@ -390,9 +390,10 @@
         herstart();
       });
     });
+    /* Geen pauze bij de muis erop: de klok loopt gewoon door. Wel bij focus via
+       het toetsenbord, zodat wie met tab door de pijlen gaat niet onder zijn
+       vingers vandaan wordt gewisseld. */
     if (sectie) {
-      sectie.addEventListener('mouseenter', pauze);
-      sectie.addEventListener('mouseleave', hervat);
       sectie.addEventListener('focusin', pauze);
       sectie.addEventListener('focusout', (e) => { if (!sectie.contains(e.relatedTarget)) hervat(); });
     }
