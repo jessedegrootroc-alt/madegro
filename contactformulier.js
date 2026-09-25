@@ -197,7 +197,7 @@
         melding.textContent = 'Bedankt, je bericht is binnen. We reageren binnen twee werkdagen.';
         melding.className = 'contactformulier__melding is-goed';
       } catch (err) {
-        melding.textContent = 'Het versturen lukte niet. Mail ons op info@madegro.nl of bel 0184 00 00 00.';
+        melding.textContent = 'Het versturen lukte niet. Mail ons op info@madegro.nl of bel 06 54243822.';
         melding.className = 'contactformulier__melding is-fout';
       } finally {
         knop.disabled = false;

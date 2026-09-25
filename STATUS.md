@@ -53,8 +53,7 @@ onder een verloop in plum, zodat witte tekst ruim boven 4.5:1 blijft.
 
 Twee dingen zijn bewust níét ingevuld:
 
-- **Het telefoonnummer** staat als `0184 00 00 00`. Een verzonnen nummer dat er
-  echt uitziet komt bijna zeker bij iemand anders uit.
+- **Het telefoonnummer** is `06 54243822`, aangeleverd op 25 september 2026.
 - **Het portret van Martin.** Daar staat een werkplaatsbeeld. Een stockfoto van
   een willekeurig persoon met zijn naam eronder stelt een echt iemand verkeerd voor.
 

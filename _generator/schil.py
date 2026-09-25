@@ -284,8 +284,8 @@ def bouw_nav():
 
 
 # TODO-CONTENT: contactgegevens laten bevestigen door Martin
-TELEFOON_WEERGAVE = "0184 00 00 00"
-TELEFOON_LINK = "+31184000000"
+TELEFOON_WEERGAVE = "06 54243822"
+TELEFOON_LINK = "+31654243822"
 EMAIL = "info@madegro.nl"
 ADRES = "Wieling 39, 3371 PB Hardinxveld-Giessendam"
 KVK = "81812892"

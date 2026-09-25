@@ -20,7 +20,7 @@ element. Zoek daarop en je vindt de plek. Er staan er nu 29.
 
 | Wat | Staat er nu | Waar |
 |---|---|---|
-| Telefoonnummer | `0184 00 00 00` | header, footer, contactpagina, foutmelding van het formulier |
+| Telefoonnummer | `06 54243822` (aangeleverd 25 september 2026) | header, footer, contactpagina, foutmelding van het formulier |
 | E-mailadres | `info@madegro.nl` | idem |
 | Reactietijd | twee werkdagen | contactblokken |
 
