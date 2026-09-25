@@ -73,7 +73,7 @@ print("cursusaanbod.html geschreven")
 # ========================================================= over-ons.html
 FAQ_OVER = [
     ("Werkt Martin alleen?", [
-        "Voor het advieswerk wel: je hebt &eacute;&eacute;n aanspreekpunt, van het eerste gesprek tot de oplevering. Waar specialisme nodig is, bijvoorbeeld toetsing door een kerndeskundige, schakelen we een partner in.",
+        "Voor het advieswerk wel: je hebt &eacute;&eacute;n aanspreekpunt, van het eerste gesprek tot de oplevering. Waar specialisme nodig is, bijvoorbeeld toetsing door een kerndeskundige, schakelen we een specialist in.",
     ]),
     ("In welke regio werken jullie?", [
         "Vanuit Hardinxveld-Giessendam, met de meeste klanten in de Drechtsteden, de Alblasserwaard en de regio Rotterdam. Verder weg kan ook; dan kijken we naar reistijd.",
@@ -179,22 +179,22 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
       <div class="content-block--container background--white" style="padding-bottom:var(--space-700)">
         <div class="row">
           <div class="col-md-8 col-12">
-            <span class="subtitle" style="margin-bottom:var(--space-500)">Samenwerking</span>
-            <h2 class="section-heading">Partners</h2>
+            <span class="subtitle" style="margin-bottom:var(--space-500)">Sponsoring</span>
+            <h2 class="section-heading">Sponsors</h2>
             <p class="article-body" style="margin-top:var(--space-500); max-width:var(--content-max-half)">
-              Waar specialisme nodig is werken we samen met vaste partners, zodat je niet zelf op zoek hoeft.
+              Deze organisaties sponsoren MADEGRO.
             </p>
           </div>
         </div>
       </div>
       <!-- TODO-CONTENT: Waalzicht Arbo en Delta Opleidingen zijn verzonnen namen;
-           vervangen zodra duidelijk is met wie er echt wordt samengewerkt. -->
+           vervangen zodra duidelijk is wie MADEGRO echt sponsort. -->
       <div class="panel-row panel-row--3">
         <div>
           <div class="panel panel--grey">
             <span class="panel__meta">Environment, Health &amp; Safety</span>
             <h3 class="panel__title">EHS-Services</h3>
-            <p class="panel__body">Vaste partner voor vraagstukken rond milieu, arbeidshygi&euml;ne en gecertificeerde toetsing.</p>
+            <p class="panel__body">Sponsor van MADEGRO. Actief in milieu, arbeidshygi&euml;ne en gecertificeerde toetsing.</p>
           </div>
         </div>
         <div>

@@ -4,15 +4,15 @@ import sys, pathlib
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from bouw_service import servicepagina
 
-PARTNER_EHS = ("EHS-Services", "Environment, Health &amp; Safety",
-               "Vaste partner voor vraagstukken rond milieu, arbeidshygi&euml;ne en gecertificeerde toetsing. Waar een kerndeskundige nodig is, schakelen we hen in.",
+SPONSOR_EHS = ("EHS-Services", "Environment, Health &amp; Safety",
+               "Sponsor van MADEGRO. Actief in milieu, arbeidshygi&euml;ne en gecertificeerde toetsing.",
                "https://www.ehs-services.nl")
-# TODO-CONTENT: de twee partners hieronder zijn verzonnen. Vervang naam, tekst
-# en link zodra duidelijk is met wie er echt wordt samengewerkt.
-PARTNER_2 = ("Waalzicht Arbo", "Arbodienst",
+# TODO-CONTENT: de twee sponsors hieronder zijn verzonnen. Vervang naam, tekst
+# en link zodra duidelijk is wie MADEGRO echt sponsort.
+SPONSOR_2 = ("Waalzicht Arbo", "Arbodienst",
              "Voor bedrijfsartsen, verzuimbegeleiding en de toetsing die daarbij hoort. Handig als de RI&amp;E ook een gezondheidskundige blik nodig heeft.",
              "#")
-PARTNER_3 = ("Delta Opleidingen", "Opleidingsinstituut",
+SPONSOR_3 = ("Delta Opleidingen", "Opleidingsinstituut",
              "Voor trajecten die met een extern erkend certificaat moeten worden afgesloten, bijvoorbeeld bij aanbestedingen.",
              "#")
 
@@ -62,7 +62,7 @@ servicepagina({
         ("schild", "Aantoonbaar niveau", "Je kunt richting opdrachtgevers en verzekeraars onderbouwen waar je staat en wat je eraan doet."),
         ("trap", "Een niveau dat blijft", "Werkwijzen worden overgedragen aan je eigen leidinggevenden, zodat het niet met ons vertrek weer wegzakt."),
     ],
-    "partners": [PARTNER_EHS, PARTNER_2, PARTNER_3],
+    "sponsors": [SPONSOR_EHS, SPONSOR_2, SPONSOR_3],
     "projecten": [
         ("Van reactief naar proactief in drie blokken", "Van Deursen Metaal B.V.", "Maart 2026", "Gorinchem",
          "Nulmeting wees uit dat de organisatie op trede twee zat. Met de voormannen als kartrekkers is in drie blokken toegewerkt naar het gedrag dat bij trede vier hoort.", "overleg"),
@@ -130,7 +130,7 @@ servicepagina({
         ("klok", "Minder verrassingen", "Risico&rsquo;s die je vooraf kent, kun je inplannen. De rest komt op het slechtste moment langs."),
         ("schild", "Klaar voor toetsing", "Boven 25 medewerkers is toetsing door een kerndeskundige verplicht; we leveren de RI&amp;E toetsklaar op."),
     ],
-    "partners": [PARTNER_EHS, PARTNER_2, PARTNER_3],
+    "sponsors": [SPONSOR_EHS, SPONSOR_2, SPONSOR_3],
     "projecten": [
         ("RI&amp;E en plan van aanpak voor een nieuwe hal", "Rivierpoort Logistiek", "November 2025", "Hardinxveld-Giessendam",
          "Bij de ingebruikname van een nieuwe hal de risico&rsquo;s in kaart gebracht en vertaald naar maatregelen die binnen het bouwbudget pasten.", "productiehal"),
@@ -196,7 +196,7 @@ servicepagina({
         ("schild", "Geen verrassingen bij een audit", "Je weet vooraf waar een externe auditor op zou aanslaan."),
         ("grafiek", "Vergelijkbaar over locaties", "Meerdere vestigingen langs dezelfde meetlat, zodat je kunt zien waar het schuurt."),
     ],
-    "partners": [PARTNER_EHS, PARTNER_2, PARTNER_3],
+    "sponsors": [SPONSOR_EHS, SPONSOR_2, SPONSOR_3],
     "projecten": [
         ("Safety checks op vier locaties", "Merwede Bouwgroep", "Juni 2025", "Regio Rotterdam",
          "Vier vestigingen langs dezelfde meetlat gelegd, zodat het management voor het eerst kon vergelijken waar het echt schuurde.", "transport"),

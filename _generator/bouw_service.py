@@ -59,7 +59,7 @@ def voordelen(items):
         </div>''' for i, (ico, titel, tekst) in enumerate(items))
 
 
-def partners(items):
+def sponsors(items):
     return "\n".join(f'''        <div>
           <div class="panel panel--{'grey' if i % 2 == 0 else 'wit'}">
             <span class="panel__meta">{sub}</span>
@@ -179,23 +179,23 @@ def servicepagina(cfg):
     </div>
   </section>
 
-  <!-- ================= 06 PARTNERS ================= -->
-  <section class="content-block" id="s06-samenwerking">
+  <!-- ================= 06 SPONSORS ================= -->
+  <section class="content-block" id="s06-sponsors">
     <div class="container">
       <div class="content-block--container background--white" style="padding-bottom:var(--space-700)">
         <div class="row">
           <div class="col-md-8 col-12">
-            <span class="subtitle" style="margin-bottom:var(--space-500)">Samenwerking</span>
-            <h2 class="section-heading">Met wie we samenwerken</h2>
+            <span class="subtitle" style="margin-bottom:var(--space-500)">Sponsoring</span>
+            <h2 class="section-heading">Onze sponsors</h2>
             <p class="article-body" style="margin-top:var(--space-500); max-width:var(--content-max-half)">
-              Sommige vragen zijn zo specialistisch dat je er een partner bij wilt. We werken vast samen met een aantal bureaus, zodat je niet zelf op zoek hoeft.
+              MADEGRO wordt gesteund door een aantal sponsors. Dit zijn ze.
             </p>
           </div>
         </div>
       </div>
-      <!-- TODO-CONTENT: welke partners worden getoond, met welk logo en welke link? -->
+      <!-- TODO-CONTENT: welke sponsors worden getoond, met welk logo en welke link? -->
       <div class="panel-row panel-row--3">
-{partners(cfg["partners"])}
+{sponsors(cfg["sponsors"])}
       </div>
     </div>
   </section>
