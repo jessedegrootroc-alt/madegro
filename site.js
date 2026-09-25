@@ -341,11 +341,64 @@
 
     toon(0);
 
+    /* Elke zes seconden het volgende citaat, met het balkje in de navigatie als
+       klok. Een klik op een pijl zet de klok opnieuw op nul. Stil zolang de
+       muis op de sectie staat of er iets in focus heeft, zolang het tabblad
+       niet in beeld is, en helemaal uit bij 'beweging verminderen'. De timer
+       gaat mee weg met de pagina via het signaal. */
+    const DUUR = 6000;
+    const balk = sectie?.querySelector('.quotes__timer-balk');
+    let timer = null, begin = 0, rest = DUUR, vast_ = false;
+
+    const balkOpnieuw = () => {
+      if (!balk) return;
+      balk.classList.remove('is-lopend');
+      void balk.offsetWidth;                     // animatie herstarten
+      balk.classList.add('is-lopend');
+    };
+    const loop = (ms) => {
+      clearTimeout(timer);
+      begin = Date.now(); rest = ms;
+      timer = setTimeout(() => {
+        timer = null;
+        if (!venster.isConnected) return;
+        toon(nu + 1);
+        herstart();
+      }, ms);
+    };
+    const herstart = () => {
+      if (kalm.matches) return;
+      balkOpnieuw();
+      if (vast_) { rest = DUUR; return; }         // gepauzeerd: pas straks weer lopen
+      loop(DUUR);
+    };
+    const pauze = () => {
+      vast_ = true;
+      sectie?.classList.add('quotes--gepauzeerd');
+      if (timer) { clearTimeout(timer); timer = null; rest -= Date.now() - begin; }
+    };
+    const hervat = () => {
+      vast_ = false;
+      sectie?.classList.remove('quotes--gepauzeerd');
+      if (kalm.matches || timer) return;
+      loop(Math.max(rest, 300));
+    };
+
     sectie?.querySelectorAll('[data-quote]').forEach((knop) => {
       knop.addEventListener('click', () => {
         toon(nu + (knop.dataset.quote === 'volgende' ? 1 : -1));
+        herstart();
       });
     });
+    if (sectie) {
+      sectie.addEventListener('mouseenter', pauze);
+      sectie.addEventListener('mouseleave', hervat);
+      sectie.addEventListener('focusin', pauze);
+      sectie.addEventListener('focusout', (e) => { if (!sectie.contains(e.relatedTarget)) hervat(); });
+    }
+    document.addEventListener('visibilitychange', () => { document.hidden ? pauze() : hervat(); }, vast);
+    window.__madegroVast.signal.addEventListener('abort', () => clearTimeout(timer));
+    herstart();
   });
 
   /* ------------------------------------------------------------ accordeons */

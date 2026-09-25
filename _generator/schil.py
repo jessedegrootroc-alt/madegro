@@ -1061,6 +1061,9 @@ PLAATSHOUDER_LOGOS = {
     "van-deursen-metaal":    ("Van Deursen Metaal", 317),
     "rivierpoort-logistiek": ("Rivierpoort Logistiek", 317),
     "merwede-bouwgroep":     ("Merwede Bouwgroep", 275),
+    "hollands-diep-transport": ("Hollands Diep Transport", 300),
+    "waalhaven-terminal":     ("Waalhaven Terminal", 220),
+    "de-groot-bouwstoffen":   ("De Groot Bouwstoffen", 200),
 }
 
 
@@ -1126,6 +1129,7 @@ def quoteslider(nr, ident, subtitel, kop, items):
           <span class="button--circle"><span class="circle-container">{_pijl_paar("rechts")}</span></span>
         </button>
         <p class="quotes__teller" data-quote-teller>1 / {len(items)}</p>
+        <span class="quotes__timer" aria-hidden="true"><span class="quotes__timer-balk"></span></span>
       </div>
     </div>
   </section>'''

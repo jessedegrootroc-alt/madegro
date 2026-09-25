@@ -1387,6 +1387,14 @@ main > section:has(+ section) > .container > .content-text-side-cta--container {
   padding: var(--space-800) var(--inset-x) 0;
 }
 .quotes__pijl { cursor: pointer; }
+/* Het tijdbalkje: loopt in zes seconden vol, dan wisselt het citaat. Pauzeert
+   zolang de muis op de sectie staat of er iets in focus heeft. */
+.quotes__timer { display: block; width: 64px; height: 3px; margin-left: var(--space-300); border-radius: 2px; background: var(--color-grey-diep); overflow: hidden; }
+.quotes__timer-balk { display: block; height: 100%; width: 100%; background: var(--color-groen); transform: scaleX(0); transform-origin: left center; }
+.quotes__timer-balk.is-lopend { animation: quotes-timer 6s linear forwards; }
+.quotes--gepauzeerd .quotes__timer-balk { animation-play-state: paused; }
+@keyframes quotes-timer { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .quotes__timer { display: none; } }
 .quotes__teller {
   margin: 0;
   font-family: var(--font-medium); font-weight: var(--weight-medium);

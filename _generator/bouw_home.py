@@ -89,6 +89,12 @@ TESTIMONIALS = [
      "Stefan de Bruin", "Operationeel manager, Rivierpoort Logistiek", "transport", "rivierpoort-logistiek"),
     ("Martin praat met de mensen op de vloer, niet alleen met de directie. Dat merk je aan wat er daarna verandert.",
      "Hans Molenaar", "Directeur, Merwede Bouwgroep", "bouwplaats", "merwede-bouwgroep"),
+    ("Het gekke is: we hebben niets nieuws bedacht. We hebben opgeschreven wat de beste ploeg al deed.",
+     "Ellen Rietveld", "Planner, Hollands Diep Transport", "overleg", "hollands-diep-transport"),
+    ("Twee dagen meelopen was genoeg. Hij zag dingen die wij al jaren niet meer zien.",
+     "Peter Vonk", "Terminalmanager, Waalhaven Terminal", "haven", "waalhaven-terminal"),
+    ("We hadden een RI&amp;E om te hebben. Nu hebben we er een om mee te werken.",
+     "Joke van Wijk", "Preventiemedewerker, De Groot Bouwstoffen", "lassen", "de-groot-bouwstoffen"),
 ]
 
 
