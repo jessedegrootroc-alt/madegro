@@ -72,8 +72,8 @@ print("cursusaanbod.html geschreven")
 
 # ========================================================= over-ons.html
 FAQ_OVER = [
-    ("Werkt Martin alleen?", [
-        "Voor het advieswerk wel: je hebt &eacute;&eacute;n aanspreekpunt, van het eerste gesprek tot de oplevering. Waar specialisme nodig is, bijvoorbeeld toetsing door een kerndeskundige, schakelen we een specialist in.",
+    ("Hoe groot is MADEGRO?", [
+        "MADEGRO is een klein bureau, en dat is bewust: je hebt &eacute;&eacute;n aanspreekpunt, van het eerste gesprek tot de oplevering. Waar specialisme nodig is, bijvoorbeeld toetsing door een kerndeskundige, schakelen we een specialist in.",
     ]),
     ("In welke regio werken jullie?", [
         "Vanuit Hardinxveld-Giessendam, met de meeste klanten in de Drechtsteden, de Alblasserwaard en de regio Rotterdam. Verder weg kan ook; dan kijken we naar reistijd.",
@@ -129,7 +129,7 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
     <div class="container">
       <div class="content-text-side-cta--container">
         <div class="content-text-side-cta--body">
-          <p>MADEGRO is het adviesbureau van Martin de Groot en bestaat sinds 2002. We ondersteunen bedrijven op het gebied van kwaliteit, arbo en milieu: toetsen of een organisatie aan de eisen voldoet, en haar daarna een niveau hoger brengen. Flexibel maatwerk, zonder verplichte urenafname.</p>
+          <p>MADEGRO is een adviesbureau voor kwaliteit, arbo en milieu en bestaat sinds 2002. We toetsen of een organisatie aan de eisen voldoet, en brengen haar daarna een niveau hoger. Flexibel maatwerk, zonder verplichte urenafname.</p>
         </div>
       </div>
     </div>
@@ -153,17 +153,17 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
     </div>
   </section>
 
-  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s05-martin">
+  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s05-madegro">
     <div class="container">
       <div class="streamer--employee-row">
         <figure class="streamer--employee-portrait">
           {foto("martin-band", maten="(max-width: 991px) 100vw, 40vw")}
         </figure>
         <div class="streamer--employee-panel band">
-          <span class="subtitle" style="color:var(--color-white)">Eigenaar &middot; EHSQ-specialist</span>
-          <h2 class="streamer--employee-name">Martin de Groot</h2>
+          <span class="subtitle" style="color:var(--color-white)">EHSQ-adviesbureau</span>
+          <h2 class="streamer--employee-name">Wat MADEGRO doet</h2>
           <div class="article-body content-fit--half">
-            <p>EHSQ-specialist: veiligheid, kwaliteitsmanagementsystemen en projectmanagement. Opgeleid aan de Hogeschool van Amsterdam, en sinds 2002 zelfstandig met MADEGRO. Werkte als HSE-manager bij onder meer Cosun Beet Company en Huhtamaki, en is op dit moment ook actief voor AEB Amsterdam en GE Vernova.</p>
+            <p>MADEGRO werkt op het snijvlak van veiligheid, kwaliteitsmanagementsystemen en projectmanagement. Sinds 2002 ondersteunen we bedrijven in de industrie, de energiesector en de bouw, als veiligheidskundige en HSE-manager bij onder meer Cosun Beet Company en Huhtamaki, en op dit moment ook voor AEB Amsterdam en GE Vernova.</p>
             <p>Het uitgangspunt van elk traject: je moet het daarna zelf kunnen. Kennisoverdracht is geen bijproduct maar het doel: klanten worden zelfstandiger, niet afhankelijker.</p>
           </div>
           <div>
@@ -223,7 +223,7 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
 (UIT / "over-ons.html").write_text(pagina(
     bestand="over-ons.html",
     titel="Over ons | MADEGRO",
-    omschrijving="MADEGRO is het adviesbureau van Martin de Groot: veiligheidskundige en kwaliteitscontroleur voor productie, bouw, techniek en logistiek.",
+    omschrijving="MADEGRO is een adviesbureau voor veiligheid, kwaliteit en milieu, sinds 2002 actief voor productie, bouw, techniek en logistiek.",
     namespace="over-ons",
     pagina_css="over-ons.css",
     css_naam="over-ons",

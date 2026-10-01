@@ -87,11 +87,11 @@ TESTIMONIALS = [
      "Karin Vermeer", "KAM-co&ouml;rdinator, Van Deursen Metaal B.V.", "productiehal", "van-deursen-metaal"),
     ("We dachten dat we op trede vier zaten. Na de nulmeting bleek het drie te zijn, en dat gesprek was precies wat we nodig hadden.",
      "Stefan de Bruin", "Operationeel manager, Rivierpoort Logistiek", "transport", "rivierpoort-logistiek"),
-    ("Martin praat met de mensen op de vloer, niet alleen met de directie. Dat merk je aan wat er daarna verandert.",
+    ("MADEGRO praat met de mensen op de vloer, niet alleen met de directie. Dat merk je aan wat er daarna verandert.",
      "Hans Molenaar", "Directeur, Merwede Bouwgroep", "bouwplaats", "merwede-bouwgroep"),
     ("Het gekke is: we hebben niets nieuws bedacht. We hebben opgeschreven wat de beste ploeg al deed.",
      "Ellen Rietveld", "Planner, Hollands Diep Transport", "overleg", "hollands-diep-transport"),
-    ("Twee dagen meelopen was genoeg. Hij zag dingen die wij al jaren niet meer zien.",
+    ("Twee dagen meelopen was genoeg. Ze zagen dingen die wij al jaren niet meer zien.",
      "Peter Vonk", "Terminalmanager, Waalhaven Terminal", "haven", "waalhaven-terminal"),
     ("We hadden een RI&amp;E om te hebben. Nu hebben we er een om mee te werken.",
      "Joke van Wijk", "Preventiemedewerker, De Groot Bouwstoffen", "lassen", "de-groot-bouwstoffen"),
@@ -242,19 +242,19 @@ inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->
 
 {faq_blok("09", FAQ, "Wat mensen meestal eerst vragen")}
 
-  <!-- ================= 10 WIE JE SPREEKT ================= -->
-  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s10-martin">
+  <!-- ================= 10 OVER MADEGRO ================= -->
+  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s10-madegro">
     <div class="container">
       <div class="streamer--employee-row">
         <figure class="streamer--employee-portrait">
           {foto("martin-band", maten="(max-width: 991px) 100vw, 40vw")}
         </figure>
         <div class="streamer--employee-panel band">
-          <span class="subtitle" style="color:var(--color-white)">Wie je spreekt</span>
-          <h2 class="streamer--employee-name">Martin de Groot</h2>
+          <span class="subtitle" style="color:var(--color-white)">Over MADEGRO</span>
+          <h2 class="streamer--employee-name">Veiligheidskunde sinds 2002</h2>
           <div class="article-body content-fit--half">
-            <p>MADEGRO bestaat sinds 2002. In die ruim twintig jaar werkte Martin als veiligheidskundige en HSE-manager bij onder meer Cosun Beet Company, Huhtamaki, Stork, Ballast Nedam en GE Vernova: in de industrie, de energiesector en de bouw.</p>
-            <p>Buiten het werk loopt hij ultramarathons en doet hij ironmans; bij de atletiekvereniging in Monnickendam was hij jeugdtrainer en voorzitter. Honderd kilometer haal je niet met een goed plan alleen, maar met gewoontes die het houden als het tegenzit. Precies wat een veiligheidscultuur ook nodig heeft.</p>
+            <p>MADEGRO is een adviesbureau voor veiligheid, kwaliteit en milieu en bestaat sinds 2002. In die ruim twintig jaar werkten we voor onder meer Cosun Beet Company, Huhtamaki, Stork, Ballast Nedam en GE Vernova: in de industrie, de energiesector en de bouw.</p>
+            <p>We komen de vloer op, kijken hoe het werk echt gaat en vertalen dat naar een paar dingen die je maandag kunt aanpakken. Een veiligheidscultuur haal je niet met een goed plan alleen, maar met gewoontes die het houden als het tegenzit. Daar werken we aan, samen met je eigen mensen.</p>
           </div>
           <div>
             {knop("Meer over MADEGRO", "over-ons.html")}
