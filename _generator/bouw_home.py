@@ -243,11 +243,11 @@ inhoud = f'''  <!-- ================= 01 INTRODUCTIE ================= -->
 {faq_blok("09", FAQ, "Wat mensen meestal eerst vragen")}
 
   <!-- ================= 10 OVER MADEGRO ================= -->
-  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s10-madegro">
+  <section class="streamer streamer--employee background--groen" id="s10-madegro">
     <div class="container">
       <div class="streamer--employee-row">
         <figure class="streamer--employee-portrait">
-          {foto("martin-band", maten="(max-width: 991px) 100vw, 40vw")}
+          {foto("inspecteur-haven", maten="(max-width: 991px) 100vw, 40vw")}
         </figure>
         <div class="streamer--employee-panel band">
           <span class="subtitle" style="color:var(--color-white)">Over MADEGRO</span>

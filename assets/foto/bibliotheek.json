@@ -49,6 +49,13 @@
   "alt": "Zeeschip aan de kade van een containerterminal"
  },
  {
+  "sleutel": "inspecteur-haven",
+  "naam": "Inspecteur haven",
+  "groot": "assets/foto/inspecteur-haven-1000.webp",
+  "klein": "assets/foto/inspecteur-haven-640.webp",
+  "alt": "Veiligheidskundige met witte helm, geel hesje, portofoon en klembord kijkt toe terwijl een reachstacker een rode container optilt op een containerterminal"
+ },
+ {
   "sleutel": "cursus-bewustzijn-bouw",
   "naam": "Cursus bewustzijn bouw",
   "groot": "assets/foto/cursus-bewustzijn-bouw-1200.webp",

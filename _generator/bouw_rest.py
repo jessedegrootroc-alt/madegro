@@ -153,11 +153,11 @@ inhoud_over = f'''{paginahero("01", "verhaal", "Over MADEGRO", "Over MADEGRO", "
     </div>
   </section>
 
-  <section class="streamer streamer--employee streamer--employee--portret background--groen" id="s05-madegro">
+  <section class="streamer streamer--employee background--groen" id="s05-madegro">
     <div class="container">
       <div class="streamer--employee-row">
         <figure class="streamer--employee-portrait">
-          {foto("martin-band", maten="(max-width: 991px) 100vw, 40vw")}
+          {foto("inspecteur-haven", maten="(max-width: 991px) 100vw, 40vw")}
         </figure>
         <div class="streamer--employee-panel band">
           <span class="subtitle" style="color:var(--color-white)">EHSQ-adviesbureau</span>

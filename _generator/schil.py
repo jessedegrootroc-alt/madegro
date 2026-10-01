@@ -327,6 +327,10 @@ FOTOS = {
     'haven':        ('haven', 960, 540, 640, 360, 'Zeeschip aan de kade van een containerterminal', 'foto', None),
     'martin-band':  ('martin-band', 800, 800, 440, 440,
                      'Martin de Groot, zittend op een trap voor het Viaduc de Passy in Parijs', 'foto', None),
+    # Aangeleverd door Jesse op 1 oktober 2026, voor de groene MADEGRO-sectie op
+    # de homepage en over-ons (verving het portret van Martin).
+    'inspecteur-haven': ('inspecteur-haven', 1000, 667, 640, 427,
+                     'Veiligheidskundige met witte helm, geel hesje, portofoon en klembord kijkt toe terwijl een reachstacker een rode container optilt op een containerterminal', 'foto', None),
     'terrein':      ('madegro-terrein', 1520, 993, 800, 523,
                      'Bedrijfsterrein van boven: een vrachtwagen rijdt door de scanpoort naar de slagboom, bij de portiersloge en het tourniquet controleren medewerkers de toegang, en camera&rsquo;s houden het hek en de laadkuil in de gaten',
                      'illustratie', None),

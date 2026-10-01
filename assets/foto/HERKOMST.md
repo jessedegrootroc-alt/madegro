@@ -111,3 +111,13 @@ er daarvan één bestand van 13 tot 83 kB.
 De CC0-foto's die op deze plekken stonden (`overleg`, `lassen`, `haven`)
 blijven in gebruik op de cases, de cursuspagina's en in de dienstenkaart van het
 menu.
+
+## inspecteur-haven-*.webp / .avif
+
+Aangeleverd door Jesse op 1 oktober 2026 (bron: `bron/inspecteur-haven.jpg`,
+1000×667, stockfoto, licentie onbekend). Veiligheidskundige met portofoon en
+klembord op een containerterminal. Staat in de groene MADEGRO-sectie op de
+homepage en op over-ons, in de plaats van het portret van Martin (martin-band),
+nadat die secties over het bureau gaan in plaats van over hem.
+
+    Pillow: resize naar 1000 en 640 breed, WebP q80, AVIF q60.
